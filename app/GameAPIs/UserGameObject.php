@@ -45,7 +45,8 @@ class UserGameObject
      * @param String $platform
      * @param int $hoursPlayed
      * @param int $earnedAchievements
-     */public function __construct(GameObject $game, string $platform, int $hoursPlayed, int $earnedAchievements)
+     */
+    public function __construct(GameObject $game, string $platform, int $hoursPlayed, int $earnedAchievements)
     {
         $this->game = $game;
         $this->platform = $platform;

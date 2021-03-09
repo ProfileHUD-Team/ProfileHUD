@@ -37,7 +37,8 @@ class UserObject
      * @param String $userName
      * @param String $email
      * @param String $password
-     */public function __construct(string $userName, string $email, string $password)
+     */
+    public function __construct(string $userName, string $email, string $password)
     {
         $this->userName = $userName;
         $this->email = $email;
