@@ -10,8 +10,8 @@
 <?php
     // PHP Code for the tests
     use App\GameAPIs\SteamAPIConnector;
-    $connector = new SteamAPIConnector('A9Dxxxxxxxxxxxxxxxxxxxxxxxx');
-    $jsonObject = $connector->performRequest('http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=A9Dxxxxxxxxxxxxxxxxxxxxxxxx&steamids=76561198962880722');
+    $connector = new SteamAPIConnector('A9D4A0CEAA3CEE6706C8B5D18589EA8D');
+    $jsonObject = $connector->performRequest('http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=A9D4A0CEAA3CEE6706C8B5D18589EA8D&steamids=76561198962880722');
     $response = $jsonObject['response'];
     $players = $response['players'];
     $innerJson = $players[0];

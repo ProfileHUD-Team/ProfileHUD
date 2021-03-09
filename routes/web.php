@@ -25,3 +25,7 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::view('/welcome', 'welcome');
 Route::view('/aboutus', 'aboutus');
 Route::get('/steamapitests', [TestsController::class, 'index'])->name('steamapitests');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

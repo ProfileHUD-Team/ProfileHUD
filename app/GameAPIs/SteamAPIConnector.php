@@ -25,7 +25,8 @@ class SteamAPIConnector implements GameAPIInterface
     /**
      * SteamAPIConnector constructor.
      * @param String $apiKey
-     */public function __construct(string $apiKey)
+     */
+    public function __construct(string $apiKey)
     {
         $this->apiKey = $apiKey;
     }
