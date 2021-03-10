@@ -20,23 +20,51 @@ class SteamAPIConnector implements GameAPIInterface
      */
     private $apiKey;
 
+    /**
+     * Base URL where to make Steam API requests.
+     * @var string
+     */
+    private $baseAPIUrl;
+
     //============================ CONSTRUCTOR ============================
 
     /**
      * SteamAPIConnector constructor.
-     * @param String $apiKey
+     * @param String $apiKey : API key to be used for making requests.
      */
     public function __construct(string $apiKey)
     {
         $this->apiKey = $apiKey;
+        $this->baseAPIUrl = "http://api.steampowered.com/";
     }
 
     //============================ FUNCTIONS ============================
 
     /**
+     * Get game information using the provided identifier in a GameObject.
      * @inheritDoc
      */
-    public function getGamesOwned($userId)
+    public function getGameInfo($gameId): GameObject
+    {
+        // Create the URL.
+        $url = "https://store.steampowered.com/api/appdetails?appids=" . $gameId;
+        // Make the request to get a JSON object.
+        $jsonObject = $this->performRequest($url);
+        // Parse the JSON object.
+        $data = $jsonObject[$gameId]['data'];
+        $name = $data['name'];
+        $developer = $data['developers'][0];
+        $publisher = $data['publishers'][0];
+        $releaseDate = $data['release_date']['date'];
+        $releaseDate = $this->changeDateFormat($releaseDate);
+        // Create and return the GameObject.
+        return new GameObject($gameId, $name, $developer, $publisher, $releaseDate);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getGamesOwned($userId) : GameList
     {
         // TODO: Implement getGamesOwned() method.
     }
@@ -44,7 +72,7 @@ class SteamAPIConnector implements GameAPIInterface
     /**
      * @inheritDoc
      */
-    public function getProfileInfo($userId)
+    public function getUserProfile($userId) : UserObject
     {
         // TODO: Implement getProfileInfo() method.
     }
@@ -52,7 +80,7 @@ class SteamAPIConnector implements GameAPIInterface
     /**
      * @inheritDoc
      */
-    public function getGameInfoForUser($userId, $gameId)
+    public function getGameInfoForUser($userId, $gameId) : UserGameObject
     {
         // TODO: Implement getGameInfoForUser() method.
     }
@@ -72,5 +100,16 @@ class SteamAPIConnector implements GameAPIInterface
             $str = stream_get_contents($result);
             return json_decode($str, true);
         }
+    }
+
+    /**
+     * Convert the format of the provided date string into MM/DD/YYYY.
+     * @param $dateString
+     * @return false|string
+     */
+    private function changeDateFormat($dateString)
+    {
+        $date = date_create($dateString);
+        return date_format($date,"m/d/Y");
     }
 }

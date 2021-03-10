@@ -18,6 +18,12 @@ class GameObject
     //============================ CLASS PROPERTIES ============================
 
     /**
+     * Identifier for this game object.
+     * @var string
+     */
+    private $id;
+
+    /**
      * Name of the video game.
      * @var String
      */
@@ -45,13 +51,15 @@ class GameObject
 
     /**
      * GameObject constructor.
+     * @param string $id
      * @param String $name
      * @param string $developer
      * @param string $publisher
      * @param string $releaseDate
      */
-    public function __construct(string $name, string $developer, string $publisher, string $releaseDate)
+    public function __construct(string $id, string $name, string $developer, string $publisher, string $releaseDate)
     {
+        $this->id = $id;
         $this->name = $name;
         $this->developer = $developer;
         $this->publisher = $publisher;
@@ -59,6 +67,14 @@ class GameObject
     }
 
     //============================ FUNCTIONS ============================
+
+    /**
+     * @return string
+     */
+    public function getId(): string
+    {
+        return $this->id;
+    }
 
     /**
      * @return String
@@ -90,5 +106,14 @@ class GameObject
     public function getReleaseDate(): string
     {
         return $this->releaseDate;
+    }
+
+    public function toString() : string
+    {
+        return 'Name: ' . $this->name . '<br>'
+            . 'ID: ' . $this->id . '<br>'
+            . 'Developer: ' . $this->developer . '<br>'
+            . 'Publisher: ' . $this->publisher . '<br>'
+            . 'Release Date: ' . $this->releaseDate . '<br>';
     }
 }
