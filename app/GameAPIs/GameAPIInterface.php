@@ -13,25 +13,32 @@ interface GameAPIInterface
 {
 
     /**
-     * Get the games owned by the specified user.
-     * @param $userId : The user's ID.
-     * @return mixed
+     * Get game information using the provided game ID.
+     * @param $gameId : The game's ID.
+     * @return GameObject
      */
-    public function getGamesOwned($userId);
+    public function getGameInfo($gameId): GameObject;
 
     /**
-     * Get profile information for the specified user.
+     * Get the games owned by the specified user.
      * @param $userId : The user's ID.
-     * @return mixed
+     * @return GameList
      */
-    public function getProfileInfo($userId);
+    public function getGamesOwned($userId): GameList;
+
+    /**
+     * Get profile information for the specified user in a UserObject.
+     * @param $userId : The user's ID.
+     * @return UserObject
+     */
+    public function getUserProfile($userId): UserObject;
 
     /**
      * Get game information for the specified user. Such information includes playtime,
      * achievements/trophies earned, etc.
      * @param $userId : The user's ID.
      * @param $gameId : The game's ID.
-     * @return mixed
+     * @return UserGameObject
      */
-    public function getGameInfoForUser($userId, $gameId);
+    public function getGameInfoForUser($userId, $gameId): UserGameObject;
 }
