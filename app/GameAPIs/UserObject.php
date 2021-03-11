@@ -30,10 +30,16 @@ class UserObject
      */
     private $password;
 
+    /**
+     * The list of the user's games.
+     * @var GameList
+     */
+    private $gameList;
+
     //============================ CONSTRUCTOR ============================
 
     /**
-     * UserObject constructor.
+     * UserObject constructor. The list of the user's games is empty by default.
      * @param String $userName
      * @param String $email
      * @param String $password
@@ -69,5 +75,22 @@ class UserObject
     public function getPassword(): string
     {
         return $this->password;
+    }
+
+    /**
+     * @return GameList
+     */
+    public function getGameList(): GameList
+    {
+        return $this->gameList;
+    }
+
+    /**
+     * Set the list of the user's games.
+     * @param GameList $gameList
+     */
+    public function setGameList(GameList $gameList): void
+    {
+        $this->gameList = $gameList;
     }
 }

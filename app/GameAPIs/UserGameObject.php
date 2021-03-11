@@ -37,10 +37,16 @@ class UserGameObject
      */
     private $earnedAchievements;
 
+    /**
+     * The list of achievements for this UserGameObject.
+     * @var AchievementList
+     */
+    private $achievementList;
+
     //============================ CONSTRUCTOR ============================
 
     /**
-     * UserGameObject constructor.
+     * UserGameObject constructor. The list of achievements is empty by default.
      * @param GameObject $game
      * @param String $platform
      * @param int $hoursPlayed
@@ -52,9 +58,28 @@ class UserGameObject
         $this->platform = $platform;
         $this->hoursPlayed = $hoursPlayed;
         $this->earnedAchievements = $earnedAchievements;
+        $this->achievementList = new AchievementList();
     }
 
     //============================ FUNCTIONS ============================
+
+    /**
+     * Add an achievement to the list of achievements.
+     * @param Achievement $achievement
+     */
+    public function addAchievement(Achievement $achievement)
+    {
+        $this->achievementList->addAchievement($achievement);
+    }
+
+    /**
+     * Set the list of achievements.
+     * @param AchievementList $achievementList
+     */
+    public function setAchievementList(AchievementList $achievementList): void
+    {
+        $this->achievementList = $achievementList;
+    }
 
     /**
      * @return GameObject
@@ -86,5 +111,13 @@ class UserGameObject
     public function getEarnedAchievements(): int
     {
         return $this->earnedAchievements;
+    }
+
+    /**
+     * @return AchievementList
+     */
+    public function getAchievementList() : AchievementList
+    {
+        return $this->achievementList;
     }
 }
