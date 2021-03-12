@@ -38,6 +38,12 @@ class UserGameObject
     private $earnedAchievements;
 
     /**
+     * The total number of achievements/trophies that can be earned for this game.
+     * @var int
+     */
+    private $totalAchievements;
+
+    /**
      * The list of achievements for this UserGameObject.
      * @var AchievementList
      */
@@ -51,13 +57,15 @@ class UserGameObject
      * @param String $platform
      * @param int $hoursPlayed
      * @param int $earnedAchievements
+     * @param int $totalAchievements
      */
-    public function __construct(GameObject $game, string $platform, int $hoursPlayed, int $earnedAchievements)
+    public function __construct(GameObject $game, string $platform, int $hoursPlayed, int $earnedAchievements, int $totalAchievements)
     {
         $this->game = $game;
         $this->platform = $platform;
         $this->hoursPlayed = $hoursPlayed;
         $this->earnedAchievements = $earnedAchievements;
+        $this->totalAchievements = $totalAchievements;
         $this->achievementList = new AchievementList();
     }
 
@@ -114,10 +122,27 @@ class UserGameObject
     }
 
     /**
+     * @return int
+     */
+    public function getTotalAchievements(): int
+    {
+        return $this->totalAchievements;
+    }
+
+    /**
      * @return AchievementList
      */
     public function getAchievementList() : AchievementList
     {
         return $this->achievementList;
+    }
+
+    public function toString() : string
+    {
+        return 'Game: ' . $this->game->getName() . '<br>'
+            . 'Platform: ' . $this->platform . '<br>'
+            . 'Hours Played: ' . $this->hoursPlayed . '<br>'
+            . 'Achievements Earned: ' . $this->earnedAchievements . ' | '
+            . $this->totalAchievements . '<br>';
     }
 }

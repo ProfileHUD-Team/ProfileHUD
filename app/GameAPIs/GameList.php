@@ -64,4 +64,13 @@ class GameList
     {
         return count($this->list);
     }
+
+    public function toString() : string
+    {
+        $str = '*** GAMELIST *** ' . '<br>';
+        foreach ($this->list as $game) {
+            $str = $str . $game->toString() . '<br>';
+        }
+        return $str;
+    }
 }

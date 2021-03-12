@@ -27,13 +27,6 @@ interface GameAPIInterface
     public function getGamesOwned($userId): GameList;
 
     /**
-     * Get profile information for the specified user in a UserObject.
-     * @param $userId : The user's ID.
-     * @return UserObject
-     */
-    public function getUserProfile($userId): UserObject;
-
-    /**
      * Get game information for the specified user. Such information includes playtime,
      * achievements/trophies earned, etc.
      * @param $userId : The user's ID.
