@@ -66,4 +66,13 @@ class AchievementList
     {
         return count($this->list);
     }
+
+    public function toString() : string
+    {
+        $str = '*** ACHIEVEMENT LIST *** <br>';
+        foreach ($this->list as $item) {
+            $str = $str . $item->toString() . '<br>';
+        }
+        return $str;
+    }
 }

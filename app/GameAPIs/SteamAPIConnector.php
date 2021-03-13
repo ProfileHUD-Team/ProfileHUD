@@ -34,6 +34,12 @@ class SteamAPIConnector implements GameAPIInterface
      */
     private $baseAPIUrl;
 
+    /**
+     * The number of requests made with this connector object so far.
+     * @var int
+     */
+    private $requestsMade;
+
     //============================ CONSTRUCTOR ============================
 
     /**
@@ -44,6 +50,7 @@ class SteamAPIConnector implements GameAPIInterface
     {
         $this->apiKey = $apiKey;
         $this->baseAPIUrl = "http://api.steampowered.com/";
+        $this->requestsMade = 0;
     }
 
     //============================ PUBLIC FUNCTIONS ============================
@@ -116,8 +123,9 @@ class SteamAPIConnector implements GameAPIInterface
             // Else, load the rest of the information.
             else {
                 $hoursPlayed = $playtimes[$index] / 60;
-                $earnedAchievements = $this->getNumberOfEarnedAchievements($userId, $gameId);
-                $totalAchievements = $this->getTotalNumberOfAchievements($gameId);
+                $achievementsRatio = $this->getAchievementRatio($userId, $gameId);
+                $earnedAchievements = $achievementsRatio[0];
+                $totalAchievements = $achievementsRatio[1];
                 $userGame = new UserGameObject($game, 'Steam', $hoursPlayed, $earnedAchievements, $totalAchievements);
                 $gameListObject->addGame($userGame);
             }
@@ -147,10 +155,45 @@ class SteamAPIConnector implements GameAPIInterface
         // Get the information to create the user-game object.
         $game = $this->getGameInfo($gameId);
         $hoursPlayed = $this->getPlaytime($userId, $gameId);
-        $earnedAchievements = $this->getNumberOfEarnedAchievements($userId, $gameId);
-        $totalAchievements = $this->getTotalNumberOfAchievements($gameId);
+        $achievementRatio = $this->getAchievementRatio($userId, $gameId);
+        $earnedAchievements = $achievementRatio[0];
+        $totalAchievements = $achievementRatio[1];
         // Create and return the UserGameObject.
         return new UserGameObject($game, 'Steam', $hoursPlayed, $earnedAchievements, $totalAchievements);
+    }
+
+    /**
+     * Get the list of achievements for the specified user and game.
+     * @param $userId : The Steam ID of the user.
+     * @param $gameId : The Steam ID of the game.
+     * @return AchievementList
+     */
+    public function getAchievements($userId, $gameId) : AchievementList
+    {
+        // Create the URL to get the user's achievements.
+        $url1 = $this->baseAPIUrl . 'ISteamUserStats/GetPlayerAchievements/v0001/';
+        $parameters1 = '?key=' . $this->apiKey . '&steamid=' . $userId . '&appid=' . $gameId;
+        $url1 = $url1 . $parameters1;
+        // Create the URL to get the game's achievements.
+        $url2 = $this->baseAPIUrl . 'ISteamUserStats/GetSchemaForGame/v0002/';
+        $parameters2 = '?key=' . $this->apiKey . '&appid=' . $gameId;
+        $url2 = $url2 . $parameters2;
+        // Make the requests to get JSON objects.
+        $jsonObject1 = $this->performRequest($url1);
+        $jsonObject2 = $this->performRequest($url2);
+        // Get the lists of achievements in both JSON objects and use them to load the AchievementList.
+        $playerAchievements = $jsonObject1['playerstats']['achievements'];
+        $gameAchievements = $jsonObject2['game']['availableGameStats']['achievements'];
+        return $this->loadAchievements($playerAchievements, $gameAchievements);
+    }
+
+    /**
+     * Get the number of Steam API requests made with this connector object so far.
+     * @return int
+     */
+    public function getRequestsMade() : int
+    {
+        return $this->requestsMade;
     }
 
     //============================ PRIVATE FUNCTIONS ============================
@@ -163,6 +206,7 @@ class SteamAPIConnector implements GameAPIInterface
     private function performRequest($url) {
         // Perform the request.
         $result = fopen($url, 'r');
+        $this->requestsMade++;
         // Check if the request succeeded or failed.
         if ($result == false) {
             return "Error on making request!!";
@@ -186,8 +230,14 @@ class SteamAPIConnector implements GameAPIInterface
         $url = $url . $parameters;
         // Make the request to get a JSON object.
         $jsonObject = $this->performRequest($url);
+        // Parse the JSON object (Get the response array).
+        $response = $jsonObject['response'];
+        // Check if the response array is empty. If it is, return an empty array.
+        if (count($response) == 0) {
+            return array();
+        }
         // Parse the JSON object (Get each game ID or playtime).
-        $gamesData = $jsonObject['response']['games'];
+        $gamesData = $response['games'];
         $gamesArray = array();
         foreach ($gamesData as $gameDatum) {
             $gamesArray[] = $gameDatum[$key];
@@ -197,36 +247,32 @@ class SteamAPIConnector implements GameAPIInterface
     }
 
     /**
-     * Get the number of earned achievements for the specified user and game.
+     * Get the number of earned and total achievements.
      * @param $userId : The Steam ID of the user.
      * @param $gameId : The Steam ID of the game.
-     * @return int : The number of earned achievements.
+     * @return array : An array of size two containing the number of earned and total achievements.
      */
-    private function getNumberOfEarnedAchievements($userId, $gameId) : int
+    private function getAchievementRatio($userId, $gameId) : array
     {
         // Create the URL.
-        $url = $this->baseAPIUrl . 'ISteamUserStats/GetUserStatsForGame/v0002/';
-        $parameters = '?key=' . $this->apiKey . '&steamid=' . $userId . '&appid=' . $gameId;
-        $url = $url . $parameters;
+        $url = $this->baseAPIUrl . 'ISteamUserStats/GetPlayerAchievements/v0001/';
+        $parameters1 = '?key=' . $this->apiKey . '&steamid=' . $userId . '&appid=' . $gameId;
+        $url = $url . $parameters1;
         // Make the request to get a JSON object.
         $jsonObject = $this->performRequest($url);
-        // Get and return the size of the earned achievements list.
-        return count($jsonObject['playerstats']['achievements']);
-    }
-
-    /**
-     * Get the total number of achievements available for the specified game.
-     * @param $gameId : The Steam ID of the game.
-     * @return int : The total number of achievements.
-     */
-    private function getTotalNumberOfAchievements($gameId) : int
-    {
-        // Create the URL.
-        $url = 'https://store.steampowered.com/api/appdetails?filters=achievements&appids=' . $gameId;
-        // Make the request to get a JSON object.
-        $jsonObject = $this->performRequest($url);
-        // Get and return the total number of achievements.
-        return $jsonObject[$gameId]['data']['achievements']['total'];
+        // Get the JSON array of achievements.
+        $achievements = $jsonObject['playerstats']['achievements'];
+        $total = count($achievements);
+        // Iterate over the array to count the number of earned achievements.
+        $earned = 0;
+        foreach ($achievements as $achievement) {
+            $achieved = $achievement['achieved'];
+            if ($achieved == 1) {
+                $earned++;
+            }
+        }
+        // Return the number of earned and total achievements in an array of size two.
+        return array($earned, $total);
     }
 
     /**
@@ -254,6 +300,47 @@ class SteamAPIConnector implements GameAPIInterface
         }
         // The corresponding game ID was not found. Return -1.
         return -1;
+    }
+
+    /**
+     * Load the list of achievements given the JSON arrays of the user's and the game's achievements.
+     * @param $playerAchievements : A JSON array of the user's achievements.
+     * @param $gameAchievements : A JSON array of the game's achievements.
+     * @return AchievementList : The list of achievements.
+     */
+    private function loadAchievements($playerAchievements, $gameAchievements) : AchievementList
+    {
+        // Iterate over the lists of achievements and create Achievement objects.
+        $achievementList = new AchievementList();
+        $lastIndex = count($playerAchievements) - 1;
+        for ($i = 0; $i <= $lastIndex; $i++) {
+            // Get the player and game achievements.
+            $playerAchievement = $playerAchievements[$i];
+            $gameAchievement = $gameAchievements[$i];
+            // Get each attribute to construct an Achievement object.
+            $name = $gameAchievement['displayName'];
+            $description = $gameAchievement['description'];
+            $earned = $this->getBooleanValue($playerAchievement['achieved']);
+            $dateEarned = $playerAchievement['unlocktime'];
+            $achievement = new Achievement($name, $description, $earned, $dateEarned);
+            // Add the Achievement object to the AchievementList object.
+            $achievementList->addAchievement($achievement);
+        }
+        // Return the AchievementList object.
+        return $achievementList;
+    }
+
+    /**
+     * Convert 1s to true and 0s to false.
+     * @param $x : A 1 or 0 integer.
+     * @return bool
+     */
+    private function getBooleanValue($x) : bool
+    {
+        if ($x == 1) {
+            return true;
+        }
+        return false;
     }
 
     /**

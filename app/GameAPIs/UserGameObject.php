@@ -52,7 +52,8 @@ class UserGameObject
     //============================ CONSTRUCTOR ============================
 
     /**
-     * UserGameObject constructor. The list of achievements is empty by default.
+     * UserGameObject constructor. The list of achievements is empty by default and must be manually
+     * loaded if needed.
      * @param GameObject $game
      * @param String $platform
      * @param int $hoursPlayed
@@ -72,21 +73,22 @@ class UserGameObject
     //============================ FUNCTIONS ============================
 
     /**
-     * Add an achievement to the list of achievements.
-     * @param Achievement $achievement
-     */
-    public function addAchievement(Achievement $achievement)
-    {
-        $this->achievementList->addAchievement($achievement);
-    }
-
-    /**
      * Set the list of achievements.
      * @param AchievementList $achievementList
      */
     public function setAchievementList(AchievementList $achievementList): void
     {
         $this->achievementList = $achievementList;
+    }
+
+    /**
+     * Load the list of achievements for this UserGameObject using a SteamAPIConnector object.
+     * @param $userId : Steam ID of the user.
+     * @param SteamAPIConnector $connector : Steam API connector to be used to load the achievements.
+     */
+    public function loadAchievementList($userId, SteamAPIConnector $connector) : void
+    {
+        $this->achievementList = $connector->getAchievements($userId, $this->game->getId());
     }
 
     /**

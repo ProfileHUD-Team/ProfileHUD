@@ -10,7 +10,7 @@
 <?php
     // PHP Code for the tests
     use App\GameAPIs\SteamAPIConnector;
-    $connector = new SteamAPIConnector('A9D4xxxxxxxxxxxxxxxxxxxxxxxxxx');
+    $connector = new SteamAPIConnector('A9D4xxxxxxxxxxxxxxxxxxxxxxxxx');
     $steamId = '76561198962880722';
     // Get SteamUser Test:
     $steamUser = $connector->getSteamUser($steamId);
@@ -21,6 +21,9 @@
     $gameStr2 = $gameObject2->toString();
     // Get owned games for user with id 76561198962880722
     $gameList = $connector->getGamesOwned($steamId);
+    // Load the achievements for user 76561198962880722 and game 620
+    $achievementList = $connector->getAchievements($steamId, '620');
+    $achievementsStr = $achievementList->toString();
 ?>
 @section('content')
     <div class="container">
@@ -32,5 +35,9 @@
         <p><?php echo $gameStr2; ?></p>
         <h2>Get owned games test:</h2>
         <p><?php echo $gameList->toString(); ?></p>
+        <h2>Get Achievement List test:</h2>
+        <p><?php echo $achievementsStr; ?></p>
+        <h3>Steam Web API requests made:</h3>
+        <p><?php echo $connector->getRequestsMade(); ?></p>
     </div>
 @endsection
