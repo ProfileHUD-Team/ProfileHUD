@@ -87,4 +87,16 @@ class Achievement
         return $this->dateEarned;
     }
 
+    public function toString() : string
+    {
+        $earnedStr = '1';
+        if ($this->earned == false) {
+            $earnedStr = '0';
+        }
+        return 'Name: ' . $this->name . '<br>'
+            . 'Description: ' . $this->description . '<br>'
+            . 'Earned: ' . $earnedStr . '<br>'
+            . 'Date Earned: ' . $this->dateEarned . '<br>';
+    }
+
 }
