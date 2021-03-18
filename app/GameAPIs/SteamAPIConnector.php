@@ -40,6 +40,12 @@ class SteamAPIConnector implements GameAPIInterface
      */
     private $requestsMade;
 
+    /**
+     * A list of any errors encountered when making requests with this connector object.
+     * @var array
+     */
+    private $errorLog;
+
     //============================ CONSTRUCTOR ============================
 
     /**
@@ -51,6 +57,7 @@ class SteamAPIConnector implements GameAPIInterface
         $this->apiKey = $apiKey;
         $this->baseAPIUrl = "http://api.steampowered.com/";
         $this->requestsMade = 0;
+        $this->errorLog = array();
     }
 
     //============================ PUBLIC FUNCTIONS ============================
@@ -64,6 +71,11 @@ class SteamAPIConnector implements GameAPIInterface
         $url = "https://store.steampowered.com/api/appdetails?appids=" . $gameId;
         // Make the request to get a JSON object.
         $jsonObject = $this->performRequest($url);
+        // Check if the JSON object has errors. Return an empty object if so.
+        if ($this->hasErrors($jsonObject)) {
+            $nil = SteamAPIConnector::$nullValue;
+            return new GameObject($nil, $nil, $nil, $nil, $nil);
+        }
         // Check if the request was successful. Return an empty GameObject if not.
         $success = $jsonObject[$gameId]['success'];
         if ($success == false) {
@@ -93,8 +105,18 @@ class SteamAPIConnector implements GameAPIInterface
         $url = $url . $parameters;
         // Make the request to get a JSON object.
         $jsonObject = $this->performRequest($url);
+        // Check if the JSON object has errors. Return an empty object if so.
+        if ($this->hasErrors($jsonObject)) {
+            return new SteamUser(SteamAPIConnector::$nullValue, SteamAPIConnector::$nullValue, array());
+        }
+        // Check if the list of players is empty. Return an empty object if so.
+        $players = $jsonObject['response']['players'];
+        if (count($players) == 0) {
+            $this->errorLog['getSteamUser(' . $userId . ')'] = 'The Steam user ID is invalid.';
+            return new SteamUser(SteamAPIConnector::$nullValue, SteamAPIConnector::$nullValue, array());
+        }
         // Parse the JSON object.
-        $player = $jsonObject['response']['players'][0];
+        $player = $players[0];
         $username = $player['personaname'];
         // Load the simple array of games owned.
         $gamesArray = $this->getGamesOwnedSimple($userId);
@@ -117,6 +139,8 @@ class SteamAPIConnector implements GameAPIInterface
             $game = $this->getGameInfo($gameId);
             // If the game object is empty, create an empty user-game object.
             if ($game->getId() == self::$nullValue) {
+                $this->errorLog['getGameInfo(' . $gameId . ')'] = 'The Steam game ID is invalid or
+                    belongs to a delisted game.';
                 $userGame = new UserGameObject($game, self::$nullValue, -1, -1, -1);
                 $gameListObject->addGame($userGame);
             }
@@ -181,6 +205,15 @@ class SteamAPIConnector implements GameAPIInterface
         // Make the requests to get JSON objects.
         $jsonObject1 = $this->performRequest($url1);
         $jsonObject2 = $this->performRequest($url2);
+        // Check if the JSON objects have errors. Return an empty object if so.
+        if ($this->hasErrors($jsonObject1) || $this->hasErrors($jsonObject2)) {
+            return new AchievementList();
+        }
+        // Check if both requests were made successfully. If not, return an empty AchievementList.
+        $success1 = $jsonObject1['playerstats']['success'];;
+        if ($success1 == false || count($jsonObject2) == 0) {
+            return new AchievementList();
+        }
         // Get the lists of achievements in both JSON objects and use them to load the AchievementList.
         $playerAchievements = $jsonObject1['playerstats']['achievements'];
         $gameAchievements = $jsonObject2['game']['availableGameStats']['achievements'];
@@ -196,24 +229,66 @@ class SteamAPIConnector implements GameAPIInterface
         return $this->requestsMade;
     }
 
+    /**
+     * Get the list of errors in the error log as a string.
+     * @return string
+     */
+    public function getErrorsString() : string
+    {
+        $str = "";
+        foreach ($this->errorLog as $error_key => $error_value) {
+            $str = $str . "REQUEST  : " . $error_key . "<br> ERROR MESSAGE: " . $error_value
+                . "<br><br>";
+        }
+        return $str;
+    }
+
     //============================ PRIVATE FUNCTIONS ============================
 
     /**
      * Perform an HTTP request using the provided URL string. Returns an JSON object on success.
      * @param $url
-     * @return mixed|string
+     * @return array
      */
-    private function performRequest($url) {
-        // Perform the request.
-        $result = fopen($url, 'r');
-        $this->requestsMade++;
-        // Check if the request succeeded or failed.
-        if ($result == false) {
-            return "Error on making request!!";
-        } else {
-            $str = stream_get_contents($result);
-            return json_decode($str, true);
+    private function performRequest($url) : array {
+        try {
+            // Perform the request.
+            $result = fopen($url, 'r');
+            $this->requestsMade++;
+            // Check if the request succeeded or failed.
+            if ($result == false) {
+                return array();
+            } else {
+                $str = stream_get_contents($result);
+                $jsonObject =  json_decode($str, true);
+                // If jsonObject is an array, the JSON string was decoded successfully.
+                if (is_array($jsonObject)) {
+                    return $jsonObject;
+                } else {
+                    return array();
+                }
+            }
+        } catch (\Exception $ex) {
+            // Add the error to the error log.
+            $this->errorLog[$url] = $ex->getMessage();
+            return array();
         }
+
+    }
+
+    /**
+     * Check if the JSON object has errors (if it is empty).
+     * @param array $jsonObject
+     * @return bool
+     */
+    private function hasErrors(array $jsonObject) : bool
+    {
+        // Check if the JSON object is empty. Return true if so.
+        if (count($jsonObject) == 0) {
+            return true;
+        }
+        // The JSON object has no errors. Return false.
+        return false;
     }
 
     /**
@@ -230,6 +305,10 @@ class SteamAPIConnector implements GameAPIInterface
         $url = $url . $parameters;
         // Make the request to get a JSON object.
         $jsonObject = $this->performRequest($url);
+        // Check if the JSON object has errors. Return an empty object if so.
+        if ($this->hasErrors($jsonObject)) {
+            return array();
+        }
         // Parse the JSON object (Get the response array).
         $response = $jsonObject['response'];
         // Check if the response array is empty. If it is, return an empty array.
@@ -260,6 +339,17 @@ class SteamAPIConnector implements GameAPIInterface
         $url = $url . $parameters1;
         // Make the request to get a JSON object.
         $jsonObject = $this->performRequest($url);
+        // Check if the JSON object has errors. Return an empty object if so.
+        if ($this->hasErrors($jsonObject)) {
+            return array(-1 , -1);
+        }
+        // Check if the provided game ID was valid. Return an empty object if not.
+        $success = $jsonObject['playerstats']['success'];
+        if ($success == false) {
+            $this->errorLog['getAchievementRatio(' . $userId . ', ' . $gameId . ')'] =
+                'The Steam game ID is invalid or the user has not played this game.';
+            return array(-1, -1);
+        }
         // Get the JSON array of achievements.
         $achievements = $jsonObject['playerstats']['achievements'];
         $total = count($achievements);
@@ -289,6 +379,10 @@ class SteamAPIConnector implements GameAPIInterface
         $url = $url . $parameters;
         // Make the request to get a JSON object.
         $jsonObject = $this->performRequest($url);
+        // Check if the JSON object has errors. Return -1 if so.
+        if ($this->hasErrors($jsonObject)) {
+            return -1;
+        }
         // Parse the JSON object to get the playtime.
         $gamesData = $jsonObject['response']['games'];
         // Find the corresponding game ID to get the correct playtime.
@@ -322,6 +416,7 @@ class SteamAPIConnector implements GameAPIInterface
             $description = $gameAchievement['description'];
             $earned = $this->getBooleanValue($playerAchievement['achieved']);
             $dateEarned = $playerAchievement['unlocktime'];
+            $dateEarned = $this->convertUnixEpochTimeToDate($dateEarned);
             $achievement = new Achievement($name, $description, $earned, $dateEarned);
             // Add the Achievement object to the AchievementList object.
             $achievementList->addAchievement($achievement);
@@ -352,5 +447,21 @@ class SteamAPIConnector implements GameAPIInterface
     {
         $date = date_create($dateString);
         return date_format($date,"m/d/Y");
+    }
+
+    /**
+     * Convert the given Unix Epoch time into a human-readable date string.
+     * @param $time
+     * @return false|string
+     */
+    private function convertUnixEpochTimeToDate($time)
+    {
+        // Check if the time is zero. Return a zero if so.
+        if ($time == 0) {
+            return 0;
+        }
+        // Convert the time into a readable date and return it.
+        $date = gmdate('r', $time);
+        return $this->changeDateFormat($date);
     }
 }
