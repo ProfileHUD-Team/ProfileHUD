@@ -24,6 +24,8 @@
     // Load the achievements for user 76561198962880722 and game 620
     $achievementList = $connector->getAchievements($steamId, '620');
     $achievementsStr = $achievementList->toString();
+    // Get any errors
+    $errorsStr = $connector->getErrorsString();
 ?>
 @section('content')
     <div class="container">
@@ -39,5 +41,7 @@
         <p><?php echo $achievementsStr; ?></p>
         <h3>Steam Web API requests made:</h3>
         <p><?php echo $connector->getRequestsMade(); ?></p>
+        <h3>Errors Log:</h3>
+        <p><?php echo $errorsStr; ?></p>
     </div>
 @endsection
