@@ -40,7 +40,6 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 // Xbox Api Routs
 
-Route::view('/userid', 'xuid');
+Route::view('/userid', 'xboxUserId');
 Route::get('/gamertag', [getuserid::class, 'getData',])->name('gamertag.getData');
-Route::view('/achievements', 'xProfile');
 Route::get('/xboxprofile', [getachievements::class, 'achievements'])->name('Profile.index');

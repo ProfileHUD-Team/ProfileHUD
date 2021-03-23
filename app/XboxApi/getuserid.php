@@ -25,7 +25,7 @@ class getuserid
         ])->get('https://xapi.us/v2/xuid/' . $gamertag);
 
 
-        return view('getachievements', ['user' => $url]);
+        return view('xboxGetAchievements', ['user' => $url]);
     }
 
 

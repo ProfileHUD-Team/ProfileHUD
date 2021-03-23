@@ -25,7 +25,7 @@ class getachievements
         if (!empty($xboxReq['titles'])) {
 
 
-            return view('achievementresults', ['response' => $xboxReq['titles']]);
+            return view('xboxAchievementresults', ['response' => $xboxReq['titles']]);
 
         } else {
 
