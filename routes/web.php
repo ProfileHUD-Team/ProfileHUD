@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TestsController;
+use App\Http\Controllers\AccountsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +24,8 @@ Auth::routes(['verify' => true]);
 
 Auth::routes();
 
+Route::get('/a/create', [AccountsController::class, 'create']);
+Route::post('/a', [AccountsController::class, 'store']);
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::view('/welcome', 'welcome');
 Route::view('/aboutus', 'aboutus');
@@ -32,6 +35,3 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAccountsTable extends Migration
+class CreateGamesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,17 @@ class CreateAccountsTable extends Migration
      */
     public function up()
     {
-        Schema::create('accounts', function (Blueprint $table) {
+        Schema::create('games', function (Blueprint $table) {
             $table->id();
             $table->string('unique_key')->unique();
-            $table->foreignId('user_id')->constrained();
-            $table->string('platformID')->nullable();
-            $table->string('platform_username');
             $table->string('platform');
-            $table->boolean('isVerified')->default(false);
-            $table->timestamps();
+            $table->string('game_id');
+            $table->string('name');
+            $table->string('developer');
+            $table->string('publisher');
+            $table->string('release_date');
 
-            $table->index('user_id');
+            $table->timestamps();
         });
     }
 
@@ -34,6 +34,6 @@ class CreateAccountsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('accounts');
+        Schema::dropIfExists('games');
     }
 }

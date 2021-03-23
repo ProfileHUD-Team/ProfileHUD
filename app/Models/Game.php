@@ -5,14 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Account extends Model
+class Game extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
-
-    public function user()
+    public function achievements()
     {
-        return $this->belongsTo(User::class);
+        return $this->hasMany(Achievment::class);
     }
+
 }
