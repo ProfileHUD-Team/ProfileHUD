@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\XboxApi\getachievements;
-use App\Http\XboxApi\getuserid;
+use App\XboxApi\getachievements;
+use App\XboxApi\getuserid;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TestsController;

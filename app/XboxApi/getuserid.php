@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\XboxApi;
+namespace App\XboxApi;
 
 
 
