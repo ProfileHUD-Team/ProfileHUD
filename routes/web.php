@@ -1,5 +1,7 @@
 <?php
 
+use App\XboxApi\getachievements;
+use App\XboxApi\getuserid;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TestsController;
@@ -34,4 +36,9 @@ Route::get('/steamapitests', [TestsController::class, 'index'])->name('steamapit
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+// Xbox Api Routs
+Route::view('/userid', 'xboxUserId');
+Route::get('/gamertag', [getuserid::class, 'getData',])->name('gamertag.getData');
+Route::get('/xboxprofile', [getachievements::class, 'achievements'])->name('Profile.index');
 
