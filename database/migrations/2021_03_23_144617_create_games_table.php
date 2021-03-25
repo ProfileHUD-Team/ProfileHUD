@@ -15,13 +15,13 @@ class CreateGamesTable extends Migration
     {
         Schema::create('games', function (Blueprint $table) {
             $table->id();
-            $table->string('unique_key')->unique();
+            $table->string('game_key')->unique();
             $table->string('platform');
             $table->string('game_id');
-            $table->string('name');
-            $table->string('developer');
-            $table->string('publisher');
-            $table->string('release_date');
+            $table->string('name')->nullable();
+            $table->string('developer')->nullable();
+            $table->string('publisher')->nullable();
+            $table->string('release_date')->nullable();
 
             $table->timestamps();
         });

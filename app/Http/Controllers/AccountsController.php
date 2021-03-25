@@ -19,12 +19,18 @@ class AccountsController extends Controller
         ]);
         $unique_key = $data['platform']."-".mb_strtolower($data['platform_username']);
 
-        auth()->user()->accounts()->create([
-            'platform' => $data['platform'],
-            'unique_key' => $unique_key,
-            'platform_username' => $data['platform_username']
-        ]);
-        dd($data);
+        try {
+            auth()->user()->accounts()->create([
+                'platform' => $data['platform'],
+                'account_key' => $unique_key,
+                'platform_username' => $data['platform_username']
+            ]);
+        }
+        catch(\Illuminate\Database\QueryException $exception){
+            echo'Whoops! Looks like that user is already in use!';
+            dd($data);
+        }
+
 
     }
 }
