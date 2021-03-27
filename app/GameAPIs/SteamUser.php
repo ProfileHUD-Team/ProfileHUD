@@ -52,7 +52,22 @@ class SteamUser
         $this->gameListSimple = $gameListSimple;
     }
 
-    //============================ FUNCTIONS ============================
+    //============================ STATIC FUNCTIONS ============================
+
+    /**
+     * Load and get a SteamUser object from the provided data.
+     * @param array $steamData : An associative array containing Steam User data.
+     * @return SteamUser
+     */
+    public static function loadSteamUser(array $steamData) : SteamUser
+    {
+        $steamID = $steamData['steamID'];
+        $username = $steamData['username'];
+        $gameList = $steamData['gameList'];
+        return new SteamUser($steamID, $username, $gameList);
+    }
+
+    //============================ CLASS FUNCTIONS ============================
 
     /**
      * @return string
@@ -96,6 +111,19 @@ class SteamUser
     {
         $gameList = $connector->getGamesOwned($this->id);
         $this->gameList = $gameList;
+    }
+
+    /**
+     * Return an associative array representation of this SteamUser object.
+     * @return array
+     */
+    public function toDataArray() : array
+    {
+        $data = [];
+        $data['steamID'] = $this->id;
+        $data['username'] = $this->username;
+        $data['gameList'] = $this->gameListSimple;
+        return $data;
     }
 
     /**
