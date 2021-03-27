@@ -111,7 +111,6 @@
                     </svg>
                 </div>
 
-            </div>
         </div>
     <a href="welcome.blade.php">Reload Welcome<</a>
     </body>
