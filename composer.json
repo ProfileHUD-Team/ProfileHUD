@@ -18,7 +18,8 @@
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.2",
         "laravelcollective/html": "^6.2",
-        "livewire/livewire": "^2.4"
+        "livewire/livewire": "^2.4",
+        "mopo922/laravel-treats": "^2.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
