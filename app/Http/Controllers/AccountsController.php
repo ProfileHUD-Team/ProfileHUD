@@ -28,7 +28,9 @@ class AccountsController extends Controller
         }
         catch(\Illuminate\Database\QueryException $exception){
             echo'Whoops! Looks like that user is already in use!';
+            echo $exception->getMessage();
             dd($data);
+
         }
 
 

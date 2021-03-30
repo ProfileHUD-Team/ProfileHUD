@@ -5,14 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Achievement extends Model
+class UserAchievements extends Model
 {
     use HasFactory;
-
-
-    public function game()
-    {
-        return $this->belongsTo(Game::class);
-    }
-
 }

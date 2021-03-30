@@ -14,11 +14,12 @@ class CreateAchievementsTable extends Migration
     public function up()
     {
         Schema::create('achievements', function (Blueprint $table) {
-            $table->string('game_key');
+            $table->string('achievement_key')->unique();
+            $table->string('game_key')->constrained();
             $table->string('name');
             $table->string('description');
-            $table->boolean('earned');
-            $table->string('date_earned');
+
+            $table->index('game_key');
         });
     }
 

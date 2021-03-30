@@ -17,7 +17,9 @@ class CreatesAccountGamePivotTable extends Migration
             $table->id();
             $table->string('account_key');
             $table->string('game_key');
-            $table->timestamps();
+            $table->integer('hours_played')->nullable();
+
+            $table->index('account_key');
         });
     }
 

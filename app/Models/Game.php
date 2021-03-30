@@ -14,4 +14,8 @@ class Game extends Model
         return $this->hasMany(Achievment::class);
     }
 
+    public function players()
+    {
+        return $this->belongsToMany(Account::class);
+    }
 }
