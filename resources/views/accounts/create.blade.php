@@ -40,10 +40,12 @@
                     <div class="row pt-3 pl-2 offset-4">
                         <button class="btn btn-primary">Link Account</button>
                     </div>
-
-                    <div class="h5 pt-4 offset-2"> <b>OR</b> <a href="">Sign in with Steam</a></div>
                 </div>
             </div>
+        </form>
+        <div class="h5 pt-4 offset-2"> <b>OR</b>
+        <form class="pt-4" action='steamredirect' method='get'>
+            <input type="image" src="https://community.cloudflare.steamstatic.com/public/images/signinthroughsteam/sits_02.png" alt="">
         </form>
     </div>
 @endsection
