@@ -15,7 +15,8 @@ class AccountsController extends Controller
     {
         $data = request()->validate([
             'platform' => 'required',
-            'platform_username' => 'required'
+            'platform_username' => 'required',
+            'platform_id' => ''
         ]);
         $unique_key = $data['platform']."-".mb_strtolower($data['platform_username']);
 
@@ -23,7 +24,8 @@ class AccountsController extends Controller
             auth()->user()->accounts()->create([
                 'platform' => $data['platform'],
                 'account_key' => $unique_key,
-                'platform_username' => $data['platform_username']
+                'platform_username' => $data['platform_username'],
+                'platform_id' => $data['platform_id']
             ]);
         }
         catch(\Illuminate\Database\QueryException $exception){

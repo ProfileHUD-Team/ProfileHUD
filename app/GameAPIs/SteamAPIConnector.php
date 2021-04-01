@@ -2,6 +2,8 @@
 
 namespace App\GameAPIs;
 
+use mysql_xdevapi\Exception;
+
 /**
  * Class SteamAPIConnector: This class can make Steam Web API requests and return parsable objects
  * defined in the GameAPIs package.
@@ -351,7 +353,7 @@ class SteamAPIConnector implements GameAPIInterface
             return array(-1, -1);
         }
         // Get the JSON array of achievements.
-        $achievements = $jsonObject['playerstats']['achievements'];
+        $achievements = $jsonObject['playerstats']['achievements'] ?? [];
         $total = count($achievements);
         // Iterate over the array to count the number of earned achievements.
         $earned = 0;
@@ -446,6 +448,9 @@ class SteamAPIConnector implements GameAPIInterface
     private function changeDateFormat($dateString)
     {
         $date = date_create($dateString);
+        if(is_bool($date)) {
+            $date = gmdate('r', 0);
+        }
         return date_format($date,"m/d/Y");
     }
 

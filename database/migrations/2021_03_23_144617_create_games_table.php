@@ -23,8 +23,7 @@ class CreateGamesTable extends Migration
             $table->string('publisher')->nullable();
             $table->string('release_date')->nullable();
 
-            $table->index('game_key');
-
+            $table->index('platform');
             $table->timestamps();
         });
     }
