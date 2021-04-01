@@ -25,7 +25,7 @@ class GamesController extends Controller
             'name' => $data['name'],
             'developer' => $data['developer'],
             'publisher' => $data['publisher'],
-            'release_date' => $data['release_date'],
+            'release_date' => $data['release_date']
         ]);
 
     }

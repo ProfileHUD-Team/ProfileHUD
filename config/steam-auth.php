@@ -5,7 +5,7 @@ return [
     /*
      * Redirect URL after login
      */
-    'redirect_url' => 'http://127.0.0.1:8000/steamlinked',
+    'redirect_url' => '/a/steamlinked',
 
     /*
      * Realm override. Bypass domain ban by Valve.

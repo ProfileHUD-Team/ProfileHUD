@@ -8,6 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Game extends Model
 {
     use HasFactory;
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['platform', 'game_id', 'developer', 'publisher', 'release_date', 'name'];
 
     public function achievements()
     {

@@ -17,7 +17,7 @@ class CreateAccountsTable extends Migration
             $table->id();
             $table->string('account_key')->unique();
             $table->foreignId('user_id')->constrained();
-            $table->string('platformID')->nullable();
+            $table->string('platform_id')->nullable();
             $table->string('platform_username');
             $table->string('platform');
             $table->boolean('isVerified')->default(false);

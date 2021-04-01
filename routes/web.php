@@ -42,8 +42,8 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::get('/steamapitests', [TestsController::class, 'index'])->name('steamapitests');
 Route::get('/steamlogin', [SteamPagesController::class, 'steamLogin'])->name('steamlogin');
-Route::get('/steamredirect', [SteamPagesController::class, 'steamRedirect'])->name('steamredirect');
-Route::get('/steamlinked', [SteamPagesController::class, 'steamLinked'])->name('steamlinked');
+Route::get('a/steamredirect', [SteamPagesController::class, 'steamRedirect'])->name('steamredirect');
+Route::get('a/steamlinked', [SteamPagesController::class, 'steamLinked'])->name('steamlinked');
 // Xbox Api Routs
 Route::view('/userid', 'xboxUserId');
 Route::get('/gamertag', [getuserid::class, 'getData',])->name('gamertag.getData');

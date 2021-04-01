@@ -15,4 +15,10 @@ class Achievement extends Model
         return $this->belongsTo(Game::class);
     }
 
+    public function achievers()
+    {
+        return $this->belongsToMany(Account::class)->withPivot('is_earned','date_earned');
+    }
+
+
 }

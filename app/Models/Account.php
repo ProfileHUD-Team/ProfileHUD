@@ -16,17 +16,18 @@ class Account extends Model
     {
         parent::boot();
 
-        static::creating(function ($account) {
+        static::created(function ($account) {
             try{
                 switch($account->platform){
                     case 'stm':
-                        #steam api code
+                        echo 'steam';
                         break;
                     case 'psn':
                         #psn api code
                         break;
                     case 'xbl':
                         #xbl api code
+                        echo 'xbox';
                         break;
                     default:
                         echo 'There was an error. Please go back and try again.';
@@ -38,13 +39,18 @@ class Account extends Model
         });
     }
 
-    public function user()
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function games()
+    public function plays(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->hasMany((Game::class));
+        return $this->belongsToMany((Game::class))->withPivot('hours_played');
+    }
+
+    public function achieves(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany((Achievement::class))->withPivot('is_earned','date_earned');
     }
 }
