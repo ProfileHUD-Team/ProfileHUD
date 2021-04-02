@@ -54,7 +54,13 @@ class GamesController extends Controller
             }
             else {
                 try {
-                    $info = $this->steamconnector->getGameInfoArray($game);
+                    if($data['platform']=='stm'){
+                        $info = $this->steamconnector->getGameInfoArray($game);
+                    }
+                    else{
+                        $info =[];
+                        break;
+                    }
                     $unique_key = $data['platform']."-".$game;
 
                     \App\Models\Game::create([
