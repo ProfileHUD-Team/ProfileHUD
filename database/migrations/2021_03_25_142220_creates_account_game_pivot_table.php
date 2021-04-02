@@ -15,8 +15,8 @@ class CreatesAccountGamePivotTable extends Migration
     {
         Schema::create('account_game', function (Blueprint $table) {
             $table->id();
-            $table->string('account_key');
-            $table->string('game_key');
+            $table->foreignId('account_id');
+            $table->foreignId('game_id');
             $table->integer('hours_played')->nullable();
 
             $table->index('account_key');

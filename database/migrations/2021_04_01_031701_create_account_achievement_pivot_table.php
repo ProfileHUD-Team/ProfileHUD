@@ -13,10 +13,10 @@ class CreateAccountAchievementPivotTable extends Migration
      */
     public function up()
     {
-        Schema::table('account_achievement', function (Blueprint $table) {
+        Schema::create('account_achievement', function (Blueprint $table) {
             $table->id();
-            $table->string('account_key')->constrained();
-            $table->string('achievement_key')->constrained();
+            $table->string('account_id')->constrained();
+            $table->string('achievement_id')->constrained();
             $table->boolean('is_earned')->default(false);
             $table->timestamp('date_earned')->nullable();
         });

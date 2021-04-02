@@ -20,8 +20,7 @@ class Account extends Model
             try{
                 switch($account->platform){
                     case 'stm':
-                        echo 'steam';
-                        break;
+                        //return redirect()->route("/games/create", $account);
                     case 'psn':
                         #psn api code
                         break;
@@ -46,11 +45,11 @@ class Account extends Model
 
     public function plays(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany((Game::class))->withPivot('hours_played');
+        return $this->belongsToMany(Game::class)->withPivot('hours_played');
     }
 
     public function achieves(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany((Achievement::class))->withPivot('is_earned','date_earned');
+        return $this->belongsToMany(Achievement::class)->withPivot('is_earned','date_earned');
     }
 }
