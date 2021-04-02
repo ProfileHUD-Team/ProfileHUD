@@ -4,7 +4,7 @@
     <!-- This page converts the GET to a POST and posts the info to Accounts-->
     <body onload="document.account.submit()">
     <div class="container">
-        <h2>Linking Steam account.... {{$steamID}}</h2>
+        <h2>Linking Steam account <strong>{{$username}}</strong>....</h2>
         <p></p>
         <form name="account" id="account" action="/a" enctype="multipart/form-data" method="post">
             @csrf
@@ -21,7 +21,8 @@
                    name="platform_id"
                    value="{{ $steamID }}" >
         </form>
-    </body>
     </div>
+    </body>
+
 
 @endsection

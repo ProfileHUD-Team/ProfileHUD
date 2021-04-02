@@ -29,12 +29,12 @@ class AccountsController extends Controller
             ]);
         }
         catch(\Illuminate\Database\QueryException $exception){
-            echo'Whoops! Looks like that user is already in use!';
+            echo'Whoops!';
             echo $exception->getMessage();
             dd($data);
 
         }
 
-
+        return redirect()->route('g.create',[ $data['platform'],\App\Models\Account::firstwhere('account_key', $unique_key)->id]);
     }
 }

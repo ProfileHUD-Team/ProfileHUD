@@ -13,11 +13,11 @@
     $gameObject2 = $connector->getGameInfo('638970');
     $gameStr2 = $gameObject2->toString();
     // Get owned games for user with id 76561198962880722
-    $gameList = $connector->getGamesOwned($steamID);
+    //$gameList = $connector->getGamesOwned($steamID);
     // Load the achievements for the user and their first game
-    $firstGameID = $gameList->getGame(0)->getGame()->getId();
-    $achievementList = $connector->getAchievements($steamID, $firstGameID);
-    $achievementsStr = $achievementList->toString();
+    //$firstGameID = $gameList->getGame(0)->getGame()->getId();
+    //$achievementList = $connector->getAchievements($steamID, $firstGameID);
+    //$achievementsStr = $achievementList->toString();
     // Get any errors
     $errorsStr = $connector->getErrorsString();
 ?>
@@ -33,9 +33,9 @@
         <p><?php echo $gameStr1; ?></p>
         <p><?php echo $gameStr2; ?></p>
         <h2>Get owned games test:</h2>
-        <p><?php echo $gameList->toString(); ?></p>
+        <p><?php //echo $gameList->toString(); ?></p>
         <h2>Get Achievement List test:</h2>
-        <p><?php echo $achievementsStr; ?></p>
+        <p><?php //echo $achievementsStr; ?></p>
         <h3>Steam Web API requests made:</h3>
         <p><?php echo $connector->getRequestsMade(); ?></p>
         <h3>Errors Log:</h3>

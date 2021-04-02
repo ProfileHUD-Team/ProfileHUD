@@ -67,7 +67,7 @@ class SteamAPIConnector implements GameAPIInterface
     /**
      * @inheritDoc
      */
-    public function getGameInfo($gameId): GameObject
+    public function getGameInfo($gameId) : GameObject
     {
         // Create the URL.
         $url = "https://store.steampowered.com/api/appdetails?appids=" . $gameId;
@@ -92,6 +92,34 @@ class SteamAPIConnector implements GameAPIInterface
         $releaseDate = $this->changeDateFormat($releaseDate);
         // Create and return the GameObject.
         return new GameObject($gameId, $name, $developer, $publisher, $releaseDate);
+
+    }
+
+    public function getGameInfoArray($gameId) : array
+    {
+        // Create the URL.
+        $url = "https://store.steampowered.com/api/appdetails?appids=" . $gameId;
+        // Make the request to get a JSON object.
+        $jsonObject = $this->performRequest($url);
+        // Check if the JSON object has errors. Return an empty object if so.
+        if ($this->hasErrors($jsonObject)) {
+            $nil = SteamAPIConnector::$nullValue;
+            return [];
+        }
+        // Check if the request was successful. Return an empty GameObject if not.
+        $success = $jsonObject[$gameId]['success'];
+        if ($success == false) {
+            return [];
+        }
+        // Parse the JSON object.
+        $data = $jsonObject[$gameId]['data'];
+        $name = $data['name'];
+        $developer = $data['developers'][0];
+        $publisher = $data['publishers'][0];
+        $releaseDate = $data['release_date']['date'];
+        $releaseDate = $this->changeDateFormat($releaseDate);
+        // Create and return the GameObject.
+        return ['name'=>$name, 'publisher'=>$publisher, 'developer'=>$developer, 'release_date'=>$releaseDate];
     }
 
     /**
@@ -133,7 +161,7 @@ class SteamAPIConnector implements GameAPIInterface
     {
         // Get the arrays of game IDs and playtimes.
         $gameIds = $this->getGamesOwnedSimple($userId);
-        $playtimes = $this->getGameIdsOrPlaytimes($userId, 'playtime_forever');
+        //$playtimes = $this->getGameIdsOrPlaytimes($userId, 'playtime_forever');
         // Load game information for each game ID.
         $gameListObject = new GameList();
         $index = 0;
@@ -148,11 +176,11 @@ class SteamAPIConnector implements GameAPIInterface
             }
             // Else, load the rest of the information.
             else {
-                $hoursPlayed = $playtimes[$index] / 60;
+                //$hoursPlayed = $playtimes[$index] / 60;
                 $achievementsRatio = $this->getAchievementRatio($userId, $gameId);
                 $earnedAchievements = $achievementsRatio[0];
                 $totalAchievements = $achievementsRatio[1];
-                $userGame = new UserGameObject($game, 'Steam', $hoursPlayed, $earnedAchievements, $totalAchievements);
+                $userGame = new UserGameObject($game, 'Steam', /*$hoursPlayed,*/ $earnedAchievements, $totalAchievements);
                 $gameListObject->addGame($userGame);
             }
             $index++;
@@ -448,8 +476,8 @@ class SteamAPIConnector implements GameAPIInterface
     private function changeDateFormat($dateString)
     {
         $date = date_create($dateString);
-        if(is_bool($date)) {
-            $date = gmdate('r', 0);
+        if(!($date instanceof \DateTimeInterface)) {
+            $date = new \DateTime('0');
         }
         return date_format($date,"m/d/Y");
     }
