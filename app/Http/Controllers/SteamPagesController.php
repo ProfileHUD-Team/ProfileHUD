@@ -8,6 +8,12 @@ use Invisnik\LaravelSteamAuth\SteamInfo;
 use App\GameAPIs\SteamUser;
 use App\GameAPIs\SteamAPIConnector;
 
+/**
+ * Class SteamPagesController: Controller class for handling Steam account linking.
+ * Date Created: 3/17/2021
+ * @author Fernando Villarreal
+ * @package App\Http\Controllers
+ */
 class SteamPagesController extends Controller
 {
 
