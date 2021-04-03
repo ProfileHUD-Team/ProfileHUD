@@ -36,6 +36,12 @@ class SteamUser
      */
     private $gameList;
 
+    /**
+     * URL string for the profile image of this Steam User.
+     * @var string
+     */
+    private $profileImage;
+
     //============================ CONSTRUCTOR ============================
 
     /**
@@ -99,6 +105,24 @@ class SteamUser
     public function getGameList(): GameList
     {
         return $this->gameList;
+    }
+
+    /**
+     * Get the URL string for the cover image.
+     * @return string
+     */
+    public function getProfileImage(): string
+    {
+        return $this->profileImage;
+    }
+
+    /**
+     * Set the URL string for the profile image of this Steam User.
+     * @param string $url
+     */
+    public function setProfileImage(string $url) : void
+    {
+        $this->profileImage = $url;
     }
 
     /**

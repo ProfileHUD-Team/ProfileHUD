@@ -95,8 +95,11 @@ class SteamAPIConnector implements GameAPIInterface
         $publisher = $data['publishers'][0];
         $releaseDate = $data['release_date']['date'];
         $releaseDate = $this->changeDateFormat($releaseDate);
-        // Create and return the GameObject.
-        return new GameObject($gameId, $name, $developer, $publisher, $releaseDate);
+        $coverImage = $data['header_image'];
+        // Set the cover image. Create and return the GameObject.
+        $gameObject = new GameObject($gameId, $name, $developer, $publisher, $releaseDate);
+        $gameObject->setCoverImage($coverImage);
+        return $gameObject;
 
     }
 
@@ -153,10 +156,13 @@ class SteamAPIConnector implements GameAPIInterface
         // Parse the JSON object.
         $player = $players[0];
         $username = $player['personaname'];
+        $imageURL = $player['avatarfull'];
         // Load the simple array of games owned.
         $gamesArray = $this->getGamesOwnedSimple($userId);
-        // Create and return the SteamUser object.
-        return new SteamUser($userId, $username, $gamesArray);
+        // Set the profile image. Create and return the SteamUser object.
+        $steamUser = new SteamUser($userId, $username, $gamesArray);
+        $steamUser->setProfileImage($imageURL);
+        return $steamUser;
     }
 
     /**
@@ -164,8 +170,9 @@ class SteamAPIConnector implements GameAPIInterface
      */
     public function getGamesOwned($userId) : GameList
     {
-        $num = $this->getNumberOfGamesOwned($userId);
-        return $this->getSelectGamesOwned($userId, 1, $num);
+        $gamesData = $this->getGameIdsAndPlaytimes($userId);
+        $num = count($gamesData);
+        return $this->getSelectGamesOwnedPrivate($gamesData, $userId, 1, $num);
     }
 
     /**
@@ -177,43 +184,8 @@ class SteamAPIConnector implements GameAPIInterface
      */
     public function getSelectGamesOwned($userId, int $first, int $last) : GameList
     {
-        // Check and then modify the range of indexes.
-        $num = $this->getNumberOfGamesOwned($userId);
-        if ($this->isRangeValid($first, $last, $num)) {
-            $first = $first - 1;
-            $last = $last - 1;
-        } else {
-            $first = 0;
-            $last = 0;
-        }
-        // Get the array of game IDs and playtimes.
         $gamesData = $this->getGameIdsAndPlaytimes($userId);
-        // Load game information for each game ID.
-        $gameListObject = new GameList();
-        for ($i = $first; $i <= $last; $i++) {
-            $gameDatum = $gamesData[$i];
-            $gameID = $gameDatum['appid'];
-            $playtime = $gameDatum['playtime_forever'];
-            $game = $this->getGameInfo($gameID);
-            // If the game object is empty, create an empty user-game object.
-            if ($game->getId() == self::$nullValue) {
-                $this->errorLog['getGameInfo(' . $gameID . ')'] = 'The Steam game ID is invalid or
-                    belongs to a delisted game.';
-                $userGame = new UserGameObject($game, self::$nullValue, -1, -1, -1);
-                $gameListObject->addGame($userGame);
-            }
-            // Else, load the rest of the information.
-            else {
-                $hoursPlayed = $playtime / 60;
-                $achievementsRatio = $this->getAchievementRatio($userId, $gameID);
-                $earnedAchievements = $achievementsRatio[0];
-                $totalAchievements = $achievementsRatio[1];
-                $userGame = new UserGameObject($game, 'Steam', /*$hoursPlayed,*/ $earnedAchievements, $totalAchievements);
-                $gameListObject->addGame($userGame);
-            }
-        }
-        // Return the GameList.
-        return $gameListObject;
+        return $this->getSelectGamesOwnedPrivate($gamesData, $userId, $first, $last);
     }
 
     /**
@@ -240,7 +212,7 @@ class SteamAPIConnector implements GameAPIInterface
      */
     public function getNumberOfGamesOwned($userId) : int
     {
-        return count($this->getGamesOwnedSimple($userId));
+        return count($this->getGameIdsAndPlaytimes($userId));
     }
 
     /**
@@ -408,6 +380,54 @@ class SteamAPIConnector implements GameAPIInterface
     }
 
     /**
+     * Get the games owned by the specified user over a given range of indexes. The indexes are inclusive
+     * and must be valid.
+     * @param array $gamesData : Array containing game IDs and playtimes.
+     * @param string $userId : The Steam ID of the user.
+     * @param int $first : The index of the first game in the list to return.
+     * @param int $last : The index of the last game in the list to return.
+     * @return GameList : The GameList object containing the games owned.
+     */
+    private function getSelectGamesOwnedPrivate(array $gamesData, string $userId, int $first, int $last) : GameList
+    {
+        // Check and then modify the range of indexes.
+        $num = count($gamesData);
+        if ($this->isRangeValid($first, $last, $num)) {
+            $first = $first - 1;
+            $last = $last - 1;
+        } else {
+            $first = 0;
+            $last = 0;
+        }
+        // Load game information for each game ID.
+        $gameListObject = new GameList();
+        for ($i = $first; $i <= $last; $i++) {
+            $gameDatum = $gamesData[$i];
+            $gameID = $gameDatum['appid'];
+            $playtime = $gameDatum['playtime_forever'];
+            $game = $this->getGameInfo($gameID);
+            // If the game object is empty, create an empty user-game object.
+            if ($game->getId() == self::$nullValue) {
+                $this->errorLog['getGameInfo(' . $gameID . ')'] = 'The Steam game ID is invalid or
+                    belongs to a delisted game.';
+                $userGame = new UserGameObject($game, self::$nullValue, -1, -1, -1);
+                $gameListObject->addGame($userGame);
+            }
+            // Else, load the rest of the information.
+            else {
+                $hoursPlayed = $playtime / 60;
+                $achievementsRatio = $this->getAchievementRatio($userId, $gameID);
+                $earnedAchievements = $achievementsRatio[0];
+                $totalAchievements = $achievementsRatio[1];
+                $userGame = new UserGameObject($game, 'Steam', $hoursPlayed, $earnedAchievements, $totalAchievements);
+                $gameListObject->addGame($userGame);
+            }
+        }
+        // Return the GameList.
+        return $gameListObject;
+    }
+
+    /**
      * Get the number of earned and total achievements.
      * @param $userId : The Steam ID of the user.
      * @param $gameId : The Steam ID of the game.
@@ -489,8 +509,15 @@ class SteamAPIConnector implements GameAPIInterface
             $earned = $this->getBooleanValue($playerAchievement['achieved']);
             $dateEarned = $playerAchievement['unlocktime'];
             $dateEarned = $this->convertUnixEpochTimeToDate($dateEarned);
+            // Get the 'earned' or 'not earned' icon image for the achievement.
+            if ($earned) {
+                $iconImage = $gameAchievement['icon'];
+            } else {
+                $iconImage = $gameAchievement['icongray'];
+            }
+            // Create and add the Achievement object to the AchievementList object.
             $achievement = new Achievement($name, $description, $earned, $dateEarned);
-            // Add the Achievement object to the AchievementList object.
+            $achievement->setIconImage($iconImage);
             $achievementList->addAchievement($achievement);
         }
         // Return the AchievementList object.
@@ -552,6 +579,7 @@ class SteamAPIConnector implements GameAPIInterface
         // Increment the number of requests. If the request rate is not limited, return.
         $numRequests = $this->getRequestsMade() + 1;
         if (!$this->requestRateLimited) {
+            $this->setRequestNumAndTime($numRequests, time());
             return;
         }
         // If this is the first request, set its time to the current time.
