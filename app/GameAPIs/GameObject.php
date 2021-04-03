@@ -47,6 +47,12 @@ class GameObject
      */
     private $releaseDate;
 
+    /**
+     * URL string for the cover image of the game.
+     * @var string
+     */
+    private $coverImage;
+
     //============================ CONSTRUCTOR ============================
 
     /**
@@ -106,6 +112,24 @@ class GameObject
     public function getReleaseDate(): string
     {
         return $this->releaseDate;
+    }
+
+    /**
+     * Get the URL string for the cover image of this game.
+     * @return string
+     */
+    public function getCoverImage(): string
+    {
+        return $this->coverImage;
+    }
+
+    /**
+     * Set the cover image URL for this game.
+     * @param string $url
+     */
+    public function setCoverImage(string $url): void
+    {
+        $this->coverImage = $url;
     }
 
     public function toString() : string

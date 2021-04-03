@@ -1,4 +1,4 @@
-@extends('layouts.app');
+@extends('layouts.app')
 
 @section('content')
     <!-- This page converts the GET to a POST and posts the info to Accounts-->
