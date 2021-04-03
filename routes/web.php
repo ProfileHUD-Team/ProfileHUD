@@ -54,7 +54,7 @@ Route::get('a/steamlinked', [SteamPagesController::class, 'steamLinked'])->name(
 
 // Xbox Api Routs
 Route::view("xboxlink",'xboxlink');
-Route::view('/userid', 'xboxUserId');
-Route::get('/gamertag', [getuserid::class, 'getData',])->name('gamertag');
+Route::view('/getuserid', 'xboxUserId');
+Route::get('/xboxid', [getuserid::class, 'getData',])->name('xboxid');
 Route::get('/xboxprofile', [getachievements::class, 'achievements'])->name('xboxprofile');
 

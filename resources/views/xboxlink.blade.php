@@ -4,9 +4,15 @@
 
 
 
-<form action="userid">
+<form action="getuserid">
 
-    <button type="submit" >Link Xbox Account</button>
+    <button type="submit"
+            style='font-size:24px;
+            color:black;
+            background: greenyellow'>
+
+
+        Link Xbox Account</button>
 </form>
 <br>
 

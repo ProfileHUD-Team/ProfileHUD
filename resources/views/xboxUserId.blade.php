@@ -11,7 +11,7 @@
     }
 </script>
 
-<form action="gamertag" method="GET">
+<form action="xboxid" method="GET">
     <input type="text" name="userid" placeholder="enter gamer tag here"><br><br>
     <button type="submit" onclick="submit_soap()">Get xuid</button>
 </form>
