@@ -28,11 +28,18 @@ Auth::routes(['verify' => true]);
 
 Auth::routes();
 
-Route::get('/a/create', [AccountsController::class, 'create']);
-Route::post('/a', [AccountsController::class, 'store']);
+
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::view('/welcome', 'welcome');
 Route::view('/aboutus', 'aboutus');
+
+//Account Adding Pages
+Route::get('/a/create', [AccountsController::class, 'create']);
+Route::post('/a', [AccountsController::class, 'store']);
+
+//Game adding pages
+Route::get('/g/create/platform={platform}&id={id}', [\App\Http\Controllers\GamesController::class, 'create'])->name('g.create');
+Route::post('/g', [\App\Http\Controllers\GamesController::class, 'store']);
 
 Auth::routes();
 
@@ -44,6 +51,7 @@ Route::get('/steamapitests', [TestsController::class, 'index'])->name('steamapit
 Route::get('/steamlogin', [SteamPagesController::class, 'steamLogin'])->name('steamlogin');
 Route::get('a/steamredirect', [SteamPagesController::class, 'steamRedirect'])->name('steamredirect');
 Route::get('a/steamlinked', [SteamPagesController::class, 'steamLinked'])->name('steamlinked');
+
 // Xbox Api Routs
 Route::view('/userid', 'xboxUserId');
 Route::get('/gamertag', [getuserid::class, 'getData',])->name('gamertag.getData');

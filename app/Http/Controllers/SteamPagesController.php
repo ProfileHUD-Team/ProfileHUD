@@ -33,6 +33,12 @@ class SteamPagesController extends Controller
      */
     protected $steamAuth;
 
+    /**
+     * SteamAPIConnector.
+     * @var SteamAPIConnector
+     */
+    protected $connector;
+
     //========================= CONSTRUCTOR =========================
 
     /**
@@ -42,6 +48,7 @@ class SteamPagesController extends Controller
     public function __construct(SteamAuth $steamAuth)
     {
         $this->middleware('auth');
+        $this->connector = new SteamAPIConnector(Config::get('steam-auth.api_key'));
         $this->steamAuth = $steamAuth;
     }
 
@@ -92,7 +99,7 @@ class SteamPagesController extends Controller
             // Return the view along with data for the Steam user.
             $steamData = $steamUser->toDataArray();
             session(['steamData' => $steamData]);
-            return view('a/steamlinked', $steamData);
+            return view('accounts/steamlinked', $steamData);
         }
         // The Steam user is not linked. Return the steamLogin page.
         return $this->steamLogin();
@@ -109,5 +116,14 @@ class SteamPagesController extends Controller
             return SteamUser::loadSteamUser($steamData);
         }
         return new SteamUser('NULL', 'NULL', []);
+    }
+
+    /**
+     * Get the SteamUser object from current session.
+     *
+     */
+    public function getGames()
+    {
+        return $this->connector->getGamesOwnedSimple(auth()->user()->accounts()->firstwhere('platform','stm')->platform_id);
     }
 }
