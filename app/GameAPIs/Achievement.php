@@ -36,6 +36,12 @@ class Achievement
      */
     private $dateEarned;
 
+    /**
+     * URL string for the icon image of this achievement.
+     * @var string
+     */
+    private $iconImage;
+
     //============================ CONSTRUCTOR ============================
 
     /**
@@ -85,6 +91,24 @@ class Achievement
     public function getDateEarned(): string
     {
         return $this->dateEarned;
+    }
+
+    /**
+     * Get the URL for the icon image of this achievement.
+     * @return string
+     */
+    public function getIconImage(): string
+    {
+        return $this->iconImage;
+    }
+
+    /**
+     * Set the URL for the icon image of this achievement.
+     * @param string $iconImage
+     */
+    public function setIconImage(string $iconImage): void
+    {
+        $this->iconImage = $iconImage;
     }
 
     public function toString() : string
