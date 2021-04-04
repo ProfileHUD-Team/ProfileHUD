@@ -1,21 +1,5 @@
-<style>
-
-    .container {
-        height: 200px;
-        position: relative;
-
-
-    }
-
-    .center {
-        margin: 0;
-        position: absolute;
-        top: 100%;
-        left: 40%;
-        -ms-transform: translateY(-50%);
-        transform: translateY(-50%);
-    }
-</style>
+<head></head>
+<body>
 
 
 <script src="https://kit.fontawesome.com/38c1929a11.js" crossorigin="anonymous"></script>
@@ -27,16 +11,7 @@
 
         <button
             class="open-button" onclick="togglePopup()"
-            type="submit"
-            style='font-size:24px;
-
-            color:green;
-            background: black;
-            cursor:hand'>
-            <br>
-            Link Xbox Account
-            <i class='fab fa-xbox' style='font-size:50px;color:green'></i>
-        </button>
+            type="submit">Link Xbox Account<i class='fab fa-xbox' style='font-size:50px;color:green'></i></button>
     </div>
 </div>
 
@@ -166,6 +141,7 @@
 
 
     button {
+        cursor:hand;
         position: absolute;
         top: 70%;
         left: 50%;
@@ -180,7 +156,25 @@
     }
 
 
+    .container {
+        height: 200px;
+        position: relative;
+
+
+    }
+
+    .center {
+        margin: 0;
+        position: absolute;
+        top: 100%;
+        left: 40%;
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+    }
 </style>
+
+
+</body>
 
 
 

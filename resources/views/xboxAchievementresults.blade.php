@@ -1,3 +1,5 @@
+<head></head>
+<body>
 @foreach ($response as $data)
 
 
@@ -14,9 +16,6 @@
 
 
 @endforeach
-
-
-
 
 
 <div style="text-align: center;">
@@ -40,9 +39,23 @@
 
         }
 
+        button {
+
+            cursor:hand;
+
+            font-size: 10px;
+            border: 2px solid #222;
+            color: black;
+            text-transform: uppercase;
+            font-weight: 600;
+            background: #fff;
+        }
+
 
     </style>
 
 
 </div>
+
+</body>
 

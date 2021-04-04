@@ -1,3 +1,5 @@
+<head></head>
+<body>
 @foreach ($response as $data)
 
 
@@ -22,6 +24,8 @@
 
 
             @endforeach
+        </div>
+    </div>
 
 
             <form action="userprofile" method="GET">
@@ -32,8 +36,7 @@
                 <button type="submit" onclick="submit_soap()">View Games</button>
 
             </form>
-        </div>
-    </div>
+
     <br>
     <div id="json_response"></div>
 
@@ -66,6 +69,21 @@
             -ms-transform: translateY(-50%);
             transform: translateY(-50%);
         }
+        button {
+            cursor:hand;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 15px;
+            font-size: 18px;
+            border: 2px solid #222;
+            color: black;
+            text-transform: uppercase;
+            font-weight: 600;
+            background: #fff;
+        }
     </style>
 
 
+</body>
