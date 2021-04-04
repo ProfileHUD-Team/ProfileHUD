@@ -1,18 +1,142 @@
-<h1>Xbox api test</h1>
-
-
-
-
 @foreach ($response as $data)
 
 
-    <h3> Game name : {{$data['name'] }} </h3>
-    <img src= {{$data['displayImage'] }} >  <br>
-    <h5>Game Id : {{$data['titleId']}} <br></h5>
-    <h5>Type: {{$data['type']}} <br></h5>
+    <div>
+
+        <img src={{$data['displayImage'] }} style="width:128px;height:128px" alt="icon">
+        <br>
+        ID: {{$data['titleId']}}
 
 
+    </div>
 
 
 
 @endforeach
+
+<style>
+    div {
+        border: 1px;
+        display: inline-block;
+
+
+    }
+
+
+</style>
+
+<button type="submit"
+        onclick="togglePopup()">
+        Game Stats
+</button>
+
+
+<div class="popup" id="popup-1">
+    <div class="overlay"></div>
+    <div class="content">
+        <div class="close-btn" onclick="togglePopup()">&times;</div>
+
+        <form action="playerrecord" method="GET">
+            <input type="text" name="records" placeholder="Enter Game ID Here">
+            <button type="submit"
+                    onclick="togglePopup()">
+                View Game Stats
+            </button>
+
+        </form>
+
+
+        <br>
+        <div id="json_response"></div>
+
+    </div>
+</div>
+<center>
+
+
+    <script>
+        function submit_soap() {
+            var records = $("#records").val();
+            $.get("playerrecord", {records: records},
+                function (data) {
+                    $("#json_response").html(data);
+                });
+        }
+
+        function togglePopup() {
+            document.getElementById("popup-1").classList.toggle("active");
+        }
+
+
+    </script>
+    <style>
+        .popup .overlay {
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1;
+            display: none;
+        }
+
+        .popup .content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: #fff;
+            width: 500px;
+            height: 250px;
+            z-index: 2;
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+            font-family: "Open Sans", sans-serif;
+        }
+
+        .popup .close-btn {
+            cursor: pointer;
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            width: 30px;
+            height: 30px;
+            background: #222;
+            color: #fff;
+            font-size: 25px;
+            font-weight: 600;
+            line-height: 30px;
+            text-align: center;
+            border-radius: 50%;
+        }
+
+        .popup.active .overlay {
+            display: block;
+        }
+
+        .popup.active .content {
+            transition: all 300ms ease-in-out;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+
+        button {
+            position: absolute;
+            top: 70%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 15px;
+            font-size: 18px;
+            border: 2px solid #222;
+            color: #222;
+            text-transform: uppercase;
+            font-weight: 600;
+            background: #fff;
+        }
+    </style>
+
+
+</center>
+

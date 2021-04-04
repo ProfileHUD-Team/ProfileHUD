@@ -1,7 +1,9 @@
 <?php
 
 use App\XboxApi\getachievements;
+use App\XboxApi\xboxProfile;
 use App\XboxApi\getuserid;
+use App\xboxApi\records;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TestsController;
@@ -53,8 +55,9 @@ Route::get('a/steamredirect', [SteamPagesController::class, 'steamRedirect'])->n
 Route::get('a/steamlinked', [SteamPagesController::class, 'steamLinked'])->name('steamlinked');
 
 // Xbox Api Routs
-Route::view("xboxlink",'xboxlink');
-Route::view('/getuserid', 'xboxUserId');
+Route::view("linkxbox",'xboxlink');
 Route::get('/xboxid', [getuserid::class, 'getData',])->name('xboxid');
-Route::get('/xboxprofile', [getachievements::class, 'achievements'])->name('xboxprofile');
+Route::get('/xboxprofile', [xboxProfile::class, 'xboxProfile'])->name('xboxprofile');
+Route::get('/userprofile', [getachievements::class, 'achievements'])->name('xboxprofile');
+Route::get('/playerrecord', [records::class, 'record'])->name('playerrecord');
 

@@ -3,7 +3,6 @@
 namespace App\XboxApi;
 
 
-
 use Illuminate\Support\Facades\Http;
 
 class getachievements
@@ -34,4 +33,6 @@ class getachievements
         }
 
     }
+
+
 }
