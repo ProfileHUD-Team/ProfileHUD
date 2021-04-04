@@ -24,12 +24,12 @@
             @endforeach
 
 
-                <form action="userprofile" method="GET">
+            <form action="userprofile" method="GET">
 
 
                 <label>
                     <br>
-                     <input type="hidden" value="{{$data['xuid'] }}" name="achievements">
+                    <input type="hidden" value="{{$data['xuid'] }}" name="achievements">
                 </label>
                 <button type="submit" onclick="submit_soap()">View Games</button>
 
@@ -40,6 +40,7 @@
     <div id="json_response"></div>
 
     <script>
+        alert('your account is successfully Linked')
 
         function submit_soap() {
             var achievements = $("#achievements").val();
