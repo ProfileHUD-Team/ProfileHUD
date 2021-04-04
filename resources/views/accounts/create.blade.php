@@ -15,7 +15,7 @@
                             <option disabled selected value>Select A Platform</option>
                             <option hidden value="stm">Steam</option>
                             <option value="xbl">Xbox</option>
-                            <option value="psn">PlayStation</option>
+                            <option disabled value="psn">PlayStation</option>
                         </select>
                     </div>
 

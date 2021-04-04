@@ -46,10 +46,11 @@ class GamesController extends Controller
         $games = unserialize($data['games']);
         $allGames = \App\Models\Game::query()->where('platform', $data['platform'])->pluck('game_id')->toArray();
         foreach($games as $game){
+            $unique_key = $data['platform']."-".$game;
             if(in_array($game, $allGames)){
                 //Game already in database, connect to account
-                if (!auth()->user()->accounts()->find($data['id'])->plays()->where(\App\Models\Game::where('game_key',$data['platform']."-".$game)->exists())){
-                    auth()->user()->accounts()->find($data['id'])->plays()->attach(\App\Models\Game::where('game_key',$data['platform']."-".$game)->get());
+                if (!auth()->user()->accounts()->find($data['id'])->plays()->where(\App\Models\Game::where('game_key',$unique_key)->exists())){
+                    auth()->user()->accounts()->find($data['id'])->plays()->attach(\App\Models\Game::where('game_key',$unique_key)->get());
                 }
             }
             else {
@@ -61,8 +62,6 @@ class GamesController extends Controller
                         $info =[];
                         break;
                     }
-                    $unique_key = $data['platform']."-".$game;
-
                     \App\Models\Game::create([
                         'platform' => $data['platform'],
                         'game_key' => $unique_key,
@@ -72,8 +71,8 @@ class GamesController extends Controller
                         'publisher' => $info['publisher'],
                         'release_date' => $info['release_date']
                     ]);
-                    auth()->user()->accounts()->find($data['id'])->plays()->attach(\App\Models\Game::where('game_key',$data['platform']."-".$game)->get());
-
+                    //Attach user to new game entry
+                    auth()->user()->accounts()->find($data['id'])->plays()->attach(\App\Models\Game::where('game_key',$unique_key)->get());
 
                 } catch (\Exception $e) {
                    // dd($game,$e->getMessage());
