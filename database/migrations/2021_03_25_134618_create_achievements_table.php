@@ -18,6 +18,7 @@ class CreateAchievementsTable extends Migration
             $table->string('game_key')->constrained();
             $table->string('name');
             $table->string('description');
+            $table->string('image')->nullable();
 
             $table->index('game_key');
         });

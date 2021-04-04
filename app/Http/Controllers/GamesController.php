@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\GameAPIs\SteamAPIConnector;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use function PHPUnit\Framework\isNull;
 
 class GamesController extends Controller
 {
@@ -30,7 +31,7 @@ class GamesController extends Controller
             $games = $this->steamconnector->getGamesOwnedSimple(auth()->user()->accounts()->find($id)->platform_id);
         }
         elseif ($platform == 'xbl'){
-            //get games from bxl api
+            //get games from xbl api
             $games = NULL;
         }
         else{
@@ -42,21 +43,22 @@ class GamesController extends Controller
     public function store()
     {
 
-        $data = request()->validate(['games' => '', 'platform'=>'', 'id'=>'']);
+        $data = request()->validate(['games' => '', 'platform'=>'', 'account_id'=>'', 'platform_id'=>'']);
         $games = unserialize($data['games']);
         $allGames = \App\Models\Game::query()->where('platform', $data['platform'])->pluck('game_id')->toArray();
+        if($data['platform']=='stm'){
+            $playtimes = $this->steamconnector->getPlaytimeAll($data['platform_id']);
+        }
+        $account = auth()->user()->accounts()->find($data['account_id']);
         foreach($games as $game){
             $unique_key = $data['platform']."-".$game;
             if(in_array($game, $allGames)){
-                //Game already in database, connect to account
-                if (!auth()->user()->accounts()->find($data['id'])->plays()->where(\App\Models\Game::where('game_key',$unique_key)->exists())){
-                    auth()->user()->accounts()->find($data['id'])->plays()->attach(\App\Models\Game::where('game_key',$unique_key)->get());
-                }
+                //Game already in database, skip
             }
             else {
                 try {
                     if($data['platform']=='stm'){
-                        $info = $this->steamconnector->getGameInfoArray($game);
+                        $info = $this->steamconnector->getGameInfo($game)->toDataArray();
                     }
                     else{
                         $info =[];
@@ -69,20 +71,25 @@ class GamesController extends Controller
                         'name' => $info['name'],
                         'developer' => $info['developer'],
                         'publisher' => $info['publisher'],
-                        'release_date' => $info['release_date']
+                        'release_date' => $info['release_date'],
+                        'cover_image'=> $info['cover_image']
                     ]);
-                    //Attach user to new game entry
-                    auth()->user()->accounts()->find($data['id'])->plays()->attach(\App\Models\Game::where('game_key',$unique_key)->get());
 
                 } catch (\Exception $e) {
-                   // dd($game,$e->getMessage());
+                    dd($game,$e->getMessage());
                 }
                 usleep(200);
             }
-
+            if (null === $account->plays()->firstWhere('pivot_game_id',\App\Models\Game::firstwhere('game_key',$unique_key)->id)){
+                $account->plays()->attach(\App\Models\Game::where('game_key',$unique_key)->get());
+            }
+            if(isset($playtimes)) {
+                $account->plays()->updateExistingPivot(\App\Models\Game::firstwhere('game_key', $unique_key)->id,
+                    ['hours_played' => $playtimes[array_search($game,array_column($playtimes,'id'))]['playtime']]);
+            }
          }
 
 
-
+        return redirect()->route('home');
     }
 }

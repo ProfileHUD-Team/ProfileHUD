@@ -8,15 +8,18 @@
         <div class="container">
             <div class="h1">Getting game list from {{auth()->user()->accounts()->find($id)->platform_username}}... </div>
             <div class="h3">Please leave this page open. You will be redirected when the operation is complete.</div>
-            <div><?php print_r(get_defined_vars()['games'])?></div>
         </div>
         <p></p>
         <form name="game" id="game" action="/g" enctype="multipart/form-data" method="post">
             @csrf
-            <input id="id"
+            <input id="account_id"
                     type="hidden"
-                    name="id"
+                    name="account_id"
                     value="{{$id}}" >
+            <input id="platform_id"
+                   type="hidden"
+                   name="platform_id"
+                   value="{{auth()->user()->accounts()->find($id)->platform_id}}" >
             <input id="platform"
                    type="hidden"
                    name="platform"

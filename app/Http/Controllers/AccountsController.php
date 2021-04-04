@@ -16,7 +16,8 @@ class AccountsController extends Controller
         $data = request()->validate([
             'platform' => 'required',
             'platform_username' => 'required',
-            'platform_id' => ''
+            'platform_id' => '',
+            'profile_image' => ''
         ]);
         $unique_key = $data['platform']."-".mb_strtolower($data['platform_username']);
 
@@ -25,13 +26,14 @@ class AccountsController extends Controller
                 'platform' => $data['platform'],
                 'account_key' => $unique_key,
                 'platform_username' => $data['platform_username'],
-                'platform_id' => $data['platform_id']
+                'platform_id' => $data['platform_id'],
+                'profile_image' => $data['profile_image']
             ]);
         }
         catch(\Illuminate\Database\QueryException $exception){
-            echo'Whoops!';
-            echo $exception->getMessage();
-            dd($data);
+            //echo'Whoops!';
+            //echo $exception->getMessage();
+            //dd($data);
 
         }
 

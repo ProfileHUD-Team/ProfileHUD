@@ -103,32 +103,6 @@ class SteamAPIConnector implements GameAPIInterface
 
     }
 
-    public function getGameInfoArray($gameId) : array
-    {
-        // Create the URL.
-        $url = "https://store.steampowered.com/api/appdetails?appids=" . $gameId;
-        // Make the request to get a JSON object.
-        $jsonObject = $this->performRequest($url);
-        // Check if the JSON object has errors. Return an empty object if so.
-        if ($this->hasErrors($jsonObject)) {
-            $nil = SteamAPIConnector::$nullValue;
-            return [];
-        }
-        // Check if the request was successful. Return an empty GameObject if not.
-        $success = $jsonObject[$gameId]['success'];
-        if ($success == false) {
-            return [];
-        }
-        // Parse the JSON object.
-        $data = $jsonObject[$gameId]['data'];
-        $name = $data['name'];
-        $developer = $data['developers'][0];
-        $publisher = $data['publishers'][0];
-        $releaseDate = $data['release_date']['date'];
-        $releaseDate = $this->changeDateFormat($releaseDate);
-        // Create and return the GameObject.
-        return ['name'=>$name, 'publisher'=>$publisher, 'developer'=>$developer, 'release_date'=>$releaseDate];
-    }
 
     /**
      * Get the SteamUser object that corresponds to the provided Steam user ID.
@@ -488,6 +462,24 @@ class SteamAPIConnector implements GameAPIInterface
         return -1;
     }
 
+    /**
+     * Get the number of hours played for all of the user's games.
+     * @param $userId : The Steam ID of the user.
+     * @param $gameId : The Steam ID of the game.
+     * @return int : The number of hours played.
+     */
+    public function getPlaytimeAll($userId) : array
+    {
+        // Get the list of game IDs and playtimes.
+        $gamesData = $this->getGameIdsAndPlaytimes($userId);
+        $playtimesArray = [];
+        // Find the corresponding game ID to get the correct playtime.
+        foreach ($gamesData as $gameDatum) {
+            $playtimesArray[] = ['id' => $gameDatum['appid'], 'playtime' => (int)($gameDatum['playtime_forever']/60)];
+        }
+
+        return $playtimesArray;
+    }
     /**
      * Load the list of achievements given the JSON arrays of the user's and the game's achievements.
      * @param $playerAchievements : A JSON array of the user's achievements.

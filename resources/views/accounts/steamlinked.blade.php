@@ -20,6 +20,10 @@
                    type="hidden"
                    name="platform_id"
                    value="{{ $steamID }}" >
+            <input id="profile_image"
+                   type="hidden"
+                   name="profile_image"
+                   value="{{"$profileImage"}}" >
         </form>
     </div>
     </body>

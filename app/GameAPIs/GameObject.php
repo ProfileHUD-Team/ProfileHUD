@@ -132,6 +132,22 @@ class GameObject
         $this->coverImage = $url;
     }
 
+    /**
+     * Get the contents of this game object as an array.
+     * @return array
+     */
+    public function toDataArray(): array
+    {
+        $data = [];
+        $data['game_id'] = $this->id;
+        $data['name'] = $this->name;
+        $data['developer'] = $this->developer;
+        $data['publisher'] = $this->publisher;
+        $data['release_date'] = $this->releaseDate;
+        $data['cover_image'] = $this->coverImage;
+        return $data;
+    }
+
     public function toString() : string
     {
         return 'Name: ' . $this->name . '<br>'
