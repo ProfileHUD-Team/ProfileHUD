@@ -49,9 +49,9 @@
 
         <form action="xboxid" method="GET">
 
-            <h1>Get user ID</h1>
+            <h1>Enter Xbox Gamer Tag</h1>
             <input type="text" name="userid" placeholder="Enter Gamer Tag Here"><br><br>
-            <button type="submit" onclick="userid()">Get xuid</button>
+            <button type="submit" onclick="userid()">link</button>
 
         </form>
 
