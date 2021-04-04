@@ -147,6 +147,9 @@ class SteamUser
         $data['steamID'] = $this->id;
         $data['username'] = $this->username;
         $data['gameList'] = $this->gameListSimple;
+        if(isset($this->profileImage)) {
+            $data['profileImage'] = $this->profileImage;
+        }
         return $data;
     }
 

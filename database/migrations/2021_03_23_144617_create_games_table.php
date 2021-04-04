@@ -19,6 +19,7 @@ class CreateGamesTable extends Migration
             $table->string('platform');
             $table->string('game_id');
             $table->string('name')->nullable();
+            $table->string('cover_image')->nullable();
             $table->string('developer')->nullable();
             $table->string('publisher')->nullable();
             $table->string('release_date')->nullable();

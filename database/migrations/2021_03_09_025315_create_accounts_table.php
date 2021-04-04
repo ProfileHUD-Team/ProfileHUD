@@ -19,6 +19,7 @@ class CreateAccountsTable extends Migration
             $table->foreignId('user_id')->constrained();
             $table->string('platform_id')->nullable();
             $table->string('platform_username');
+            $table->string('profile_image')->nullable();
             $table->string('platform');
             $table->boolean('isVerified')->default(false);
             $table->timestamps();
