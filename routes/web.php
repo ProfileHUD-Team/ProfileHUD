@@ -34,6 +34,7 @@ Auth::routes();
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::view('/welcome', 'welcome');
 Route::view('/aboutus', 'aboutus');
+Route::view('/test', 'test');
 
 //Account Adding Pages
 Route::get('/a/create', [AccountsController::class, 'create']);
