@@ -29,7 +29,7 @@
 
                 <label>
                     <br>
-                    To view Games:  <input type="text" placeholder="Enter User ID Here" name="achievements">
+                     <input type="hidden" value="{{$data['xuid'] }}" name="achievements">
                 </label>
                 <button type="submit" onclick="submit_soap()">View Games</button>
 

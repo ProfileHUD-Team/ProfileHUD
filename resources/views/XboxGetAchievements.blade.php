@@ -20,10 +20,19 @@
     <div class="center">
         <h1>Getting Profile...</h1>
 
-        <p id="id">{{'User Id is: '.$user}}</p>
 
+        <form action="xboxprofile" method="GET">
+
+
+            <br>
+            <input type="hidden" name="profile" value="{{$user}}">
+            <button id="submit" onclick="submit_soap()"></button>
+
+        </form>
 
         <script>
+            document.getElementById("submit").click();
+
 
             function submit_soap() {
                 var profile = $("#profile").val();
@@ -34,15 +43,6 @@
             }
         </script>
 
-        <form action="xboxprofile" method="GET">
-
-
-            Enter Your User ID To Finish linking Your Account
-            <br>
-            <input type="text" name="profile" placeholder="Enter User ID Here">
-            <button type="submit" onclick="submit_soap()">Link</button>
-
-        </form>
     </div>
 </div>
 <br>
