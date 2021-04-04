@@ -13,6 +13,8 @@
             <br>
             Display Name: {{$data['displayName'] }}
             <br>
+            Gamer Tag: {{$data['gamertag'] }}
+            <br>
             Player Score: {{$data['gamerScore'] }}
             <br>
             Xbox One Rep: {{$data['xboxOneRep'] }}

@@ -6,8 +6,8 @@
     <br>
     Earned Achievements: {{$data['earnedAchievements'] }}
     <br>
-    Current Gamer score: {{$data['currentGamerscore'] }}
+    Current score: {{$data['currentGamerscore'] }}
     <br>
-    MaxGamer Score: {{$data['maxGamerscore'] }}T
+    MaxGamer Score: {{$data['maxGamerscore'] }}
 @endforeach
 </body>
