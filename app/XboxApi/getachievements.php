@@ -28,7 +28,7 @@ class getachievements
 
         } else {
 
-            echo '<h2>No achievements available<h2>';
+            echo '<h2>No Games available<h2>';
 
         }
 
