@@ -27,10 +27,8 @@
             <form action="userprofile" method="GET">
 
 
-                <label>
-                    <br>
-                    <input type="hidden" value="{{$data['xuid'] }}" name="achievements">
-                </label>
+                <br>
+                <input type="hidden" value="{{$data['xuid'] }}" name="achievements">
                 <button type="submit" onclick="submit_soap()">View Games</button>
 
             </form>
