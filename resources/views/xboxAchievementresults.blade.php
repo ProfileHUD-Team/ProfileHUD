@@ -19,7 +19,7 @@
 
 
 
-<center>
+<div style="text-align: center;">
     <script>
         function submit_soap() {
             var records = $("#records").val();
@@ -44,5 +44,5 @@
     </style>
 
 
-</center>
+</div>
 
