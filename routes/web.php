@@ -63,6 +63,6 @@ Route::get('a/steamlinked', [SteamPagesController::class, 'steamLinked'])->name(
 Route::view('/linkxbox','xboxlink');
 Route::get('/xboxid', [getuserid::class, 'getData',])->name('xboxid');
 Route::get('/xboxprofile', [xboxProfile::class, 'xboxProfile'])->name('xboxprofile');
-Route::get('/userprofile', [getachievements::class, 'achievements'])->name('xboxprofile');
-Route::get('/playerrecord', [records::class, 'record'])->name('playerrecord');
+Route::get('/userprofile', [getachievements::class, 'achievements'])->name('userprofile');
+
 

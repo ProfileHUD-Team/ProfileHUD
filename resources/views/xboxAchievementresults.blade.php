@@ -4,13 +4,17 @@
 
 
     <div>
-
         <img src={{$data['displayImage'] }} style="width:128px;height:128px" alt="icon">
         <br>
-        <form action="playerrecord" method="GET">
-            <input type="hidden" name="records" value="{{$data['titleId']}}">
-            <button type="submit" onclick="submit_soap()">Game Stats</button>
-        </form>
+        Current Achievements: {{$data['achievement']['currentAchievements']}}
+        <br>
+        Total Achievements: {{$data['achievement']['totalAchievements']}}
+        <br>
+        Current Gamerscore: {{$data['achievement']['currentGamerscore']}}
+        <br>
+        Total Gamerscore :{{$data['achievement']['totalGamerscore']}}
+        <br>
+        Progress Percentage: {{$data['achievement']['progressPercentage']}}
     </div>
 
 
@@ -19,29 +23,19 @@
 
 
 <div style="text-align: center;">
-    <script>
-        function submit_soap() {
-            var records = $("#records").val();
-            $.get("playerrecord", {records: records},
-                function (data) {
-                    $("#json_response").html(data);
-                });
-        }
 
-
-    </script>
     <style>
         div {
 
             border: 1px;
-            display: inline-block;
+            display: flex;
 
 
         }
 
         button {
 
-            cursor:hand;
+            cursor: hand;
 
             font-size: 10px;
             border: 2px solid #222;
