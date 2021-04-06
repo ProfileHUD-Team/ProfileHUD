@@ -1,51 +1,86 @@
-@extends('layouts.app');
+
+
+@extends('layouts.app')
 
 @section('content')
+
     <div class="container">
-        <form action="/a" enctype="multipart/form-data" method="post">
-            @csrf
-            <div class="row">
-                <div class="col-4 offset-1">
-                    <div class="row">
-                        <div class="h2">Add an Account</div>
-                    </div>
-                    <div class="row pt-4 pl-4">
-                        <label for="platform" class="col-md-4 col-form-label text-md-center"> Platform </label>
-                        <select id="platform" name="platform">
-                            <option disabled selected value>Select A Platform</option>
-                            <option hidden value="stm">Steam</option>
-                            <option value="xbl">Xbox</option>
-                            <option disabled value="psn">PlayStation</option>
-                        </select>
+
+        <div class="row justify-content-center">
+
+            <div class="col-md-8">
+
+                <div class="card">
+
+                    <div class="card-header">
+                        Add Profile Account
                     </div>
 
-                    <div class="row pt-4">
-                        <label for="platform_username" class="col-md-4 col-form-label text-md-right">{{ __('Account Name') }}</label>
+                    <div class="card-body">
+                        <form action="/a" enctype="multipart/form-data" method="post">
+                            @csrf
 
-                        <div class="col-md-6">
-                            <input id="platform_username"
-                                   type="text"
-                                   class="form-control @error('name') is-invalid @enderror"
-                                   name="platform_username"
-                                   value="{{ old('name') }}" required autofocus>
+                            <div class="form-group row">
 
-                            @error('platform_username')
-                            <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                            @enderror
+                                <label for="platform_username" class="col-md-4 col-form-label text-md-right">
+                                    {{ __('Account Name') }}
+                                </label>
+
+                                <div class="col-md-6">
+                                    <input id="platform_username"
+                                           type="text"
+                                           class="form-control @error('name') is-invalid @enderror"
+                                           name="platform_username"
+                                           value="{{ old('name') }}" required autofocus>
+
+                                    @error('platform_username')
+                                    <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+
+                                <label for="platform" class="col-md-4 col-form-label text-md-right">
+                                    Platform
+                                </label>
+
+                                <label class="radio-inline" style="padding-top: 10px; padding-left: 15px">
+                                    <input type="radio" id="platform" name="platform" value="xbl" checked>
+                                    Xbox
+                                </label>
+
+                                <label class="radio-inline" style="padding-top: 10px; padding-left: 15px">
+                                    <input type="radio" id="platform" name="platform" value="psn" disabled>
+                                    PlayStation
+                                </label>
+
+                            </div>
+
+                            <div class="form-group row mb-0">
+                                <div class="col-md-8 offset-md-4">
+
+                                    <button type="submit" class="btn btn-primary">
+                                        Link Account
+                                    </button>
+
+                                </div>
+                            </div>
+                        </form>
+
+                        <div class="offset-md-4" style="padding-top: 25px; padding-left: 10px">
+
+                            <form action='steamredirect' method='get'>
+                                <input type="image" src="https://community.cloudflare.steamstatic.com/public/images/signinthroughsteam/sits_02.png">
+                            </form>
+
                         </div>
-                    </div>
 
-                    <div class="row pt-3 pl-2 offset-4">
-                        <button class="btn btn-primary">Link Account</button>
                     </div>
                 </div>
             </div>
-        </form>
-        <div class="h5 pt-4 offset-2"> <b>OR</b>
-        <form class="pt-4" action='steamredirect' method='get'>
-            <input type="image" src="https://community.cloudflare.steamstatic.com/public/images/signinthroughsteam/sits_02.png" alt="">
-        </form>
+        </div>
     </div>
 @endsection
