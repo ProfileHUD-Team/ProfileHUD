@@ -54,13 +54,6 @@
             });
     }
 
-    function gamertag() {
-        var profile = $("#profile").val();
-        $.get("xboxprofile", {profile: profile},
-            function (data) {
-                $("#json_response").html(data);
-            });
-    }
 
     function submit_soap() {
         var gamertag = $("#userid").val();
@@ -141,7 +134,7 @@
 
 
     button {
-        cursor:hand;
+        cursor: hand;
         position: absolute;
         top: 70%;
         left: 50%;
