@@ -9,8 +9,9 @@ class Achievement extends Model
 {
     use HasFactory;
     protected $guarded = [];
+    public $timestamps = false;
 
-    public function game()
+    public function game(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Game::class);
     }

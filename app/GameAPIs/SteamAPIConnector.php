@@ -233,8 +233,8 @@ class SteamAPIConnector implements GameAPIInterface
             return new AchievementList();
         }
         // Get the lists of achievements in both JSON objects and use them to load the AchievementList.
-        $playerAchievements = $jsonObject1['playerstats']['achievements'];
-        $gameAchievements = $jsonObject2['game']['availableGameStats']['achievements'];
+        $playerAchievements = $jsonObject1['playerstats']['achievements'] ?? [];
+        $gameAchievements = $jsonObject2['game']['availableGameStats']['achievements'] ?? [];
         return $this->loadAchievements($playerAchievements, $gameAchievements);
     }
 
@@ -497,7 +497,7 @@ class SteamAPIConnector implements GameAPIInterface
             $gameAchievement = $gameAchievements[$i];
             // Get each attribute to construct an Achievement object.
             $name = $gameAchievement['displayName'];
-            $description = $gameAchievement['description'];
+            $description = $gameAchievement['description'] ?? 'No Description';
             $earned = $this->getBooleanValue($playerAchievement['achieved']);
             $dateEarned = $playerAchievement['unlocktime'];
             $dateEarned = $this->convertUnixEpochTimeToDate($dateEarned);

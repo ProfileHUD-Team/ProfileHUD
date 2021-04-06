@@ -22,7 +22,6 @@ class CreateAccountsTable extends Migration
             $table->string('profile_image')->nullable();
             $table->string('platform');
             $table->boolean('isVerified')->default(false);
-            $table->timestamps();
 
             $table->index('user_id');
         });

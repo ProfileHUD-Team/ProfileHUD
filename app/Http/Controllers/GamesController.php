@@ -6,6 +6,7 @@ use App\GameAPIs\SteamAPIConnector;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use function PHPUnit\Framework\isNull;
+use \App\Models\Game as Game;
 
 class GamesController extends Controller
 {
@@ -40,6 +41,9 @@ class GamesController extends Controller
         return view('games.create', ['platform'=>$platform,'id'=>$id, 'games'=>$games]);
     }
 
+    /**
+     * Stores game info in DB and connects accounts to games
+     */
     public function store()
     {
 
@@ -80,16 +84,16 @@ class GamesController extends Controller
                 }
                 usleep(200);
             }
-            if (null === $account->plays()->firstWhere('pivot_game_id',\App\Models\Game::firstwhere('game_key',$unique_key)->id)){
-                $account->plays()->attach(\App\Models\Game::where('game_key',$unique_key)->get());
+            if (null === $account->plays()->firstWhere('pivot_game_id',Game::firstwhere('game_key',$unique_key)->id)){
+                $account->plays()->attach(Game::where('game_key',$unique_key)->get());
             }
             if(isset($playtimes)) {
-                $account->plays()->updateExistingPivot(\App\Models\Game::firstwhere('game_key', $unique_key)->id,
+                $account->plays()->updateExistingPivot(Game::firstwhere('game_key', $unique_key)->id,
                     ['hours_played' => $playtimes[array_search($game,array_column($playtimes,'id'))]['playtime']]);
             }
          }
 
 
-        return redirect()->route('home');
+        return redirect()->route('ach.create',[ $data['platform'],$data['account_id']]);
     }
 }
