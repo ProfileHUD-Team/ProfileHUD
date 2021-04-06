@@ -22,7 +22,7 @@ class Achievement
      * Description for the requirements to earn this achievement/trophy.
      * @var string
      */
-    private $description;
+    private $description = "No Description";
 
     /**
      * Had the achievement/trophy been earned? True if so, false otherwise.
@@ -111,6 +111,21 @@ class Achievement
         $this->iconImage = $iconImage;
     }
 
+    /**
+     * Get the contents of this achievement object as an array.
+     * @return array
+     */
+    public function toDataArray(): array
+    {
+        $data = [];
+        $data['name'] = $this->name;
+        $data['description'] = $this->description;
+        $data['is_earned'] = $this->earned;
+        $data['date_earned'] = $this->dateEarned;
+        $data['image'] = $this->iconImage;
+        return $data;
+    }
+
     public function toString() : string
     {
         $earnedStr = '1';
@@ -120,7 +135,8 @@ class Achievement
         return 'Name: ' . $this->name . '<br>'
             . 'Description: ' . $this->description . '<br>'
             . 'Earned: ' . $earnedStr . '<br>'
-            . 'Date Earned: ' . $this->dateEarned . '<br>';
+            . 'Date Earned: ' . $this->dateEarned . '<br>'
+            . 'Img:' . $this->iconImage . '<br>';
     }
 
 }

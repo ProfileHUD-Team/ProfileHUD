@@ -14,13 +14,13 @@ class CreateAchievementsTable extends Migration
     public function up()
     {
         Schema::create('achievements', function (Blueprint $table) {
-            $table->string('achievement_key')->unique();
-            $table->string('game_key')->constrained();
+            $table->id();
+            $table->foreignId('game_id');
             $table->string('name');
-            $table->string('description');
+            $table->string('description')->default("No description");
             $table->string('image')->nullable();
 
-            $table->index('game_key');
+            $table->index('game_id');
         });
     }
 

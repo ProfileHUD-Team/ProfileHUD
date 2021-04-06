@@ -44,6 +44,10 @@ Route::post('/a', [AccountsController::class, 'store']);
 Route::get('/g/create/platform={platform}&id={id}', [\App\Http\Controllers\GamesController::class, 'create'])->name('g.create');
 Route::post('/g', [\App\Http\Controllers\GamesController::class, 'store']);
 
+//Achievement adding pages
+Route::get('/ach/create/platform={platform}&id={id}', [\App\Http\Controllers\AchievementsController::class, 'create'])->name('ach.create');
+Route::post('/ach', [\App\Http\Controllers\AchievementsController::class, 'store']);
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

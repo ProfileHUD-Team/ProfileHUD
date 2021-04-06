@@ -19,7 +19,7 @@ class CreatesAccountGamePivotTable extends Migration
             $table->foreignId('game_id');
             $table->integer('hours_played')->nullable();
 
-            $table->index('account_key');
+            $table->index('account_id');
         });
     }
 

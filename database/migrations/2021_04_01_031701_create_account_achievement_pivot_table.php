@@ -19,6 +19,8 @@ class CreateAccountAchievementPivotTable extends Migration
             $table->string('achievement_id')->constrained();
             $table->boolean('is_earned')->default(false);
             $table->timestamp('date_earned')->nullable();
+
+            $table->index('account_id');
         });
     }
 

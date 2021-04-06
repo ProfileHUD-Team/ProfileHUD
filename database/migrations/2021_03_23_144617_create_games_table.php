@@ -23,9 +23,9 @@ class CreateGamesTable extends Migration
             $table->string('developer')->nullable();
             $table->string('publisher')->nullable();
             $table->string('release_date')->nullable();
+            $table->boolean('has_achievements')->default(true);
 
             $table->index('platform');
-            $table->timestamps();
         });
     }
 

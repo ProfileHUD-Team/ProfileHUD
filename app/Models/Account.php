@@ -11,6 +11,7 @@ class Account extends Model
     use HasFactory;
 
     protected $guarded = [];
+    public $timestamps = false;
 
     protected static function boot()
     {

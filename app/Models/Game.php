@@ -10,10 +10,11 @@ class Game extends Model
     use HasFactory;
 
     protected $guarded = [];
+    public $timestamps = false;
 
-    public function achievements()
+    public function achievements(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(Achievment::class);
+        return $this->hasMany(Achievement::class);
     }
 
     public function players()
