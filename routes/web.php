@@ -9,7 +9,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TestsController;
 use App\Http\Controllers\AccountsController;
 use App\Http\Controllers\SteamPagesController;
-
+use App\Http\Controllers\GamePageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -63,6 +63,8 @@ Route::get('a/steamlinked', [SteamPagesController::class, 'steamLinked'])->name(
 Route::view('/linkxbox','xboxlink');
 Route::get('/xboxid', [getuserid::class, 'getData',])->name('xboxid');
 Route::get('/xboxprofile', [xboxProfile::class, 'xboxProfile'])->name('xboxprofile');
-Route::get('/userprofile', [getachievements::class, 'achievements'])->name('xboxprofile');
-Route::get('/playerrecord', [records::class, 'record'])->name('playerrecord');
+Route::get('/userprofile', [getachievements::class, 'achievements'])->name('userprofile');
 
+
+// Display game information routes
+Route::get('/steamgame/gameid={id}', [GamePageController::class, 'viewSteamGame']);

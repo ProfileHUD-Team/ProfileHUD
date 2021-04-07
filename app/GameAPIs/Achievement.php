@@ -85,6 +85,14 @@ class Achievement
         return $this->earned;
     }
 
+    public function isEarnedStr() : string
+    {
+        if ($this->earned) {
+            return "Yes";
+        }
+        return "No";
+    }
+
     /**
      * @return string
      */
