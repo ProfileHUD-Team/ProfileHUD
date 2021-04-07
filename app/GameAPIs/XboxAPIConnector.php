@@ -100,16 +100,7 @@ class XboxAPIConnector implements GameAPIInterface
         }
         return $gameIDs;
     }
-    public function getGameInfoArr($gameId) : array
-    {
-        //convert the id into hex
-        $hexId = dechex(intval($gameId));
-        // Create the URL.
-        $url = $this->baseAPIUrl . 'game-details-hex/' . $hexId;
-        // Make the request to get a JSON object.
-        $data = $this->performRequest($url);
-        return $data;
-    }
+
 
     /**
      * @inheritDoc
@@ -121,19 +112,20 @@ class XboxAPIConnector implements GameAPIInterface
         // Create the URL.
         $url = $this->baseAPIUrl . 'game-details-hex/' . $hexId;
         // Make the request to get a JSON object.
-        $data = $this->performRequest($url)['Items'][0];
+        $data = $this->performRequest($url);
         // Check if the JSON object has errors. Return an empty object if so.
-        if ($this->hasErrors($data)) {
+        if ($this->hasErrors($data) or !array_key_exists('Items', $data)) {
             $nil = XboxAPIConnector::$nullValue;
             return new GameObject($nil, $nil, $nil, $nil, $nil);
         }
+        $data = $data['Items'][0];
         // Parse the JSON object.
         $name = $data['Name'];
         $developer = $data['DeveloperName'];
         $publisher = $data['PublisherName'];
         $releaseDate = $data['ReleaseDate'] ?? '/Date(1483228800)/';
         $releaseDate = $this->changeDateFormat($releaseDate);
-        $images = $data['Images'];
+        $images = $data['Images'] ?? [];
         $coverImage = "";
         foreach($images as $image){
             if($image['Purpose'] == "BoxArt"){
@@ -315,4 +307,19 @@ class XboxAPIConnector implements GameAPIInterface
         return date_format($date,"m/d/Y");
     }
 
+    /**
+     * Get the game info for the specified game and return it as an array. Used for troubleshooting in development.
+     * @param $gameId
+     * @return array
+     */
+    private function getGameInfoArr($gameId) : array
+    {
+        //convert the id into hex
+        $hexId = dechex(intval($gameId));
+        // Create the URL.
+        $url = $this->baseAPIUrl . 'game-details-hex/' . $hexId;
+        // Make the request to get a JSON object.
+        $data = $this->performRequest($url);
+        return $data;
+    }
 }
