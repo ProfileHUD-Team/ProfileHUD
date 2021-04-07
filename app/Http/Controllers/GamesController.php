@@ -54,16 +54,17 @@ class GamesController extends Controller
      */
     public function store()
     {
-
+        ini_set('max_execution_time', 300);
         $data = request()->validate(['games' => '', 'platform'=>'', 'account_id'=>'', 'platform_id'=>'']);
         $games = unserialize($data['games']);
-        $allGames = \App\Models\Game::query()->where('platform', $data['platform'])->pluck('game_id')->toArray();
+        $allGames = \App\Models\Game::query()->where('platform', $data['platform'])->pluck('game_id')->toArray() ?? [];
         if($data['platform']=='stm'){
             $playtimes = $this->steamconnector->getPlaytimeAll($data['platform_id']);
         }
         $account = auth()->user()->accounts()->find($data['account_id']);
         foreach($games as $game){
             $unique_key = $data['platform']."-".$game;
+
             if(in_array($game, $allGames)){
                 //Game already in database, skip
             }
@@ -71,6 +72,8 @@ class GamesController extends Controller
                 try {
                     if($data['platform']=='stm'){
                         $info = $this->steamconnector->getGameInfo($game)->toDataArray();
+                    }elseif($data['platform']=='xbl'){
+                        $info = $this->xboxconnector->getGameInfo($game)->toDataArray();
                     }
                     else{
                         $info =[];
@@ -90,7 +93,9 @@ class GamesController extends Controller
                 } catch (\Exception $e) {
                     dd($game,$e->getMessage());
                 }
-                usleep(200);
+                if($data['platform']=='stm') {
+                    usleep(200);
+                }
             }
             if (null === $account->plays()->firstWhere('pivot_game_id',Game::firstwhere('game_key',$unique_key)->id)){
                 $account->plays()->attach(Game::where('game_key',$unique_key)->get());
