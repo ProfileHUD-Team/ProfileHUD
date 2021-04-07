@@ -12,10 +12,12 @@ use function PHPUnit\Framework\isEmpty;
 class AchievementsController extends Controller
 {
     protected $steamconnector;
+    protected $xboxconnector;
 
     public function __construct()
     {
         $this->steamconnector = new SteamAPIConnector(\Illuminate\Support\Facades\Config::get('steam-auth.api_key'));
+        $this->xboxconnector = new XboxAPIConnector(env('XBOX_API_KEY'));
     }
 
     /**
@@ -25,16 +27,8 @@ class AchievementsController extends Controller
      */
     public function create($platform, $id)
     {
-        if($platform == 'stm'){
-            $games = auth()->user()->accounts()->find($id)->plays->pluck('game_id')->toArray();
-        }
-        elseif ($platform == 'xbl'){
-            //get games from xbl api
-            $games = NULL;
-        }
-        else{
-            $games = NULL;
-        }
+        $games = auth()->user()->accounts()->find($id)->plays->pluck('game_id')->toArray();
+
         return view('achievements.create', ['platform'=>$platform,'id'=>$id, 'games'=>$games]);
     }
 
@@ -56,7 +50,9 @@ class AchievementsController extends Controller
                         if ($data['platform'] == 'stm') {
                             $allAchievements = $this->steamconnector->getAchievements($account->platform_id, $game)->getList() ?? [];
 
-                        } else {
+                        } elseif ($data['platform'] == 'xbl'){
+                            $allAchievements = $this->xboxconnector->getAchievements($account->platform_id, $game)->getList() ?? [];
+                        } else{
                             $info = [];
                             break;
                         }

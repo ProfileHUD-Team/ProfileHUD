@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\GameAPIs\SteamAPIConnector;
+use App\GameAPIs\XboxAPIConnector;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use function PHPUnit\Framework\isNull;
@@ -15,10 +16,16 @@ class GamesController extends Controller
      * @var SteamAPIConnector
      */
     protected $steamconnector;
+    /**
+     * XboxAPIConnector.
+     * @var SteamAPIConnector
+     */
+    protected $xboxconnector;
 
     public function __construct()
     {
         $this->steamconnector = new SteamAPIConnector(\Illuminate\Support\Facades\Config::get('steam-auth.api_key'));
+        $this->xboxconnector = new XboxAPIConnector(env('XBOX_API_KEY'));
     }
 
     /**
@@ -28,12 +35,13 @@ class GamesController extends Controller
      */
     public function create($platform, $id)
     {
+        $account = auth()->user()->accounts()->find($id)->platform_id;
         if($platform == 'stm'){
-            $games = $this->steamconnector->getGamesOwnedSimple(auth()->user()->accounts()->find($id)->platform_id);
+            $games = $this->steamconnector->getGamesOwnedSimple($account);
         }
         elseif ($platform == 'xbl'){
             //get games from xbl api
-            $games = NULL;
+            $games = $this->xboxconnector->getGamesOwnedSimple($account);
         }
         else{
             $games = NULL;
