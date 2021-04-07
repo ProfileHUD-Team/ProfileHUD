@@ -9,7 +9,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TestsController;
 use App\Http\Controllers\AccountsController;
 use App\Http\Controllers\SteamPagesController;
-
+use App\Http\Controllers\GamePageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,3 +66,5 @@ Route::get('/xboxprofile', [xboxProfile::class, 'xboxProfile'])->name('xboxprofi
 Route::get('/userprofile', [getachievements::class, 'achievements'])->name('userprofile');
 
 
+// Display game information routes
+Route::get('/steamgame/gameid={id}', [GamePageController::class, 'viewSteamGame']);
