@@ -15,7 +15,7 @@ use Illuminate\Http\Request;
 
 class HomePageController extends Controller
 {
-    public function show($Account)
+    public function show($Account, $user, $plays, $achieves)
     {
         $Account = Account::findOrFail($Account);
         $user = user::find($user);
