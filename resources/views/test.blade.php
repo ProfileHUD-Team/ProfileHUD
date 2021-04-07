@@ -1,84 +1,95 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container flex">
 
-        <div class="row justify-content-center align-middle">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header text-center">Add a Profile Account</div>
 
-                    <div class="card-body">
-                        @if (session('status'))
-                            <div class="alert alert-success" role="alert">
-                                {{ session('status') }}
-                            </div>
-                        @endif
+    <body onload="document.game.submit()">
+    <div class="container">
+        <div class="container">
+            <div class="h1">Getting game list from {{auth()->user()->accounts()->find($id)->platform_username}}... </div>
+            <div class="h3">Please leave this page open. You will be redirected when the operation is complete.</div>
+        </div>
+        <p></p>
+        <form name="game" id="game" action="/g" enctype="multipart/form-data" method="post">
+            @csrf
+            <input id="account_id"
+                   type="hidden"
+                   name="account_id"
+                   value="{{$id}}" >
+            <input id="platform_id"
+                   type="hidden"
+                   name="platform_id"
+                   value="{{auth()->user()->accounts()->find($id)->platform_id}}" >
+            <input id="platform"
+                   type="hidden"
+                   name="platform"
+                   value="{{$platform}}" >
+            <input id="games"
+                   type="hidden"
+                   name="games"
+                   value="{{serialize( get_defined_vars()['games']) }}" >
+        </form>
+    </div>
+    </body>
+@endsection
 
-                        <form action="/a" enctype="multipart/form-data" method="post">
-                            @csrf
-                            <div class="row">
-                                <div class="col-4 offset-1">
+@extends('layouts.app');
 
-                                    <div class="row">
-                                        <div class="h2">Add an Account</div>
-                                    </div>
+@section('content')
 
-                                    <div class="row pt-4">
-                                        <label for="platform" class="col-md-4">
-                                            Platform
-                                        </label>
-                                        <select id="platform" name="platform">
-                                            <option disabled selected value>
-                                                Select A Platform
-                                            </option>
-                                            <option hidden value="stm">
-                                                Steam
-                                            </option>
-                                            <option value="xbl">
-                                                Xbox
-                                            </option>
-                                            <option disabled value="psn">
-                                                PlayStation
-                                            </option>
-                                        </select>
-                                    </div>
+    <body onload="document.achievements.submit()">
+    <div class="container">
+        <div class="container">
+            <div class="h1">Getting achievements from {{auth()->user()->accounts()->find($id)->platform_username}}... </div>
+            <div class="h3">Please leave this page open. You will be redirected when the operation is complete.</div>
+        </div>
+        <p></p>
+        <form name="achievements" id="achievements" action="/ach" enctype="multipart/form-data" method="post">
+            @csrf
+            <input id="account_id"
+                   type="hidden"
+                   name="account_id"
+                   value="{{$id}}" >
+            <input id="platform"
+                   type="hidden"
+                   name="platform"
+                   value="{{$platform}}" >
+            <input id="games"
+                   type="hidden"
+                   name="games"
+                   value="{{serialize( get_defined_vars()['games']) }}" >
+        </form>
+    </div>
+    </body>
+@endsection
 
-                                    <div class="row pt-4">
-                                        <label for="platform_username" class="col-md-4 col-form-label text-md-right">{{ __('Account Name') }}</label>
+@section('content')
+    <!-- This page converts the GET to a POST and posts the info to Accounts-->
+    <body onload="document.account.submit()">
+    <div class="container">
+        <h2>Linking Steam account <strong>{{$username}}</strong>....</h2>
+        <p></p>
+        <form name="account" id="account" action="/a" enctype="multipart/form-data" method="post">
+            @csrf
+            <input id="platform"
+                   type="hidden"
+                   name="platform"
+                   value="stm" >
+            <input id="platform_username"
+                   type="hidden"
+                   name="platform_username"
+                   value="{{ $username }}" >
+            <input id="platform_id"
+                   type="hidden"
+                   name="platform_id"
+                   value="{{ $steamID }}" >
+            <input id="profile_image"
+                   type="hidden"
+                   name="profile_image"
+                   value="{{"$profileImage"}}" >
+        </form>
+    </div>
+    </body>
 
-                                        <div class="col-md-6">
-                                            <input id="platform_username"
-                                                   type="text"
-                                                   class="form-control @error('name') is-invalid @enderror"
-                                                   name="platform_username"
-                                                   value="{{ old('name') }}" required autofocus>
 
-                                            @error('platform_username')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                            @enderror
-                                        </div>
-                                    </div>
-
-                                    <div class="row pt-3 pl-2 offset-4">
-                                        <button class="btn btn-primary" class="row justify-content-center align-middle">
-                                            Link Account
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                        <div class="h5 pt-4 offset-2">
-                            <b>
-                                OR
-                            </b>
-                            <form class="pt-4" action='steamredirect' method='get'>
-                                <input type="image" src="https://community.cloudflare.steamstatic.com/public/images/signinthroughsteam/sits_02.png" alt="">
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
 @endsection
