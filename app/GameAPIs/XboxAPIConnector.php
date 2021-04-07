@@ -12,6 +12,13 @@ use Illuminate\Support\Facades\Http as Http;
  */
 class XboxAPIConnector implements GameAPIInterface
 {
+    //============================ STATIC PROPERTIES ============================
+
+    /**
+     * Null string to be used when returning empty objects.
+     * @var string
+     */
+    public static $nullValue = 'NULL';
 
     //============================ CLASS PROPERTIES ============================
 
@@ -28,7 +35,7 @@ class XboxAPIConnector implements GameAPIInterface
     private $baseAPIUrl;
 
     /**
-     * A list of any errors encountered when making requests with this connector object.
+     * A list of any errors encountered when making requeFsts with this connector object.
      * @var array
      */
     private $errorLog;
