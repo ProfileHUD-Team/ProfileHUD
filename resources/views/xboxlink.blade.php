@@ -42,9 +42,6 @@
         document.getElementById("popup-1").classList.toggle("active");
     }
 
-    function togglePopup2() {
-        document.getElementById("popup-1").classList.toggle("active");
-    }
 
     function userid() {
         var gamertag = $("#userid").val();
