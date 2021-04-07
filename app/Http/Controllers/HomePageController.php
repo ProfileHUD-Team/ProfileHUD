@@ -15,12 +15,13 @@ use Illuminate\Http\Request;
 
 class HomePageController extends Controller
 {
-    public function show($Account, $user, $plays, $achieves)
+    public function index($Account, $user, $plays, $achieves)
     {
         $Account = Account::findOrFail($Account);
         $user = user::find($user);
         $plays = plays::find($plays);
         $achieves = achieves::find ($achieves);
+        auth()->user()
 
         return view('home', [
             'Account'=> $Account,
