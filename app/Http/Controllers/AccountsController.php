@@ -3,9 +3,24 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\GameAPIs\XboxAPIConnector;
 
 class AccountsController extends Controller
 {
+    public function getProfile()
+    {   $data = request()->validate([
+        'platform' => 'required',
+        'platform_username' => 'required']);
+
+        if($data['platform'] == 'xbl') {
+            $xboxController = new XboxAPIConnector(env('XBOX_API_KEY'));
+            $xboxData = $xboxController->getXboxUser($data['platform_username']);
+            return view('accounts/xboxlinked', $xboxData);
+        }
+        else{
+            return redirect()->route('home');
+        }
+    }
     public function create()
     {
         return view('accounts.create');

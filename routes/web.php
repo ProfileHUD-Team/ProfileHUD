@@ -59,7 +59,8 @@ Route::get('/steamlogin', [SteamPagesController::class, 'steamLogin'])->name('st
 Route::get('a/steamredirect', [SteamPagesController::class, 'steamRedirect'])->name('steamredirect');
 Route::get('a/steamlinked', [SteamPagesController::class, 'steamLinked'])->name('steamlinked');
 
-// Xbox Api Routs
+// Xbox Api Routes
+Route::post('a/profile',[AccountsController::class,'getProfile'] );
 Route::view('/linkxbox','xboxlink');
 Route::get('/xboxid', [getuserid::class, 'getData',])->name('xboxid');
 Route::get('/xboxprofile', [xboxProfile::class, 'xboxProfile'])->name('xboxprofile');

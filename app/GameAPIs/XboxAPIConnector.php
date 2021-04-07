@@ -100,7 +100,16 @@ class XboxAPIConnector implements GameAPIInterface
         }
         return $gameIDs;
     }
-
+    public function getGameInfoArr($gameId) : array
+    {
+        //convert the id into hex
+        $hexId = dechex(intval($gameId));
+        // Create the URL.
+        $url = $this->baseAPIUrl . 'game-details-hex/' . $hexId;
+        // Make the request to get a JSON object.
+        $data = $this->performRequest($url);
+        return $data;
+    }
 
     /**
      * @inheritDoc
@@ -122,10 +131,10 @@ class XboxAPIConnector implements GameAPIInterface
         $name = $data['Name'];
         $developer = $data['DeveloperName'];
         $publisher = $data['PublisherName'];
-        $releaseDate = $data['ReleaseDate'];
+        $releaseDate = $data['ReleaseDate'] ?? '/Date(1483228800)/';
         $releaseDate = $this->changeDateFormat($releaseDate);
         $images = $data['Images'];
-        $coverImage = null;
+        $coverImage = "";
         foreach($images as $image){
             if($image['Purpose'] == "BoxArt"){
                 $coverImage = $image['Url'];
@@ -295,6 +304,10 @@ class XboxAPIConnector implements GameAPIInterface
     }
     private function changeDateFormat($dateString)
     {
+        if(str_contains($dateString, "/Date")){
+            $tempDate = substr($dateString, 6, strlen($dateString)-11);
+            $dateString = date('c', $tempDate);
+        }
         $date = date_create($dateString);
         if(!($date instanceof \DateTimeInterface)) {
             $date = new \DateTime('0');

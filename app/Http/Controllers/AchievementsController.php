@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\GameAPIs\SteamAPIConnector;
+use App\GameAPIs\XboxAPIConnector;
 use Illuminate\Http\Request;
 use \App\Models\Game as Game;
 use \App\Models\Achievement as Achievement;

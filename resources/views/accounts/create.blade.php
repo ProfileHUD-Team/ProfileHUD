@@ -17,7 +17,7 @@
                     </div>
 
                     <div class="card-body">
-                        <form action="/a" enctype="multipart/form-data" method="post">
+                        <form action="/a/profile" enctype="multipart/form-data" method="post">
                             @csrf
 
                             <div class="form-group row">
