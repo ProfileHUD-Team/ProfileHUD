@@ -51,7 +51,7 @@ Route::post('/ach', [\App\Http\Controllers\AchievementsController::class, 'store
 Auth::routes();
 
 //Route::get('/home', [App\Http\Controllers\HomePageController::class, 'show'])->name('home');
-Route::get('/home/{Account}', 'HomePageController@index')->name('home');
+Route::get('/home/{Account}', 'HomePageController@show')->name('home');
 
 
 // Steam API Pages
