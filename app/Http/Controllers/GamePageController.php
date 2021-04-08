@@ -43,4 +43,30 @@ class GamePageController extends Controller
         $data = ['game' => $game, 'gameID' => $gameID, 'achievements' => $achievementList];
         return view('steamgamepage', $data);
     }
+
+    /**
+     * Get information for the specified game and return a view page with
+     * this information.
+     * @param int $id
+     */
+    public function viewGame(int $id)
+    {
+        // Database query to get the game and achievements
+        $game = \App\Models\Game::find($id);
+        $achievements = auth()->user()->accounts()->firstwhere('platform',$game->platform)->achieves->where('game_id', $id)->toArray();
+        if(empty($achievements)){
+            //No achievements pass through string
+            $earnedFraction = "None Available";
+        }else {
+            //Count earned achievements.
+            $earned = 0;
+            foreach($achievements as $ach){
+                $earned = $earned + $ach['pivot']['is_earned'];
+            }
+            $earnedFraction = $earned . ' / ' . count($achievements);
+        }
+        // Create the data array and return the view.
+        $data = ['game' => $game, 'achievements' => $achievements, 'earnedFraction' => $earnedFraction];
+        return view('gamepage', $data);
+    }
 }

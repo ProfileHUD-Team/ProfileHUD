@@ -26,10 +26,28 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $xbl = auth()->user()->accounts()->firstwhere('platform','xbl');
+        $stm = auth()->user()->accounts()->firstwhere('platform','stm');
 
-        $xbl = auth()->user()->accounts()->firstwhere('platform','xbl')->plays->toarray();
-        $stm = auth()->user()->accounts()->firstwhere('platform','stm')->plays->toarray();
+        if( null === $stm){
+            $stm = [];
+        }else{
+            $stm = $stm->plays->toArray();
+
+        }
+
+        if( null === $xbl){
+            $xbl = [];
+        }else{
+            $xbl = $xbl->plays->toArray();
+        }
+
         $data = ['stm' => $stm, 'xbl' => $xbl];
         return view('home', $data);
     }
+
+    private function sortByGameName($a, $b){
+        return $a['name'] <=> $b['name'];
+    }
+
 }
