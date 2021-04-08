@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\GameAPIs\SteamAPIConnector;
 use App\GameAPIs\XboxAPIConnector;
+use \Illuminate\Support\Facades\Config;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use function PHPUnit\Framework\isNull;
@@ -24,8 +25,8 @@ class GamesController extends Controller
 
     public function __construct()
     {
-        $this->steamconnector = new SteamAPIConnector(\Illuminate\Support\Facades\Config::get('steam-auth.api_key'));
-        $this->xboxconnector = new XboxAPIConnector(env('XBOX_API_KEY'));
+        $this->steamconnector = new SteamAPIConnector(Config::get('steam-auth.api_key'));
+        $this->xboxconnector = new XboxAPIConnector(Config::get('xbox-auth.api_key'));
     }
 
     /**
