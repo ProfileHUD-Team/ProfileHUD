@@ -26,23 +26,33 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $xbl = auth()->user()->accounts()->firstwhere('platform','xbl');
-        $stm = auth()->user()->accounts()->firstwhere('platform','stm');
+        $xblAcc = auth()->user()->accounts()->firstwhere('platform','xbl');
+        $stmAcc = auth()->user()->accounts()->firstwhere('platform','stm');
 
-        if( null === $stm){
-            $stm = [];
+        if( null === $stmAcc){
+            $stmGames = [];
+            $stmCounts = ['total'=>'0 / 0'];
         }else{
-            $stm = $stm->plays->toArray();
+            $stmCounts = $this->countAchievements($stmAcc);
+            $stmGames = $stmAcc->plays->toArray();
+            uasort($stmGames, function ($a, $b){
+                return $a['name'] <=> $b['name'];
+            });
 
         }
 
-        if( null === $xbl){
-            $xbl = [];
+        if( null === $xblAcc){
+            $xblGames = [];
+            $xblCounts = ['total'=>'0 / 0'];
         }else{
-            $xbl = $xbl->plays->toArray();
+            $xblCounts = $this->countAchievements($xblAcc);
+            $xblGames = $xblAcc->plays->toArray();
+            uasort($xblGames, function ($a, $b){
+                return $a['name'] <=> $b['name'];
+            });
         }
 
-        $data = ['stm' => $stm, 'xbl' => $xbl];
+        $data = ['stm' => $stmGames, 'xbl' => $xblGames, 'stmCounts' => $stmCounts, 'xblCounts'=> $xblCounts];
         return view('home', $data);
     }
 
@@ -50,4 +60,30 @@ class HomeController extends Controller
         return $a['name'] <=> $b['name'];
     }
 
+
+    public function countAchievements($account) : array
+    {
+        $totalCount = 0;
+        $earnedCount = 0;
+        $games = $account->plays;
+        $achievementCounts = [];
+        foreach($games as $game) {
+            $achievements = $account->achieves()->where('game_id', $game->id);
+            $total = $achievements->count();
+            $totalCount = $totalCount + $total;
+            if($total == 0){
+                //No achievements pass through string
+                $earnedFraction = "N/A";
+            }else {
+                //Count earned achievements.
+                $earned = $achievements->wherePivot('is_earned',true)->count();
+                $earnedCount = $earnedCount + $earned;
+                $earnedFraction = $earned . ' / ' . $total;
+            }
+            $achievementCounts[$game->id] = $earnedFraction;
+        }
+        $achievementCounts['total'] = $earnedCount . ' / ' . $totalCount;
+
+        return $achievementCounts;
+    }
 }

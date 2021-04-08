@@ -14,14 +14,14 @@
 
                         <div class="card-header text-center">
 
-                            Please Wait
+                           <strong>Please Wait</strong>
 
                         </div>
 
                         <div class="card-body text-center">
 
-                            Getting achievements from {{auth()->user()->accounts()->find($id)->platform_username}}.
-                            Do not leave this page open, you will be redirected when the operation is complete.
+                            <p>Getting achievements for {{auth()->user()->accounts()->find($id)->platform_username}}...</p>
+                            <p>Do not leave or close this page, you will be redirected when the operation is complete.</p>
 
                             <form name="achievements" id="achievements" action="/ach" enctype="multipart/form-data" method="post">
 

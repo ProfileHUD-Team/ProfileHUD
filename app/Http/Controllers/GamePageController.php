@@ -53,18 +53,18 @@ class GamePageController extends Controller
     {
         // Database query to get the game and achievements
         $game = \App\Models\Game::find($id);
-        $achievements = auth()->user()->accounts()->firstwhere('platform',$game->platform)->achieves->where('game_id', $id)->toArray();
-        if(empty($achievements)){
+        $achievements = auth()->user()->accounts()->firstwhere('platform',$game->platform)->achieves()->where('game_id', $id);
+        $total = $achievements->count();
+        if($total == 0){
             //No achievements pass through string
             $earnedFraction = "None Available";
         }else {
             //Count earned achievements.
-            $earned = 0;
-            foreach($achievements as $ach){
-                $earned = $earned + $ach['pivot']['is_earned'];
-            }
-            $earnedFraction = $earned . ' / ' . count($achievements);
+            $earned = $achievements->wherePivot('is_earned',true)->count();
+
+            $earnedFraction = $earned . ' / ' . $total;
         }
+        $achievements = auth()->user()->accounts()->firstwhere('platform',$game->platform)->achieves->where('game_id', $id)->toArray();
         // Create the data array and return the view.
         $data = ['game' => $game, 'achievements' => $achievements, 'earnedFraction' => $earnedFraction];
         return view('gamepage', $data);
