@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-6">
-                <img src="{{ $game->cover_image }}" class="rounded" alt="Game Image">
+                <img src="{{ $game->cover_image }}" class="rounded w-auto" alt="Game Image">
             </div>
             <div class="col-sm-6">
                 <h2>{{ $game->name }}</h2>

@@ -14,13 +14,13 @@
 
                     <div class="card-header text-center">
 
-                        Please Wait
+                        <strong>Please Wait</strong>
 
                     </div>
 
                     <div class="card-body text-center">
 
-                        Linking Steam account name {{$username}}.
+                        <p>Linking Steam account {{$username}}...</p>
 
                         <form name="account" id="account" action="/a" enctype="multipart/form-data" method="post">
 

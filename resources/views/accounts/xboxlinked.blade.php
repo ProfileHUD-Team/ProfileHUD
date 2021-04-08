@@ -20,7 +20,7 @@
 
                         <div class="card-body text-center">
 
-                            Linking Xbox account name {{$platform_username}}.
+                            <p>Linking Xbox account {{$platform_username}}...</p>
 
                             <form name="account" id="account" action="/a" enctype="multipart/form-data" method="post">
 

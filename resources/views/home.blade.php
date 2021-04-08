@@ -13,7 +13,7 @@
 
         <div class="row justify-content-center align-middle">
 
-            <div class="col-md-8">
+            <div class="col-md-10">
 
                 <div class="card">
 
@@ -35,11 +35,11 @@
 
                         @endif
 
-                        <button class="accordion">Steam</button>
+                        <button class="accordion d-flex justify-content-between" ><div>Steam</div> <div>Total Achievements: {{$stmCounts['total']}}</div></button>
 
                             <div class="panel">
 
-                                <div style="overflow-x:auto; height: 243px">
+                                <div style="overflow-x:auto; height: 400px">
 
                                     <table class="table table-striped">
 
@@ -47,8 +47,8 @@
 
                                             <tr>
                                                 <th scope="col">Name</th>
+                                                <th scope="col">Achievements</th>
                                                 <th scope="col">Developer</th>
-
                                             </tr>
 
                                         </thead>
@@ -64,6 +64,7 @@
                                                             {{ $game['name']}}
                                                         </a>
                                                     </th>
+                                                    <th>{{ $stmCounts[$game['id']] }}</th>
                                                     <th>{{ $game['developer'] }}</th>
 
                                                 </tr>
@@ -78,19 +79,20 @@
 
                             </div>
 
-                    <button class="accordion">
-                        Xbox
+                    <button class="accordion d-flex justify-content-between">
+                        <div>Xbox</div> <div>Total Achievements: {{$xblCounts['total']}}</div>
                     </button>
 
                     <div class="panel">
 
-                        <div style="overflow-x:auto; height: 243px">
+                        <div style="overflow-x:auto; height: 400px">
 
                             <table class="table table-striped">
 
                                 <thead>
                                     <tr>
                                         <th scope="col">Name</th>
+                                        <th scope="col">Achievements</th>
                                         <th scope="col">Developer</th>
                                     </tr>
                                 </thead>
@@ -107,7 +109,7 @@
                                                     {{ $game['name']}}
                                                 </a>
                                             </th>
-
+                                            <th>{{ $xblCounts[$game['id']] }}</th>
                                             <th>{{ $game['developer'] }}</th>
 
                                         </tr>
