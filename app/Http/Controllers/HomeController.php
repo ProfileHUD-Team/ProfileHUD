@@ -26,6 +26,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+
         $xbl = auth()->user()->accounts()->firstwhere('platform','xbl')->plays->toarray();
         $stm = auth()->user()->accounts()->firstwhere('platform','stm')->plays->toarray();
         $data = ['stm' => $stm, 'xbl' => $xbl];
