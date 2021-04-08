@@ -1,95 +1,47 @@
 @extends('layouts.app')
 
 @section('content')
-
-
-    <body onload="document.game.submit()">
     <div class="container">
-        <div class="container">
-            <div class="h1">Getting game list from {{auth()->user()->accounts()->find($id)->platform_username}}... </div>
-            <div class="h3">Please leave this page open. You will be redirected when the operation is complete.</div>
+        <div class="row">
+            <div class="col-6">
+                <img src="{{ $game->cover_image }}" class="rounded  w-100 mh-100" alt="Game Image"  style="max-height: 200px; max-width: 200px">
+            </div>
+            <div class="col-6">
+                <h2>{{ $game->name }}</h2>
+                <p>Developer: {{ $game->developer }}</p>
+                <p>Publisher: {{ $game->publisher }}</p>
+                <p>Release Date: {{ $game->release_date }}</p>
+                <p>Achievements: {{ $earnedFraction }}</p>
+                <p>Hours Played: {{ $hoursPlayed }}</p>
+            </div>
         </div>
-        <p></p>
-        <form name="game" id="game" action="/g" enctype="multipart/form-data" method="post">
-            @csrf
-            <input id="account_id"
-                   type="hidden"
-                   name="account_id"
-                   value="{{$id}}" >
-            <input id="platform_id"
-                   type="hidden"
-                   name="platform_id"
-                   value="{{auth()->user()->accounts()->find($id)->platform_id}}" >
-            <input id="platform"
-                   type="hidden"
-                   name="platform"
-                   value="{{$platform}}" >
-            <input id="games"
-                   type="hidden"
-                   name="games"
-                   value="{{serialize( get_defined_vars()['games']) }}" >
-        </form>
     </div>
-    </body>
-@endsection
-
-@extends('layouts.app');
-
-@section('content')
-
-    <body onload="document.achievements.submit()">
+    <br>
     <div class="container">
-        <div class="container">
-            <div class="h1">Getting achievements from {{auth()->user()->accounts()->find($id)->platform_username}}... </div>
-            <div class="h3">Please leave this page open. You will be redirected when the operation is complete.</div>
-        </div>
-        <p></p>
-        <form name="achievements" id="achievements" action="/ach" enctype="multipart/form-data" method="post">
-            @csrf
-            <input id="account_id"
-                   type="hidden"
-                   name="account_id"
-                   value="{{$id}}" >
-            <input id="platform"
-                   type="hidden"
-                   name="platform"
-                   value="{{$platform}}" >
-            <input id="games"
-                   type="hidden"
-                   name="games"
-                   value="{{serialize( get_defined_vars()['games']) }}" >
-        </form>
+        <h2>Achievements</h2>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>Icon</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Earned</th>
+                <th>Date Earned</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach($achievements as $ach)
+                <tr>
+                    <th>
+                        <img src="{{ $ach['image'] }}" class="rounded w-75" alt="Achievement Icon">
+                    </th>
+                    <th>{{ $ach['name'] }}</th>
+                    <th>{{ $ach['description'] }}</th>
+                    <th>{{ $ach['pivot']['is_earned'] }}</th>
+                    <th>{{ $ach['pivot']['date_earned'] }}</th>
+                </tr>
+            @endforeach
+            </tbody>
+        </table>
     </div>
-    </body>
-@endsection
-
-@section('content')
-    <!-- This page converts the GET to a POST and posts the info to Accounts-->
-    <body onload="document.account.submit()">
-    <div class="container">
-        <h2>Linking Steam account <strong>{{$username}}</strong>....</h2>
-        <p></p>
-        <form name="account" id="account" action="/a" enctype="multipart/form-data" method="post">
-            @csrf
-            <input id="platform"
-                   type="hidden"
-                   name="platform"
-                   value="stm" >
-            <input id="platform_username"
-                   type="hidden"
-                   name="platform_username"
-                   value="{{ $username }}" >
-            <input id="platform_id"
-                   type="hidden"
-                   name="platform_id"
-                   value="{{ $steamID }}" >
-            <input id="profile_image"
-                   type="hidden"
-                   name="profile_image"
-                   value="{{"$profileImage"}}" >
-        </form>
-    </div>
-    </body>
-
-
 @endsection

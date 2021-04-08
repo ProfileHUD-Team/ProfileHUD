@@ -35,7 +35,21 @@
 
                         @endif
 
-                        <button class="accordion d-flex justify-content-between" ><div>Steam</div> <div>Total Achievements: {{$stmCounts['total']}}</div></button>
+                        <button class="accordion d-flex justify-content-between" >
+
+                            <div>
+
+                                Steam
+
+                            </div>
+
+                            <div>
+
+                                Achievements: {{$stmCounts['total']}}
+
+                            </div>
+
+                        </button>
 
                             <div class="panel">
 
@@ -80,7 +94,8 @@
                             </div>
 
                     <button class="accordion d-flex justify-content-between">
-                        <div>Xbox</div> <div>Total Achievements: {{$xblCounts['total']}}</div>
+                        <div>Xbox</div>
+                        <div> Achievements: {{$xblCounts['total']}}</div>
                     </button>
 
                     <div class="panel">
