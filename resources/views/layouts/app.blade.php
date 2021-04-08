@@ -24,10 +24,13 @@
 
         @include ('layouts.nav')
 
-        <div class="container" style="padding-top: 25px">
+        <div style="padding-top: 25px">
+
             @yield('content')
+
         </div>
 
     </body>
+
 
 </html>

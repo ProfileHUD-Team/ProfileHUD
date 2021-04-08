@@ -2,8 +2,8 @@
 
 @section('content')
 
-    <!-- Styles -->
-    <link href="/css/welcome.css" rel="stylesheet">
+    <div class="text-center" style="padding-top: 150px">
+
 
     <div class="container">
 
@@ -16,6 +16,7 @@
             </div>
 
         </body>
+
 
     </div>
 @endsection

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use app\Http\Request;
 use App\GameAPIs\SteamAPIConnector;
 use Illuminate\Support\Facades\Config;
 use App\Http\Controllers\SteamPagesController;
@@ -26,10 +26,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        #$games = auth()->user()->accounts()->firstwhere('platform','xbl')->games->toArray();
-
-        #$data = ['games' => $games];
-
-        return view('home');
+        $xbl = auth()->user()->accounts()->firstwhere('platform','xbl')->plays->toarray();
+        $stm = auth()->user()->accounts()->firstwhere('platform','stm')->plays->toarray();
+        $data = ['stm' => $stm, 'xbl' => $xbl];
+        return view('home', $data);
     }
 }
