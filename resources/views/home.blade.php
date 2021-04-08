@@ -84,49 +84,37 @@
 
                     <div class="panel">
 
-                        <div style="padding-top: 5px; padding-bottom: 5px">
+                        <div style="overflow-x:auto; height: 243px">
 
-                            <div style="font-size: large">
-                                Games:
-                            </div>
+                            <table class="table table-striped">
 
-                            <div style="overflow-x:auto; height: 243px">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Developer</th>
+                                    </tr>
+                                </thead>
 
-                                <table class="table table-striped">
+                                <tbody>
 
-                                    <thead>
+                                    @foreach($xbl as $game)
+
                                         <tr>
-                                            <th scope="col">#</th>
-                                            <th scope="col">Name</th>
-                                            <th scope="col">Developer</th>
-                                            <th scope="col">Achievements</th>
+
+                                            <th>
+                                                <a href="{{route('gamepage',$game['id'])}}">
+                                                    {{ $game['name']}}
+                                                </a>
+                                            </th>
+                                            <th>{{ $game['developer'] }}</th>
+
                                         </tr>
-                                    </thead>
 
-                                    <tbody>
+                                    @endforeach
 
-                                        @foreach($xbl as $game)
+                                </tbody>
 
-                                            <tr>
-
-                                                <th>
-                                                    <a href="">
-                                                        {{ $game['id']}}
-                                                    </a>
-                                                </th>
-                                                <th>{{ $game['name'] }}</th>
-                                                <th>{{ $game['developer'] }}</th>
-                                                <th>{{ $game['has_achievements'] }}</th>
-
-                                            </tr>
-
-                                        @endforeach
-
-                                    </tbody>
-
-                                </table>
-
-                            </div>
+                            </table>
 
                         </div>
 
