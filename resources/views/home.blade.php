@@ -39,14 +39,6 @@
 
                             <div class="panel">
 
-                                <div style="padding-top: 5px; padding-bottom: 5px">
-
-                                    <div style="font-size: large">
-
-                                        Games:
-
-                                    </div>
-
                                 <div style="overflow-x:auto; height: 243px">
 
                                     <table class="table table-striped">
@@ -54,10 +46,8 @@
                                         <thead>
 
                                             <tr>
-                                                <th scope="col">#</th>
                                                 <th scope="col">Name</th>
                                                 <th scope="col">Developer</th>
-                                                <th scope="col">Achievements</th>
 
                                             </tr>
 
@@ -70,13 +60,11 @@
                                                 <tr>
 
                                                     <th>
-                                                        <a href="">
-                                                            {{ $game['id']}}
+                                                        <a href="{{route('gamepage',$game['id'])}}">
+                                                            {{ $game['name']}}
                                                         </a>
                                                     </th>
-                                                    <th>{{ $game['name'] }}</th>
                                                     <th>{{ $game['developer'] }}</th>
-                                                    <th>{{ $game['has_achievements'] }}</th>
 
                                                 </tr>
 
@@ -89,8 +77,6 @@
                                 </div>
 
                             </div>
-
-                        </div>
 
                     <button class="accordion">
                         Xbox

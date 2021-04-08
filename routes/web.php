@@ -63,11 +63,13 @@ Route::get('a/steamlinked', [SteamPagesController::class, 'steamLinked'])->name(
 
 // Xbox Api Routes
 Route::post('a/profile',[AccountsController::class,'getProfile'] );
-Route::view('/linkxbox','xboxlink');
-Route::get('/xboxid', [getuserid::class, 'getData',])->name('xboxid');
-Route::get('/xboxprofile', [xboxProfile::class, 'xboxProfile'])->name('xboxprofile');
-Route::get('/userprofile', [getachievements::class, 'achievements'])->name('userprofile');
+//Route::view('/linkxbox','xboxlink');
+//Route::get('/xboxid', [getuserid::class, 'getData',])->name('xboxid');
+//Route::get('/xboxprofile', [xboxProfile::class, 'xboxProfile'])->name('xboxprofile');
+//Route::get('/userprofile', [getachievements::class, 'achievements'])->name('userprofile');
 
 
 // Display game information routes
 Route::get('/steamgame/gameid={id}', [GamePageController::class, 'viewSteamGame']);
+Route::get('/games/gameid={id}', [GamePageController::class, 'viewGame'])->name('gamepage');
+

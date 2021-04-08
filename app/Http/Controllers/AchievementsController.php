@@ -83,7 +83,9 @@ class AchievementsController extends Controller
                 } catch (\Exception $e) {
                     dd($game,$e->getMessage());
                 }
-                usleep(200);
+                if($data['platform']=='stm') {
+                    usleep(200);
+                }
             }
 
         return redirect()->route('home');
