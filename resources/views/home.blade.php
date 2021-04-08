@@ -102,10 +102,12 @@
                                         <tr>
 
                                             <th>
+
                                                 <a href="{{route('gamepage',$game['id'])}}">
                                                     {{ $game['name']}}
                                                 </a>
                                             </th>
+
                                             <th>{{ $game['developer'] }}</th>
 
                                         </tr>
