@@ -24,7 +24,7 @@
 
         @include ('layouts.nav')
 
-        <div style="padding-top: 25px">
+        <div style="padding-top: 25px;">
 
             @yield('content')
 

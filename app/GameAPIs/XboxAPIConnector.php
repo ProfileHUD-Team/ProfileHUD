@@ -127,9 +127,9 @@ class XboxAPIConnector implements GameAPIInterface
         }
         $data = $data['Items'][0];
         // Parse the JSON object.
-        $name = $data['Name'];
-        $developer = $data['DeveloperName'];
-        $publisher = $data['PublisherName'];
+        $name = $data['Name'] ;
+        $developer = $data['DeveloperName'] ?? "Not Listed";
+        $publisher = $data['PublisherName'] ?? "Not Listed";
         $releaseDate = $data['ReleaseDate'] ?? '/Date(1483228800)/';
         $releaseDate = $this->changeDateFormat($releaseDate);
         $images = $data['Images'] ?? [];
