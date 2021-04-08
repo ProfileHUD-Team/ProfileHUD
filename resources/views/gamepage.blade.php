@@ -6,7 +6,7 @@
             <div class="col-6">
                 <img src="{{ $game->cover_image }}" class="rounded  w-100 mh-100" alt="Game Image">
             </div>
-            <div class="col-sm-6">
+            <div class="col-6">
                 <h2>{{ $game->name }}</h2>
                 <p>Developer: {{ $game->developer }}</p>
                 <p>Publisher: {{ $game->publisher }}</p>
