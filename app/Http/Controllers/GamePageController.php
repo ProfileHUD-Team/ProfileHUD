@@ -53,6 +53,8 @@ class GamePageController extends Controller
     {
         // Database query to get the game and achievements
         $game = \App\Models\Game::find($id);
+        $hoursPlayed = auth()->user()->accounts()->firstwhere('platform',$game->platform)->plays()
+            ->firstwhere('name', $game->name)->pivot->hours_played ?? "N/A";
         $achievements = auth()->user()->accounts()->firstwhere('platform',$game->platform)->achieves()->where('game_id', $id);
         $total = $achievements->count();
         if($total == 0){
@@ -66,7 +68,7 @@ class GamePageController extends Controller
         }
         $achievements = auth()->user()->accounts()->firstwhere('platform',$game->platform)->achieves->where('game_id', $id)->toArray();
         // Create the data array and return the view.
-        $data = ['game' => $game, 'achievements' => $achievements, 'earnedFraction' => $earnedFraction];
+        $data = ['game' => $game, 'achievements' => $achievements, 'earnedFraction' => $earnedFraction, 'hoursPlayed'=>$hoursPlayed];
         return view('gamepage', $data);
     }
 }
