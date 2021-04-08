@@ -1,22 +1,13 @@
 @extends('layouts.app')
 
+
 @section('content')
 
-    <div class="text-center" style="padding-top: 150px">
+    <div class="row justify-content-center">
 
-
-    <div class="container">
-
-        <body>
-
-            <div class="relative flex justify-center min-h-screen sm:items-center">
-
-                    <img src="/svg/test.svg" class="img-fluid" style ="height: 650px; width: 925px">
-
-            </div>
-
-        </body>
-
+        <img src="/svg/test.svg" class="img-fluid" style ="height: 350px; width: 600px">
 
     </div>
+
+
 @endsection
