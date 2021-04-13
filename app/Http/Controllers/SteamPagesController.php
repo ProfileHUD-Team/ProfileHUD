@@ -87,7 +87,7 @@ class SteamPagesController extends Controller
         // If the Steam user is already linked, get their Steam ID.
         if (!is_null(session('steamData'))) {
             $steamData = session('steamData');
-            return view('accounts\steamlinked', $steamData);
+            return view('accounts/steamlinked', $steamData);
         }
         // If the Steam user is in the process of getting linked, get their Steam ID.
         if ($this->steamAuth->validate()) {

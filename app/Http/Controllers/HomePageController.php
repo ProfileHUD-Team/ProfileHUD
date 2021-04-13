@@ -21,7 +21,6 @@ class HomePageController extends Controller
         $user = user::find($user);
         $plays = plays::find($plays);
         $achieves = achieves::find ($achieves);
-        auth()->user()
 
         return view('home', [
             'Account'=> $Account,
