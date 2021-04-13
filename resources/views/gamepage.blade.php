@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row">
             <div class="col-6">
-                <img src="{{ $game->cover_image }}" class="rounded  w-100 mh-100" alt="Game Image">
+                <img src="{{ $game->cover_image }}" class="rounded  mw-100 mh-100" style="height:300px; overflow: hidden" alt="Game Image">
             </div>
             <div class="col-6">
                 <h2>{{ $game->name }}</h2>

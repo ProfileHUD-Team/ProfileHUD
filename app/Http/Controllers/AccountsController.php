@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\GameAPIs\XboxAPIConnector;
+use Illuminate\Support\Facades\Config;
 
 class AccountsController extends Controller
 {
@@ -13,7 +14,7 @@ class AccountsController extends Controller
         'platform_username' => 'required']);
 
         if($data['platform'] == 'xbl') {
-            $xboxController = new XboxAPIConnector(env('XBOX_API_KEY'));
+            $xboxController = new XboxAPIConnector(Config::get('xbox-auth.api_key'));
             $xboxData = $xboxController->getXboxUser($data['platform_username']);
             return view('accounts/xboxlinked', $xboxData);
         }

@@ -58,7 +58,7 @@ class GamesController extends Controller
         ini_set('max_execution_time', 300);
         $data = request()->validate(['games' => '', 'platform'=>'', 'account_id'=>'', 'platform_id'=>'']);
         $games = unserialize($data['games']);
-        $allGames = \App\Models\Game::query()->where('platform', $data['platform'])->pluck('game_id')->toArray() ?? [];
+        $allGames = \App\Models\Game::query()->where('platform', $data['platform'])->pluck('id','game_id')->toArray() ?? [];
         if($data['platform']=='stm'){
             $playtimes = $this->steamconnector->getPlaytimeAll($data['platform_id']);
         }
@@ -66,8 +66,9 @@ class GamesController extends Controller
         foreach($games as $game){
             $unique_key = $data['platform']."-".$game;
 
-            if(in_array($game, $allGames)){
+            if(array_key_exists($game, $allGames)){
                 //Game already in database, skip
+                $dbgame = $allGames[$game];
             }
             else {
                 try {
@@ -80,7 +81,7 @@ class GamesController extends Controller
                         $info =[];
                         break;
                     }
-                    \App\Models\Game::create([
+                    $dbgame = \App\Models\Game::create([
                         'platform' => $data['platform'],
                         'game_key' => $unique_key,
                         'game_id' => $game,
@@ -98,12 +99,11 @@ class GamesController extends Controller
                     usleep(200);
                 }
             }
-            if (null === $account->plays()->firstWhere('pivot_game_id',Game::firstwhere('game_key',$unique_key)->id)){
-                $account->plays()->attach(Game::where('game_key',$unique_key)->get());
+            if (null === $account->plays()->find($dbgame)){
+                $account->plays()->attach($dbgame);
             }
             if(isset($playtimes)) {
-                $account->plays()->updateExistingPivot(Game::firstwhere('game_key', $unique_key)->id,
-                    ['hours_played' => $playtimes[array_search($game,array_column($playtimes,'id'))]['playtime']]);
+                $account->plays()->updateExistingPivot($dbgame, ['hours_played' => $playtimes[array_search($game,array_column($playtimes,'id'))]['playtime']]);
             }
          }
 

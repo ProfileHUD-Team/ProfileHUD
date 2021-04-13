@@ -68,16 +68,18 @@ class AchievementsController extends Controller
                             $achievementArray = $achievement->toDataArray();
                             $currentAchievement = Achievement::where('game_id',$currentGame->id)->firstWhere('name',$achievementArray['name']);
                             if(null === $currentAchievement) {
-                                 $currentGame->achievements()->create([
+                                 $currentAchievement = $currentGame->achievements()->create([
                                     'name' => $achievementArray['name'],
                                     'description' => $achievementArray['description'],
                                     'image' => $achievementArray['image']]);
                             }
                             if (null === $account->achieves()->find($currentAchievement)) {
-                                $account->achieves()->attach($currentAchievement);
+                                $account->achieves()->attach($currentAchievement,['is_earned' => $achievementArray['is_earned'], 'date_earned' => $achievementArray['date_earned']]);
                             }
-                            $account->achieves()->updateExistingPivot($currentAchievement,
-                                ['is_earned' => $achievementArray['is_earned'], 'date_earned' => $achievementArray['date_earned']]);
+                            else {
+                                $account->achieves()->updateExistingPivot($currentAchievement,
+                                    ['is_earned' => $achievementArray['is_earned'], 'date_earned' => $achievementArray['date_earned']]);
+                            }
                         }
                     }
 

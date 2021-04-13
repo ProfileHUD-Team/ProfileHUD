@@ -59,6 +59,19 @@ class AchievementList
     }
 
     /**
+     * Get an array of the Achievement objects in this list.
+     * @return array
+     */
+    public function getArrayList(): array
+    {
+        $list = [];
+        foreach($this->list as $ach){
+            $list[] = $ach->toDataArray();
+        }
+        return $list;
+    }
+
+    /**
      * Get the size of this list.
      * @return int
      */

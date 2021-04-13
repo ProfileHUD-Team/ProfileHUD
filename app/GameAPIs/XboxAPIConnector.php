@@ -288,7 +288,7 @@ class XboxAPIConnector implements GameAPIInterface
     private function performRequest($url) : array {
         try {
             // Perform the request.
-            $result =  Http::withHeaders(['X-Auth'=>$this->apiKey])->get($url)->json();//$result = fopen($url, 'r', false,  $context);
+            $result =  Http::withHeaders(['X-Auth'=>$this->apiKey])->get($url)->json();
             // Check if the request succeeded or failed.
             if(!is_array($result)){
                 return array('result'=>$result);
@@ -301,6 +301,8 @@ class XboxAPIConnector implements GameAPIInterface
         }
         return array();
     }
+
+
     private function changeDateFormat($dateString)
     {
         if(str_contains($dateString, "/Date")){

@@ -53,7 +53,6 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
-
 // Steam API Pages
 
 Route::get('/steamapitests', [TestsController::class, 'index'])->name('steamapitests');
