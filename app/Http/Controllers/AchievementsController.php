@@ -84,7 +84,7 @@ class AchievementsController extends Controller
                     }
 
                 } catch (\Exception $e) {
-                    dd($game,$e->getMessage());
+                    //dd($game,$e->getMessage());
                 }
                 if($data['platform']=='stm') {
                     usleep(200);

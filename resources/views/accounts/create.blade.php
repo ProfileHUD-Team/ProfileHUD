@@ -12,12 +12,12 @@
 
                 <div class="card">
 
-                    <div class="card-header">
-                        Add Profile Account
+                    <div class="card-header text-center">
+                        <strong>Add or Update Account</strong>
                     </div>
 
                     <div class="card-body">
-                        <form action="/a/profile" enctype="multipart/form-data" method="post">
+                        <form {{$addxbl}} action="/a/profile" enctype="multipart/form-data" method="post">
                             @csrf
 
                             <div class="form-group row">
@@ -59,21 +59,44 @@
 
                             </div>
 
-                            <div class="form-group row mb-0">
-                                <div class="col-md-8 offset-md-4">
-
+                            <div class="text-center">
                                     <button type="submit" class="btn btn-primary">
                                         Link Account
                                     </button>
 
-                                </div>
                             </div>
                         </form>
 
-                        <div class="offset-md-4" style="padding-top: 25px; padding-left: 10px">
+                        <form {{$updatexbl}} action="/a/update" enctype="multipart/form-data" method="post">
+                            @csrf
+                            <input type="hidden" id="platform" name="platform" value="xbl">
+                            <input type="hidden" id="id" name="id" value="{{$xblAcc}}">
+                                <div class="text-center">
 
-                            <form action='steamredirect' method='get'>
+                                    <button type="submit" class="btn btn-primary">
+                                        Update Xbox Account
+                                    </button>
+
+                                </div>
+                        </form>
+
+                        <div class="text-center pt-4" >
+
+                            <form {{$addstm}} action='steamredirect' method='get'>
                                 <input type="image" src="https://community.cloudflare.steamstatic.com/public/images/signinthroughsteam/sits_02.png">
+                            </form>
+
+                            <form {{$updatestm}} action="/a/update" enctype="multipart/form-data" method="post">
+                                @csrf
+                                <input type="hidden" id="platform" name="platform" value="stm">
+                                <input type="hidden" id="id" name="id" value="{{$stmAcc}}">
+                                    <div class="text-center">
+
+                                        <button type="submit" class="btn btn-primary">
+                                            Update Steam Account
+                                        </button>
+
+                                    </div>
                             </form>
 
                         </div>

@@ -37,6 +37,7 @@ Route::view('/aboutus', 'aboutus');
 Route::view('/test', 'test');
 
 //Account Adding Pages
+Route::post('a/update',[AccountsController::class,'update'] );
 Route::get('/a/create', [AccountsController::class, 'create']);
 Route::post('/a', [AccountsController::class, 'store']);
 

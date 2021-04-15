@@ -19,7 +19,7 @@
 
                     <div class="card-header text-center">
 
-                        Gaming Profiles
+                        <strong>Gaming Profiles</strong>
 
                     </div>
 
@@ -35,7 +35,9 @@
 
                         @endif
 
-                        <button class="accordion d-flex justify-content-between" ><div>Steam</div> <div>Total Achievements: {{$stmCounts['total']}}</div></button>
+                        <button class="accordion d-flex justify-content-between" >
+                            <div> <strong>Steam</strong> </div><div>Achievements: {{$stmCounts['total']}}</div>
+                        </button>
 
                             <div class="panel">
 
@@ -80,7 +82,7 @@
                             </div>
 
                     <button class="accordion d-flex justify-content-between">
-                        <div>Xbox</div> <div>Total Achievements: {{$xblCounts['total']}}</div>
+                        <div><strong>Xbox</strong></div> <div>Achievements: {{$xblCounts['total']}}</div>
                     </button>
 
                     <div class="panel">
@@ -129,7 +131,7 @@
 
                                 <button class="btn btn-primary">
 
-                                    Add Profile
+                                    Add or Update Profile
 
                                 </button>
 

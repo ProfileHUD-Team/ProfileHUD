@@ -22,9 +22,27 @@ class AccountsController extends Controller
             return redirect()->route('home');
         }
     }
+
     public function create()
     {
-        return view('accounts.create');
+        $data = ['addxbl' => '', 'addstm' => '',
+            'updatexbl' => 'hidden', 'updatestm' => 'hidden',
+            'stmAcc' => '', 'xblAcc' =>''];
+        $stmAcc = auth()->user()->accounts()->firstwhere('platform','stm');
+        $xblAcc = auth()->user()->accounts()->firstwhere('platform','xbl');
+
+        if(null !== $stmAcc){
+            $data['addstm'] = 'hidden';
+            $data['updatestm'] = '';
+            $data['stmAcc'] = $stmAcc->id;
+        }
+        if(null !== $xblAcc){
+            $data['addxbl'] = 'hidden';
+            $data['updatexbl'] = '';
+            $data['xblAcc'] = $xblAcc->id;
+        }
+
+        return view('accounts.create', $data);
     }
 
     public function store()
@@ -38,7 +56,7 @@ class AccountsController extends Controller
         $unique_key = $data['platform']."-".mb_strtolower($data['platform_username']);
 
         try {
-            auth()->user()->accounts()->create([
+            $account = auth()->user()->accounts()->create([
                 'platform' => $data['platform'],
                 'account_key' => $unique_key,
                 'platform_username' => $data['platform_username'],
@@ -53,6 +71,15 @@ class AccountsController extends Controller
 
         }
 
-        return redirect()->route('g.create',[ $data['platform'],\App\Models\Account::firstwhere('account_key', $unique_key)->id]);
+        return redirect()->route('g.create',[ $data['platform'], $account]);
+    }
+
+    public function update(){
+        $data = request()->validate([
+            'platform' => 'required',
+            'id' => 'required',
+        ]);
+
+        return redirect()->route('g.create',[ $data['platform'], $data['id']]);
     }
 }

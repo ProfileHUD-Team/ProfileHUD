@@ -18,7 +18,7 @@ class CreateAchievementsTable extends Migration
             $table->foreignId('game_id');
             $table->string('name');
             $table->string('description')->default("No description");
-            $table->string('image')->nullable();
+            $table->text('image')->nullable();
 
             $table->index('game_id');
         });
