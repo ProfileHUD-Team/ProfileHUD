@@ -69,6 +69,9 @@ class GamesController extends Controller
             if(array_key_exists($game, $allGames)){
                 //Game already in database, skip
                 $dbgame = $allGames[$game];
+                if(Game::find($dbgame)->name == Null) {
+                    $this->updateGame($game, $dbgame, $data['platform']);
+                }
             }
             else {
                 try {
@@ -93,7 +96,7 @@ class GamesController extends Controller
                     ]);
 
                 } catch (\Exception $e) {
-                    dd($game,$e->getMessage());
+                   //dd($game,$e->getMessage());
                 }
                 if($data['platform']=='stm') {
                     usleep(200);
@@ -109,5 +112,28 @@ class GamesController extends Controller
 
 
         return redirect()->route('ach.create',[ $data['platform'],$data['account_id']]);
+    }
+
+    /**
+     * Checks for non-null game info on Null entry
+     * @var string game
+     * @var int $dbgame
+     * z@var string platform
+     */
+    private function updateGame($game, $dbgame, $platform){
+        if($platform=='stm'){
+            $info = $this->steamconnector->getGameInfo($game)->toDataArray();
+        }elseif($platform=='xbl'){
+            $info = $this->xboxconnector->getGameInfo($game)->toDataArray();
+        }
+        else{
+            $info = [];
+        }
+        Game::update($dbgame,
+            ['name' => $info['name'],
+            'developer' => $info['developer'],
+            'publisher' => $info['publisher'],
+            'release_date' => $info['release_date'],
+            'cover_image'=> $info['cover_image']]);
     }
 }
