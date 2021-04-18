@@ -5,7 +5,7 @@
 @section('content')
 
     <div class="container">
-
+        <a href="{{route('home')}}"> <strong><-Back</strong> </a>
         <div class="row justify-content-center">
 
             <div class="col-md-8">
@@ -13,7 +13,7 @@
                 <div class="card">
 
                     <div class="card-header text-center">
-                        <strong>Add or Update Account</strong>
+                        <strong>Add or Update Profile</strong>
                     </div>
 
                     <div class="card-body">
@@ -61,7 +61,7 @@
 
                             <div class="text-center">
                                     <button type="submit" class="btn btn-primary">
-                                        Link Account
+                                        Link Profile
                                     </button>
 
                             </div>
@@ -74,7 +74,7 @@
                                 <div class="text-center">
 
                                     <button type="submit" class="btn btn-primary">
-                                        Update Xbox Account
+                                        Update Xbox Profile
                                     </button>
 
                                 </div>
@@ -93,14 +93,17 @@
                                     <div class="text-center">
 
                                         <button type="submit" class="btn btn-primary">
-                                            Update Steam Account
+                                            Update Steam Profile
                                         </button>
 
                                     </div>
                             </form>
 
                         </div>
-
+                        <div class="text-center pt-3">
+                            <i><small>Please ensure Game Details is marked Public in your <a href="https://support.steampowered.com/kb_article.php?ref=4113-YUDH-6401">Steam Profile Privacy Settings</a>.<br/>
+                                No information will be found if your settings are set to Private or Friends Only.</small></i>
+                        </div>
                     </div>
                 </div>
             </div>

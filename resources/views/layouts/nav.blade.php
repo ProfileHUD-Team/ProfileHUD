@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+<nav class="navbar navbar-expand-md navbar-light shadow-sm" style="background-color:#F1F1F1">
     <div class="container">
         <a class="navbar-brand" href="{{ url('/') }}">
             <img src="/svg/test2.svg" class="img-fluid" style ="height: 25px; width: 105px">
@@ -40,6 +40,9 @@
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="{{ url('/home') }}">
                                 {{ __('Profile') }}
+                            </a>
+                            <a class="dropdown-item" href="{{ url('/settings') }}">
+                                {{ __('Settings') }}
                             </a>
                             <a class="dropdown-item" href="{{ url('/aboutus') }}">
                                 {{ __('About Us') }}

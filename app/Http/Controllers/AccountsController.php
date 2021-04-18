@@ -8,6 +8,16 @@ use Illuminate\Support\Facades\Config;
 
 class AccountsController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware(['auth','verified']);
+    }
+
     public function getProfile()
     {   $data = request()->validate([
         'platform' => 'required',

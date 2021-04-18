@@ -15,7 +15,7 @@ class CreateAchievementsTable extends Migration
     {
         Schema::create('achievements', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('game_id');
+            $table->foreignId('game_id')->onDelete('cascade');
             $table->string('name');
             $table->string('description')->default("No description");
             $table->text('image')->nullable();

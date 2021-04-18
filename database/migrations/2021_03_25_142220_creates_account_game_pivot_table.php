@@ -15,8 +15,8 @@ class CreatesAccountGamePivotTable extends Migration
     {
         Schema::create('account_game', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('account_id');
-            $table->foreignId('game_id');
+            $table->foreignId('account_id')->constrained()->onDelete('cascade');
+            $table->foreignId('game_id')->constrained()->onDelete('cascade');
             $table->integer('hours_played')->nullable();
 
             $table->index('account_id');

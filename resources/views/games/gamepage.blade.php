@@ -2,6 +2,7 @@
 
 @section('content')
     <div class="container">
+        <a href="{{route('home')}}"> <strong><-Back</strong> </a>
         <div class="row">
             <div class="col-6">
                 <img src="{{ $game->cover_image }}" class="rounded  mw-100 mh-100" style="height:300px; overflow: hidden" alt="Game Image">
