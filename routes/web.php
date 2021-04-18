@@ -10,6 +10,7 @@ use App\Http\Controllers\TestsController;
 use App\Http\Controllers\AccountsController;
 use App\Http\Controllers\SteamPagesController;
 use App\Http\Controllers\GamePageController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,13 +29,15 @@ Route::get('/', function () {
 
 Auth::routes(['verify' => true]);
 
-Auth::routes();
-
-
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::view('/welcome', 'welcome');
 Route::view('/aboutus', 'aboutus');
 Route::view('/test', 'test');
+
+//User Settings Routes
+Route::get('/settings',[UserController::class, 'display'])->name('settings');
+Route::post('/settings/remove',[UserController::class,'removeAccount'])->name('removeAcc');
+Route::post('/settings/delete',[UserController::class,'deleteUser'])->name('deleteuser');
 
 //Account Adding Pages
 Route::post('a/update',[AccountsController::class,'update'] );
@@ -49,27 +52,14 @@ Route::post('/g', [\App\Http\Controllers\GamesController::class, 'store']);
 Route::get('/ach/create/platform={platform}&id={id}', [\App\Http\Controllers\AchievementsController::class, 'create'])->name('ach.create');
 Route::post('/ach', [\App\Http\Controllers\AchievementsController::class, 'store']);
 
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-
 // Steam API Pages
-
-Route::get('/steamapitests', [TestsController::class, 'index'])->name('steamapitests');
-Route::get('/steamlogin', [SteamPagesController::class, 'steamLogin'])->name('steamlogin');
 Route::get('a/steamredirect', [SteamPagesController::class, 'steamRedirect'])->name('steamredirect');
 Route::get('a/steamlinked', [SteamPagesController::class, 'steamLinked'])->name('steamlinked');
 
 // Xbox Api Routes
 Route::post('a/profile',[AccountsController::class,'getProfile'] );
-//Route::view('/linkxbox','xboxlink');
-//Route::get('/xboxid', [getuserid::class, 'getData',])->name('xboxid');
-//Route::get('/xboxprofile', [xboxProfile::class, 'xboxProfile'])->name('xboxprofile');
-//Route::get('/userprofile', [getachievements::class, 'achievements'])->name('userprofile');
 
 
 // Display game information routes
-Route::get('/steamgame/gameid={id}', [GamePageController::class, 'viewSteamGame']);
 Route::get('/games/gameid={id}', [GamePageController::class, 'viewGame'])->name('gamepage');
 

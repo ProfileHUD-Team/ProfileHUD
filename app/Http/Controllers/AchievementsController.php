@@ -18,6 +18,7 @@ class AchievementsController extends Controller
 
     public function __construct()
     {
+        $this->middleware(['auth','verified']);
         $this->steamconnector = new SteamAPIConnector(Config::get('steam-auth.api_key'));
         $this->xboxconnector = new XboxAPIConnector(Config::get('xbox-auth.api_key'));
     }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use app\Http\Request;
 use App\GameAPIs\SteamAPIConnector;
+use App\Models\Account;
 use Illuminate\Support\Facades\Config;
 use App\Http\Controllers\SteamPagesController;
 
@@ -56,11 +57,11 @@ class HomeController extends Controller
         return view('home', $data);
     }
 
-    private function sortByGameName($a, $b){
-        return $a['name'] <=> $b['name'];
-    }
-
-
+    /**
+     * Count the total number of achievements for the account.
+     * @var Account
+     * @return array
+     */
     public function countAchievements($account) : array
     {
         $totalCount = 0;

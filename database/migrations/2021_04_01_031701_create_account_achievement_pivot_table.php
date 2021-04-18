@@ -15,8 +15,8 @@ class CreateAccountAchievementPivotTable extends Migration
     {
         Schema::create('account_achievement', function (Blueprint $table) {
             $table->id();
-            $table->string('account_id')->constrained();
-            $table->string('achievement_id')->constrained();
+            $table->foreignId('account_id')->constrained()->onDelete('cascade');
+            $table->foreignId('achievement_id')->constrained()->onDelete('cascade');
             $table->boolean('is_earned')->default(false);
             $table->string('date_earned')->nullable();
 

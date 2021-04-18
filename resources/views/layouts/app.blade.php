@@ -18,9 +18,10 @@
         <!-- Styles -->
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
+
     </head>
 
-    <body>
+    <body style="padding-bottm: 20px; background-color: whitesmoke; background-image: url('/svg/background.png'); ">
 
         @include ('layouts.nav')
 
@@ -32,5 +33,9 @@
 
     </body>
 
-
+    <footer class="text-center" id="footer">
+        <i><small>2021 ProfileHUD Team. Visit us on <a href="https://github.com/ProfileHUD-Team/ProfileHUD">GitHub</a>.
+                All names and images are copyright to their respective owners.
+            ProfileHUD has no affiliation with Valve or Microsoft.</small></i>
+    </footer>
 </html>

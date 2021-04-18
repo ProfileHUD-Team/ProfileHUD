@@ -25,6 +25,7 @@ class GamesController extends Controller
 
     public function __construct()
     {
+        $this->middleware(['auth','verified']);
         $this->steamconnector = new SteamAPIConnector(Config::get('steam-auth.api_key'));
         $this->xboxconnector = new XboxAPIConnector(Config::get('xbox-auth.api_key'));
     }
@@ -69,7 +70,7 @@ class GamesController extends Controller
             if(array_key_exists($game, $allGames)){
                 //Game already in database, skip
                 $dbgame = $allGames[$game];
-                if(Game::find($dbgame)->name == Null) {
+                if(Game::find($dbgame)->name == "NULL") {
                     $this->updateGame($game, $dbgame, $data['platform']);
                 }
             }
@@ -129,7 +130,7 @@ class GamesController extends Controller
         else{
             $info = [];
         }
-        Game::update($dbgame,
+        Game::find($dbgame)->update(
             ['name' => $info['name'],
             'developer' => $info['developer'],
             'publisher' => $info['publisher'],
