@@ -24,9 +24,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-<<<<<<< Updated upstream
+
         return view('home');
-=======
 
 
         $xblAcc = auth()->user()->accounts()->firstwhere('platform', 'xbl');
@@ -93,7 +92,7 @@ class HomeController extends Controller
         $achievementCounts['total'] = $earnedCount . ' / ' . $totalCount;
 
         return $achievementCounts;
->>>>>>> Stashed changes
+
     }
 
     public function gameCover(int $id)

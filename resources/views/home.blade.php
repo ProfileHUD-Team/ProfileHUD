@@ -28,7 +28,7 @@
                                     Games:
                                 </div>
 
-                                <div style="overflow-x:auto; height: 243px">
+                                < style="overflow-x:auto; height: 243px">
                                     <table class="table table-striped">
                                         <thead>
                                         <tr>
@@ -39,7 +39,7 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-<<<<<<< Updated upstream
+
                                         <tr>
                                             <th scope="row">1</th>
                                             <td>Mark</td>
@@ -101,11 +101,11 @@
                                                     <th>
                                                         <a href="{{route('gamepage',$game['id'])}}">
                                                             {{ $game['name']}}
-                                                            <div class="col-6">
-                                                                <img src="{{ $game->cover_image }}" class="rounded  w-100 mh-100" alt="Game Image">
-                                                            </div>
                                                         </a>
                                                     </th>
+                                                    <th>
+                                                        <img src="{{ $game->cover_image }}" class="rounded  w-100 mh-100" alt="Game Image">
+                                                    </th>>
                                                     <th>{{ $stmCounts[$game['id']] }}</th>
                                                     <th>{{ $game['developer'] }}</th>
 
@@ -149,11 +149,12 @@
 
                                                 <a href="{{route('gamepage',$game['id'])}}">
                                                     {{ $game['name']}}
-                                                    <div class="col-6">
-                                                        <img src="{{ $game->cover_image }}" class="rounded  w-100 mh-100" alt="Game Image">
-                                                    </div>
                                                 </a>
                                             </th>
+
+                                            <th>
+                                                <img src="{{ $game->cover_image }}" class="rounded  w-100 mh-100" alt="Game Image">
+                                            </th>>
                                             <th>{{ $xblCounts[$game['id']] }}</th>
                                             <th>{{ $game['developer'] }}</th>
 
