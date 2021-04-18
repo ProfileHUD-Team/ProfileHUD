@@ -39,6 +39,7 @@
                                         </tr>
                                         </thead>
                                         <tbody>
+<<<<<<< Updated upstream
                                         <tr>
                                             <th scope="row">1</th>
                                             <td>Mark</td>
@@ -91,6 +92,28 @@
                                             <td>the Bird</td>
                                             <td>@twitter</td>
                                         </tr>
+=======
+
+                                            @foreach($stm as $game)
+
+                                                <tr>
+
+                                                    <th>
+                                                        <a href="{{route('gamepage',$game['id'])}}">
+                                                            {{ $game['name']}}
+                                                            <div class="col-6">
+                                                                <img src="{{ $game->cover_image }}" class="rounded  w-100 mh-100" alt="Game Image">
+                                                            </div>
+                                                        </a>
+                                                    </th>
+                                                    <th>{{ $stmCounts[$game['id']] }}</th>
+                                                    <th>{{ $game['developer'] }}</th>
+
+                                                </tr>
+
+                                            @endforeach
+
+>>>>>>> Stashed changes
                                         </tbody>
                                     </table>
                                 </div>
@@ -99,8 +122,50 @@
                         </div>
                     <button class="accordion">Xbox</button>
                     <div class="panel">
+<<<<<<< Updated upstream
                         <div style="padding-top: 5px; padding-bottom: 5px">
                             In Progress...
+=======
+
+                        <div style="overflow-x:auto; height: 400px">
+
+                            <table class="table table-striped">
+
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Achievements</th>
+                                        <th scope="col">Developer</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+
+                                    @foreach($xbl as $game)
+
+                                        <tr>
+
+                                            <th>
+
+                                                <a href="{{route('gamepage',$game['id'])}}">
+                                                    {{ $game['name']}}
+                                                    <div class="col-6">
+                                                        <img src="{{ $game->cover_image }}" class="rounded  w-100 mh-100" alt="Game Image">
+                                                    </div>
+                                                </a>
+                                            </th>
+                                            <th>{{ $xblCounts[$game['id']] }}</th>
+                                            <th>{{ $game['developer'] }}</th>
+
+                                        </tr>
+
+                                    @endforeach
+
+                                </tbody>
+
+                            </table>
+
+>>>>>>> Stashed changes
                         </div>
                     </div>
                     <div class="row justify-content-center align-middle" style="padding-top: 40px">
