@@ -103,9 +103,9 @@
                                                             {{ $game['name']}}
                                                         </a>
                                                     </th>
-                                                    <th>
+                                                    <div>
                                                         <img src="{{ $game->cover_image }}" class="rounded  w-100 mh-100" alt="Game Image">
-                                                    </th>>
+                                                    </div>>
                                                     <th>{{ $stmCounts[$game['id']] }}</th>
                                                     <th>{{ $game['developer'] }}</th>
 
@@ -152,9 +152,9 @@
                                                 </a>
                                             </th>
 
-                                            <th>
+                                            <div>
                                                 <img src="{{ $game->cover_image }}" class="rounded  w-100 mh-100" alt="Game Image">
-                                            </th>>
+                                            </div>
                                             <th>{{ $xblCounts[$game['id']] }}</th>
                                             <th>{{ $game['developer'] }}</th>
 
