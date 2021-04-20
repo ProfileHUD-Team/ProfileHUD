@@ -16,6 +16,7 @@
         <script src="{{ asset('js/app.js') }}" defer></script>
 
         <!-- Styles -->
+        <link rel="icon" href="{{ URL::asset('/favicon.png') }}" type="image/x-icon"/>
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
 

@@ -36,9 +36,7 @@ class HomeController extends Controller
         }else{
             $stmCounts = $this->countAchievements($stmAcc);
             $stmGames = $stmAcc->plays->toArray();
-            uasort($stmGames, function ($a, $b){
-                return $a['name'] <=> $b['name'];
-            });
+            $stmGames = $this->sortGamesArray($stmGames);
 
         }
 
@@ -48,14 +46,26 @@ class HomeController extends Controller
         }else{
             $xblCounts = $this->countAchievements($xblAcc);
             $xblGames = $xblAcc->plays->toArray();
-            uasort($xblGames, function ($a, $b){
-                return $a['name'] <=> $b['name'];
-            });
+            $xblGames = $this->sortGamesArray($xblGames);
         }
 
         $data = ['stm' => $stmGames, 'xbl' => $xblGames, 'stmCounts' => $stmCounts, 'xblCounts'=> $xblCounts];
         return view('home', $data);
     }
+
+    /**
+     * Sort an array of games.
+     * @var array
+     * @return array
+     */
+    private function sortGamesArray($games): array
+    {
+        uasort($games, function ($a, $b){
+            return $a['name'] <=> $b['name'];
+        });
+        return $games;
+    }
+
 
     /**
      * Count the total number of achievements for the account.

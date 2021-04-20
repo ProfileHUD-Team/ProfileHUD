@@ -133,7 +133,7 @@ class XboxAPIConnector implements GameAPIInterface
         $releaseDate = $data['ReleaseDate'] ?? '/Date(1483228800)/';
         $releaseDate = $this->changeDateFormat($releaseDate);
         $images = $data['Images'] ?? [];
-        $coverImage = "";
+        $coverImage = "/svg/default_image.png";
         foreach($images as $image){
             if($image['Purpose'] == "BoxArt"){
                 $coverImage = $image['Url'];
