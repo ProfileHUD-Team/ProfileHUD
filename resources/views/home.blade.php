@@ -61,7 +61,11 @@
                                             @foreach($stm as $game)
 
                                                 <tr>
-                                                    <th><img src="{{$game['cover_image']}}" class="rounded  mw-100 mh-100" style="height:70px; overflow: hidden" alt="Game Image"></th>
+                                                    <th>
+                                                        <a href="{{route('gamepage',$game['id'])}}">
+                                                            <img src="{{$game['cover_image']}}" class="rounded  mw-100 mh-100" style="min-width:100px; width:150px; overflow: hidden" alt="Game Image">
+                                                        </a>
+                                                    </th>
                                                     <th>
                                                         <a href="{{route('gamepage',$game['id'])}}">
                                                             {{ $game['name']}}
@@ -106,7 +110,11 @@
                                     @foreach($xbl as $game)
 
                                         <tr>
-                                            <th><img src="{{$game['cover_image']}}" class="rounded  mw-100 mh-100" style="height:100px; overflow: hidden" alt="Game Image"></th>
+                                            <th>
+                                                <a href="{{route('gamepage',$game['id'])}}">
+                                                    <img src="{{$game['cover_image']}}" class="rounded  mw-100 mh-100" style=" min-width: 65px;height:90px; overflow: hidden" alt="Game Image">
+                                                </a>
+                                            </th>
                                             <th>
                                                 <a href="{{route('gamepage',$game['id'])}}">
                                                     {{ $game['name']}}

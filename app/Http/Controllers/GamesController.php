@@ -70,7 +70,7 @@ class GamesController extends Controller
             if(array_key_exists($game, $allGames)){
                 //Game already in database, skip
                 $dbgame = $allGames[$game];
-                if(Game::find($dbgame)->name == "NULL") {
+                if(Game::find($dbgame)->name == "NULL" or Game::find($dbgame)->cover_image == "/svg/default_image.png") {
                     $this->updateGame($game, $dbgame, $data['platform']);
                 }
             }

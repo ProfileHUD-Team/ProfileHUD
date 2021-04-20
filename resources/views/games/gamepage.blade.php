@@ -5,7 +5,7 @@
         <a href="{{route('home')}}"> <strong><-Back</strong> </a>
         <div class="row">
             <div class="col-6">
-                <img src="{{ $game->cover_image }}" class="rounded  mw-100 mh-100" style="height:300px; overflow: hidden" alt="Game Image">
+                <img src="{{ $game->cover_image }}" class="rounded  mw-100 mh-100" style="min-width:100px ;height:300px; overflow: hidden" alt="Game Image">
             </div>
             <div class="col-6">
                 <h2>{{ $game->name }}</h2>

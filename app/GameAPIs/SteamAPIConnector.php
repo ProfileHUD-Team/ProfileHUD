@@ -507,7 +507,7 @@ class SteamAPIConnector implements GameAPIInterface
             $earned = $this->getBooleanValue($playerAchievement['achieved']);
             $dateEarned = $playerAchievement['unlocktime'];
             $dateEarned = $this->convertUnixEpochTimeToDate($dateEarned);
-            $iconImage = $gameAchievement['icon'];
+            $iconImage = $gameAchievement['icon'] ?? "/svg/default_image.png";
 
             // Create and add the Achievement object to the AchievementList object.
             $achievement = new Achievement($name, $description, $earned, $dateEarned);

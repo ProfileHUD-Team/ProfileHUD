@@ -35,7 +35,7 @@ class HomeController extends Controller
             $stmCounts = ['total'=>'0 / 0'];
         }else{
             $stmCounts = $this->countAchievements($stmAcc);
-            $stmGames = $stmAcc->plays->toArray();
+            $stmGames = $stmAcc->plays()->where('name','!=','NULL')->get()->toArray();
             $stmGames = $this->sortGamesArray($stmGames);
 
         }
@@ -45,7 +45,7 @@ class HomeController extends Controller
             $xblCounts = ['total'=>'0 / 0'];
         }else{
             $xblCounts = $this->countAchievements($xblAcc);
-            $xblGames = $xblAcc->plays->toArray();
+            $xblGames = $xblAcc->plays()->where('name','!=','NULL')->get()->toArray();
             $xblGames = $this->sortGamesArray($xblGames);
         }
 
