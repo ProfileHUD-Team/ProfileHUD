@@ -86,7 +86,9 @@ class SteamAPIConnector implements GameAPIInterface
         // Check if the request was successful. Return an empty GameObject if not.
         $success = $jsonObject[$gameId]['success'];
         if ($success == false) {
-            return new GameObject(self::$nullValue, self::$nullValue, self::$nullValue, self::$nullValue, self::$nullValue);
+            $gameObject = new GameObject(self::$nullValue, self::$nullValue, self::$nullValue, self::$nullValue, self::$nullValue);
+            $gameObject->setCoverImage("/svg/default_image.png");
+            return $gameObject;
         }
         // Parse the JSON object.
         $data = $jsonObject[$gameId]['data'];
@@ -96,6 +98,10 @@ class SteamAPIConnector implements GameAPIInterface
         $releaseDate = $data['release_date']['date'];
         $releaseDate = $this->changeDateFormat($releaseDate);
         $coverImage = $data['header_image'];
+        if($coverImage == null) {
+            echo 'this is null';
+            $coverImage = "/svg/default_image.png";
+        }
         // Set the cover image. Create and return the GameObject.
         $gameObject = new GameObject($gameId, $name, $developer, $publisher, $releaseDate);
         $gameObject->setCoverImage($coverImage);
