@@ -34,7 +34,7 @@
             @foreach($achievements as $ach)
                 <tr>
                     <th>
-                        <img src="{{ $ach['image'] }}" class="rounded w-75" alt="Achievement Icon">
+                        <img src="{{ $ach['image'] }}" class="rounded w-55" style=" height:65px; overflow: hidden"alt="Achievement Icon">
                     </th>
                     <th>{{ $ach['name'] }}</th>
                     <th>{{ $ach['description'] }}</th>
