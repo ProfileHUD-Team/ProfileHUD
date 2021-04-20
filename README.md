@@ -6,7 +6,7 @@
 ProfileHUD is your one-stop destination for tracking your achievements on your favorite video game platforms. Currently, 
 ProfileHUD supports only Xbox Live and Steam. As time permits, we hope to expand the available platforms. 
 
-##Using ProfileHUD
+## Using ProfileHUD
 
 Using ProfileHUD is as easy as registering on our website and connecting your gaming profiles. We take care of the rest!
 After your games and achievements have been added to our database, you will be find an easy to navigate list of games with 
@@ -16,7 +16,7 @@ on the home page and we will get those new achievements.
 
 Our responsive design means you can pull up your ProfileHUD on your phone and have it nearby while you are out achievement hunting!
 
-##Privacy
+## Privacy
 
 ProfileHUD does not store passwords or logins for any service you link to your account. All information the information pulled
 from your profiles is public.
