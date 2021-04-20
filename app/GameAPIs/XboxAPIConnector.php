@@ -245,7 +245,7 @@ class XboxAPIConnector implements GameAPIInterface
         $date = $achievement['timeUnlocked'];
         $date = $this->changeDateFormat($date);
         $array['date_earned'] = $date;
-        $array['icon'] = $achievement['imageUnlocked'] ?? null;
+        $array['icon'] = $achievement['imageUnlocked'] ?? "/svg/default_image.png";
         return $array;
     }
     /**
@@ -262,7 +262,7 @@ class XboxAPIConnector implements GameAPIInterface
         $date = $achievement['progression']['timeUnlocked'];
         $date = $this->changeDateFormat($date);
         $array['date_earned'] = (string) $date;
-        $array['icon'] = $achievement['mediaAssets'][0]['url'] ?? null;
+        $array['icon'] = $achievement['mediaAssets'][0]['url'] ?? "/svg/default_image.png";
         return $array;
     }
     /**
