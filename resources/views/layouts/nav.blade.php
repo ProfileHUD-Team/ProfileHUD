@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-md navbar-light shadow-sm" style="background-color:#F1F1F1">
     <div class="container">
-        <a class="navbar-brand" href="{{ url('/') }}">
+        <a class="navbar-brand" href="{{ url('/home') }}">
             <img src="/svg/test2.svg" class="img-fluid" style ="height: 25px; width: 105px">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
