@@ -6,6 +6,12 @@ use Illuminate\Http\Request;
 use App\GameAPIs\XboxAPIConnector;
 use Illuminate\Support\Facades\Config;
 
+/**
+ * Class AccountsController: This controller is responsible for
+ * @author Fernando Villarreal, Gregory Dwyer
+ * Date Created: 4/6/2021
+ * @package App\Http\Controllers
+ */
 class AccountsController extends Controller
 {
     /**
@@ -18,6 +24,9 @@ class AccountsController extends Controller
         $this->middleware(['auth','verified']);
     }
 
+    /**
+     * Routes call for xbox profile, gets profile and routes to Games Controller
+     */
     public function getProfile()
     {   $data = request()->validate([
         'platform' => 'required',
@@ -33,6 +42,10 @@ class AccountsController extends Controller
         }
     }
 
+    /**
+     * Generates data package for account creation page, routes to page.
+     * add and update variables will show and hide buttons as necessary on the view.
+     */
     public function create()
     {
         $data = ['addxbl' => '', 'addstm' => '',
@@ -55,6 +68,9 @@ class AccountsController extends Controller
         return view('accounts.create', $data);
     }
 
+    /**
+     * Stores an account in the database.
+     */
     public function store()
     {
         $data = request()->validate([
@@ -84,6 +100,9 @@ class AccountsController extends Controller
         return redirect()->route('g.create',[ $data['platform'], $account]);
     }
 
+    /**
+     * Routes update call for an account to the Games Controller.
+     */
     public function update(){
         $data = request()->validate([
             'platform' => 'required',

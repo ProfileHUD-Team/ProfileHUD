@@ -1,5 +1,6 @@
 @extends('layouts.app')
 
+<!-- This page gives the authenticated user the ability to remove their accounts and delete their entire user. -->
 @section('content')
     <div class="container">
         <a href="{{route('home')}}"> <strong><-Back</strong> </a>
@@ -9,6 +10,9 @@
                     <div class="card-header">Remove Profiles or Delete Account</div>
 
                     <div class="card-body">
+
+                        <!-- The following two forms will appear/hide based on information from the Accounts controller.
+                            If there is a steam or xbox account tied to the authenticated user, a Remove button will appear. -->
                         <form {{$hasXbl}} method="POST" action="{{ route('removeAcc') }}">
                             @csrf
                             <input type="hidden" id="platform" name="platform" value="xbl">
@@ -29,6 +33,8 @@
                                 </button>
                             </div>
                         </form>
+
+                        <!-- This button will remove the user from the database along with all of their information. -->
                         <form method="POST" action="{{ route('deleteuser') }}">
                             @csrf
                             <div class="text-center pt-4">
@@ -37,6 +43,7 @@
                                     Delete ProfileHUD Account
                                 </button>
                             </div>
+
                         </form>
                     </div>
                 </div>

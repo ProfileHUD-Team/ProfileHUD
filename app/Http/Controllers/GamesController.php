@@ -10,6 +10,12 @@ use Illuminate\View\View;
 use function PHPUnit\Framework\isNull;
 use \App\Models\Game as Game;
 
+/**
+ * Class GamesController: This controller is responsible for getting information for a user's games and populatiting the DB.
+ * @author Gregory Dwyer
+ * Updated : 4/29/21
+ * @package App\Http\Controllers
+ */
 class GamesController extends Controller
 {
     /**
@@ -23,6 +29,9 @@ class GamesController extends Controller
      */
     protected $xboxconnector;
 
+    /**
+     * Controller constructor, initializes api connectors.
+     */
     public function __construct()
     {
         $this->middleware(['auth','verified']);
@@ -118,7 +127,7 @@ class GamesController extends Controller
     /**
      * Checks for non-null game info on Null entry
      * @var string game
-     * @var int $dbgame
+     * @var int dbgame
      * z@var string platform
      */
     private function updateGame($game, $dbgame, $platform){

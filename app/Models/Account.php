@@ -6,6 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use phpDocumentor\Reflection\Types\This;
 
+/**
+ * Model Account: This model holds the indentifying information for a gaming account/profile. It is related to a single
+ * user and any number of games and achievements.
+ * @author Gregory Dwyer
+ * @package App\Http\Models
+ */
 class Account extends Model
 {
     use HasFactory;
@@ -16,39 +22,27 @@ class Account extends Model
     protected static function boot()
     {
         parent::boot();
-
-        static::created(function ($account) {
-            try{
-                switch($account->platform){
-                    case 'stm':
-                        //return redirect()->route("/games/create", $account);
-                    case 'psn':
-                        #psn api code
-                        break;
-                    case 'xbl':
-                        #xbl api code
-                        echo 'xbox';
-                        break;
-                    default:
-                        echo 'There was an error. Please go back and try again.';
-                }
-            }
-            catch(\Exception $exception){
-                echo "Couldn't get platform info";
-            }
-        });
     }
 
+    /**
+     * Defines account's relationship with user.
+     */
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * Defines account's relationship with games.
+     */
     public function plays(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Game::class)->withPivot('hours_played');
     }
 
+    /**
+     * Defines account's relationship with achievements.
+     */
     public function achieves(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Achievement::class)->withPivot('is_earned','date_earned');

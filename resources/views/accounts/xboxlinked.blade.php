@@ -1,5 +1,6 @@
 @extends('layouts.app')
 
+<!-- This page serves a message to the user to wait while their account is added to the database. It only passes information through. -->
 @section('content')
 
     <body onload="document.account.submit()">

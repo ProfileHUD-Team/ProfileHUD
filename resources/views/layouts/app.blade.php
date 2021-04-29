@@ -3,6 +3,8 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
     <head>
+        <meta property="og:image" content="/svg/test2.png" />
+        <meta property="og:description" content="Your one-stop destination for game and achievement tracking." />
         <meta charset="utf-8">
 
         <meta name="viewport" content="width=device-width, initial-scale=1">
