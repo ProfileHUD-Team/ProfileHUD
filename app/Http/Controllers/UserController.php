@@ -30,6 +30,9 @@ class UserController extends Controller
         return view('settings', $data);
     }
 
+    /**
+     * Removes account from the authorized user.
+     */
     public function removeAccount()
     {
         $data= request()->validate(['platform' => 'required']);
@@ -37,6 +40,9 @@ class UserController extends Controller
         return redirect(route('settings'));
     }
 
+    /**
+     * Deletes the authorized user.
+     */
     public function deleteUser()
     {
         auth()->user()->delete();

@@ -68,7 +68,7 @@ class HomeController extends Controller
 
 
     /**
-     * Count the total number of achievements for the account.
+     * Count the total number of achievements for the account and create fractions for each game.
      * @var Account
      * @return array
      */

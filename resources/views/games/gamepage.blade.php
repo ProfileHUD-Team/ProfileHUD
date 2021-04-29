@@ -1,5 +1,6 @@
 @extends('layouts.app')
 
+<!-- This page displays game information and achievements for the specified game. -->
 @section('content')
     <div class="container">
         <a href="{{route('home')}}"> <strong><-Back</strong> </a>
@@ -31,6 +32,8 @@
                 </tr>
             </thead>
             <tbody>
+
+            <!-- This section iterates over the achievement list and adds in each one. -->
             @foreach($achievements as $ach)
                 <tr>
                     <th>

@@ -1,7 +1,6 @@
-
-
 @extends('layouts.app')
 
+<!-- This page serves a a form to the user, displaying and hiding buttons as necessary for adding/updating accounts. -->
 @section('content')
 
     <div class="container">

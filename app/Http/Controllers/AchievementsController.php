@@ -10,7 +10,11 @@ use \App\Models\Game as Game;
 use \App\Models\Achievement as Achievement;
 use function PHPUnit\Framework\isEmpty;
 
-
+/**
+ * Class AchievementsController: This controller is responsible for getting an account's achievements and populating the DB.
+ * @author Gregory Dwyer
+ * @package App\Http\Controllers
+ */
 class AchievementsController extends Controller
 {
     protected $steamconnector;
@@ -24,7 +28,7 @@ class AchievementsController extends Controller
     }
 
     /**
-     * gets user info to pass to view
+     * Gets user info to pass to view
      * @var string platform name
      * @var string database id
      */
