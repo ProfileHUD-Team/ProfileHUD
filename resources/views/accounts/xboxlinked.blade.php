@@ -1,6 +1,14 @@
+<!--
+    This page serves a message to the user to wait while their account is added to the database.
+    It only passes information through.
+    edited: Eric, Greg
+    package: resources/views/accounts
+-->
+
+<!-- Inherits layouts page-->
 @extends('layouts.app')
 
-<!-- This page serves a message to the user to wait while their account is added to the database. It only passes information through. -->
+<!-- Section where view page content begins -->
 @section('content')
 
     <body onload="document.account.submit()">
@@ -11,14 +19,17 @@
 
                 <div class="col-md-8">
 
+                    <!-- Car container-->
                     <div class="card">
 
+                        <!-- Card header-->
                         <div class="card-header text-center">
 
                             Please Wait
 
                         </div>
 
+                        <!-- Car body-->
                         <div class="card-body text-center">
 
                             <p>Linking Xbox account {{$platform_username}}...</p>
