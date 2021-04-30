@@ -1,3 +1,8 @@
+/*
+    This page corresponds to the effects that are applied to the accordion menu when buttons are clicked.
+    edited: Eric Cortes
+    package: public/js
+ */
 var acc = document.getElementsByClassName("accordion");
 var i;
 

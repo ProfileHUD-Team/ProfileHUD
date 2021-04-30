@@ -1,6 +1,15 @@
+<!--
+    This page serves a message to the user to wait while their achievements are added to the database.
+    It only passes information through.
+    edited: Eric, Gregory
+    package: resources/views/achievements
+
+-->
+
+<!-- Inheritance of layouts page-->
 @extends('layouts.app')
 
-<!-- This page serves a message to the user to wait while their achievements are added to the database. It only passes information through. -->
+<!-- Section where websites content begins-->
 @section('content')
 
     <body onload="document.achievements.submit()">
@@ -11,14 +20,17 @@
 
                 <div class="col-md-8">
 
+                    <!-- Card container-->
                     <div class="card">
 
+                        <!-- Card Header-->
                         <div class="card-header text-center">
 
                            <strong>Please Wait</strong>
 
                         </div>
 
+                        <!-- Card Body -->
                         <div class="card-body text-center">
 
                             <p>Getting achievements for {{auth()->user()->accounts()->find($id)->platform_username}}...</p>

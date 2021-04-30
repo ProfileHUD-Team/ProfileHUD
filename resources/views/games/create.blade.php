@@ -1,6 +1,13 @@
+<!--
+    This page serves a message to the user to wait while their games are added to the database. It only passes information through.
+    edited: Eric, Greg
+    package: resources/views/games
+-->
+
+<!-- Inherits layout page -->
 @extends('layouts.app')
 
-<!-- This page serves a message to the user to wait while their games are added to the database. It only passes information through. -->
+<!-- Content of this view page begins -->
 @section('content')
 
     <body onload="document.game.submit()">
@@ -11,14 +18,17 @@
 
                 <div class="col-md-8">
 
+                    <!-- Card container -->
                     <div class="card">
 
+                        <!-- Card header -->
                         <div class="card-header text-center">
 
                             <strong>Please Wait</strong>
 
                         </div>
 
+                        <!-- Card body -->
                         <div class="card-body text-center">
 
                             <p>Getting game list from {{auth()->user()->accounts()->find($id)->platform_username}}...</p>

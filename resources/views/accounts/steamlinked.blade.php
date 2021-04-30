@@ -1,5 +1,14 @@
+<!--
+    This page serves a message to the user to wait while their account is added to the database.
+    It only passes information through.
+    edited: Eric, Greg
+    package: resources/views/accounts
+-->
+
+<!-- Inherits layouts page-->
 @extends('layouts.app')
 
+<!-- Section of code where content begins-->
 @section('content')
 
     <body onload="document.account.submit()">
@@ -10,14 +19,17 @@
 
             <div class="col-md-8">
 
+                <!-- Card container -->
                 <div class="card">
 
+                    <!-- Card header-->
                     <div class="card-header text-center">
 
                         <strong>Please Wait</strong>
 
                     </div>
 
+                    <!-- Card body -->
                     <div class="card-body text-center">
 
                         <p>Linking Steam account {{$username}}...</p>
